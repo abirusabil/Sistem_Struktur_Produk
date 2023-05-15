@@ -1,6 +1,32 @@
 <?php
 
+use App\Http\Controllers\BoronganDalamItemController;
+use App\Http\Controllers\BoronganLuarItemController;
+use App\Http\Controllers\BuyerController;
+use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\GambarItemController;
+use App\Http\Controllers\GambarKerjaController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\SuplierController;
+use App\Http\Controllers\KayuController;
+use App\Http\Controllers\MasterAccessoriesHardwareController;
+use App\Http\Controllers\MasterKartonBoxController;
+use App\Http\Controllers\MasterKomponenFinishingController;
+use App\Http\Controllers\MasterPendukungPackingController;
+use App\Http\Controllers\MasterPlywoodMDFController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\KebutuhanKayuItemController;
+use App\Http\Controllers\KebutuhanPlywoodMdfItemController;
+use App\Http\Controllers\KebutuhanAccessoriesHardwareItemController;
+use App\Http\Controllers\KebutuhanKartonBoxItemController;
+use App\Http\Controllers\KebutuhanKomponenFinishingItemController;
+use App\Http\Controllers\KebutuhanPendukungPackingItemController;
+use App\Models\KebutuhanPlywoodMdfItem;
+use App\Models\MasterKomponenFinishing;
+use App\Models\MasterPendukungPacking;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,249 +39,142 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/dashboard-general-dashboard');
-
-// Dashboard
-Route::get('/dashboard-general-dashboard', function () {
-    return view('pages.dashboard-general-dashboard', ['type_menu' => 'dashboard']);
-});
-Route::get('/dashboard-ecommerce-dashboard', function () {
-    return view('pages.dashboard-ecommerce-dashboard', ['type_menu' => 'dashboard']);
-});
 
 
-// Layout
-Route::get('/layout-default-layout', function () {
-    return view('pages.layout-default-layout', ['type_menu' => 'layout']);
+Route::get('/coba', function () {
+    return view('pages.coba', ['type_menu' => 'User']);
 });
 
-// Blank Page
-Route::get('/blank-page', function () {
-    return view('pages.blank-page', ['type_menu' => '']);
-});
+// Kayu
+Route::resource('/Kayu',KayuController::class);
+Route::post('/Kayu_import', [KayuController::class, 'import'])->name('kayu.import');
+Route::get('/kayu_export', [KayuController::class, 'export'])->name('kayu.export');
+// End Kayu
 
-// Bootstrap
-Route::get('/bootstrap-alert', function () {
-    return view('pages.bootstrap-alert', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-badge', function () {
-    return view('pages.bootstrap-badge', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-breadcrumb', function () {
-    return view('pages.bootstrap-breadcrumb', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-buttons', function () {
-    return view('pages.bootstrap-buttons', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-card', function () {
-    return view('pages.bootstrap-card', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-carousel', function () {
-    return view('pages.bootstrap-carousel', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-collapse', function () {
-    return view('pages.bootstrap-collapse', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-dropdown', function () {
-    return view('pages.bootstrap-dropdown', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-form', function () {
-    return view('pages.bootstrap-form', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-list-group', function () {
-    return view('pages.bootstrap-list-group', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-media-object', function () {
-    return view('pages.bootstrap-media-object', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-modal', function () {
-    return view('pages.bootstrap-modal', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-nav', function () {
-    return view('pages.bootstrap-nav', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-navbar', function () {
-    return view('pages.bootstrap-navbar', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-pagination', function () {
-    return view('pages.bootstrap-pagination', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-popover', function () {
-    return view('pages.bootstrap-popover', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-progress', function () {
-    return view('pages.bootstrap-progress', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-table', function () {
-    return view('pages.bootstrap-table', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-tooltip', function () {
-    return view('pages.bootstrap-tooltip', ['type_menu' => 'bootstrap']);
-});
-Route::get('/bootstrap-typography', function () {
-    return view('pages.bootstrap-typography', ['type_menu' => 'bootstrap']);
-});
+// Kebutuhan Kayu Item
+Route::resource('Kebutuhan_Kayu_Item',KebutuhanKayuItemController::class);
+Route::get('/Kebutuhan_Kayu_Item/export/{itemId}', [KebutuhanKayuItemController::class, 'export'])->name('Kebutuhan_Kayu_Item.export');
+Route::post('/Kebutuhan_Kayu_Item/import/{itemId}', [KebutuhanKayuItemController::class, 'import'])->name('Kebutuhan_Kayu_Item.import');
+// End Kebutuhan Kayu Item
+
+// Plywood MDF
+Route::resource('/Plywood_MDF',MasterPlywoodMDFController::class);
+Route::post('/Plywood_MDF_import', [MasterPlywoodMDFController::class, 'import'])->name('Plywood_MDF.import');
+Route::get('/Plywood_MDF_export', [MasterPlywoodMDFController::class, 'export'])->name('Plywood_MDF.export');
+// End Plywood MDF
+
+// Kebutuhan Plywood MDF
+Route::resource('/Kebutuhan_Plywood_MDF_Item',KebutuhanPlywoodMdfItemController::class);
+Route::get('/Kebutuhan_Plywood_MDF_Item/export/{itemId}',[KebutuhanPlywoodMdfItemController::class,'export'])->name('Kebutuhan_Plywood_MDF_Item.export');
+Route::post('/Kebutuhan_Plywood_MDF_Item/import/{itemId}',[KebutuhanPlywoodMdfItemController::class,'import'])->name('Kebutuhan_Plywood_MDF_Item.import');
+// End Kebutuhan Plywood MDF
+
+// Accessories Hardware
+Route::resource('/Accessories_Hardware',MasterAccessoriesHardwareController::class);
+Route::get('/Accessories_Hardware_Export',[MasterAccessoriesHardwareController::class,'export'])->name('Accessories_Hardware.export');
+Route::post('/Accessories_Hardware_Import',[MasterAccessoriesHardwareController::class,'import'])->name('Accessories_Hardware.import');
+// End AccessoriesHardware
+
+// Kebutuhan Accessories Hardware
+Route::resource('/Kebutuhan_Accessories_Item',KebutuhanAccessoriesHardwareItemController::class);
+Route::get('/Kebutuhan_Accessories_Item/export/{itemId}',[KebutuhanAccessoriesHardwareItemController::class,'export'])->name('Kebutuhan_Accessories_Hardware_Item.export');
+Route::post('/Kebutuhan_Accessories_Item/import/{itemId}',[KebutuhanAccessoriesHardwareItemController::class,'import'])->name('Kebutuhan_Accessories_Hardware_Item.import');
+// End Kebutuhan Accessries Hardware
+
+// KomponenFinishing
+Route::resource('/Komponen_Finishing',MasterKomponenFinishingController::class);
+Route::get('/Komponen_Finishing_Export',[MasterKomponenFinishingController::class,'export'])->name('Komponen_Finishing.export');
+Route::post('/Komponen_Finishing_Import',[MasterKomponenFinishingController::class,'import'])->name('Komponen_Finishing.import');
+// End KomponenFinishing
+
+// Kebutuhan Komponen Finishing 
+Route::resource('/Kebutuhan_Finishing_Item',KebutuhanKomponenFinishingItemController::class);
+Route::get('/Kebutuhan_Finishing_Item/export/{itemId}',[KebutuhanKomponenFinishingItemController::class,'export'])->name('Kebutuhan_Komponen_Finishing_Item.export');
+Route::post('/Kebutuhan_Finishing_Item/import/{itemId}',[KebutuhanKomponenFinishingItemController::class,'import'])->name('Kebutuhan_Komponen_Finishing_Item.import');
+// End Kebutuhan Komponen Finishing
+
+// KartonBox
+Route::resource('/Karton_Box',MasterKartonBoxController::class);
+Route::get('Karton_Box_Export' ,[MasterKartonBoxController::class,'export'])->name('Karton_Box.export');
+Route::post('Karton_Box_Import',[MasterKartonBoxController::class,'import'])->name('Karton_Box.import');
+// End KartonBox
+
+// Kebutuhan Karton Box
+Route::resource('/Kebutuhan_Karton_Box_Item',KebutuhanKartonBoxItemController::class);
+Route::get('/Kebutuhan_Karton_Box_Item/export/{itemId}',[KebutuhanKartonBoxItemController::class,'export'])->name('Kebutuhan_Karton_Box_Item.export');
+Route::post('/Kebutuhan_Karton_Box_Item/import/{itemId}',[KebutuhanKartonBoxItemController::class,'import'])->name('Kebutuhan_Karton_Box_Item.import');
+// End Kebutuhan Karton Box
+
+// Pendukung_Packing
+Route::resource('/Pendukung_Packing',MasterPendukungPackingController::class);
+Route::get('Pendukung_Packing_Export',[MasterPendukungPackingController::class,'export'])->name('Pendukung_Packing.export');
+Route::post('Pendukung_Packing_Import',[MasterPendukungPackingController::class,'import'])->name('Pendukung_Packing.import');
+// end Pendukung Packing
+
+// Kebutuhan Pendukung Packing
+Route::resource('/Kebutuhan_Packing_Item',KebutuhanPendukungPackingItemController::class);
+Route::get('/Kebutuhan_Packing_Item/export/{itemId}',[KebutuhanPendukungPackingItemController::class,'export'])->name('Kebutuhan_Pendukung_Packing_Item.export');
+Route::post('/Kebutuhan_Packing_Item/import/{itemId}',[KebutuhanPendukungPackingItemController::class,'import'])->name('Kebutuhan_Pendukung_Packing_Item.import');
+// End Kebutuhan Pendukung Packing
+
+// Borongan Dalam
+Route::resource('/Borongan_Dalam_Item',BoronganDalamItemController::class);
+Route::get('/Borongan_Dalam_Item/export/{itemId}',[BoronganDalamItemController::class,'export'])->name('Borongan_Dalam_Item.export');
+// end Borongan Dalam
+
+// Borongan Luar
+Route::resource('/Borongan_Luar_Item',BoronganLuarItemController::class);
+Route::get('/Borongan_Luar_Item/export/{itemId}',[BoronganLuarItemController::class,'export'])->name('Borongan_Luar_Item.export');
+// end Borongan Luar
+
+// Gambar Item
+Route::resource('/Gambar_Item',GambarItemController::class);
+Route::get('/download-gambar/{id}', [GambarItemController::class, 'downloadGambar'])->name('download.gambar');
+// End Gambar Item
+
+// Gambar Kerja
+Route::resource('/Gambar_Kerja',GambarKerjaController::class);
+
+// End Gambar Kerja
+
+// Purchase Order
+Route::resource('/', PurchaseOrderController::class);
+// End Purchase
+
+// Item
+Route::resource('/Item', ItemController::class);
+Route::get('/Item_Export',[ItemController::class,'export'])->name('Item.export');
+Route::post('/Item_Import',[ItemController::class,'import'])->name('Item.import');
+// End Item
+
+// Collection
+Route::resource('/Collection',CollectionController::class);
+Route::get('Collection_Export',[CollectionController::class,'export'])->name('Collection.export');
+Route::post('Collection_Import',[CollectionController::class,'import'])->name('Collection.import');
+/// End Collection
+
+// Buyer
+Route::resource('/Buyer', BuyerController::class);
+Route::get('/Buyer_Export',[BuyerController::class,'export'])->name('Buyer.export');
+Route::post('/Buyer_Import',[BuyerController::class,'import'])->name('Buyer.import');
+// End Buyer
+
+// Pembelian
+Route::resource('/Suplier', SuplierController::class);
+Route::post('/import', [SuplierController::class, 'import'])->name('suplier.import');
+Route::get('/export', [SuplierController::class, 'export'])->name('suplier.export');
+// End Pembelian
+
+// Register
+Route::resource('/User', UserController::class);
+Route::resource('/login', LoginController::class);
+Route::post('/login', [LoginController::class, 'authenticate']);
+Route::post('/logout', [LoginController::class, 'logout']);
+// End Register
 
 
-// components
-Route::get('/components-article', function () {
-    return view('pages.components-article', ['type_menu' => 'components']);
-});
-Route::get('/components-avatar', function () {
-    return view('pages.components-avatar', ['type_menu' => 'components']);
-});
-Route::get('/components-chat-box', function () {
-    return view('pages.components-chat-box', ['type_menu' => 'components']);
-});
-Route::get('/components-empty-state', function () {
-    return view('pages.components-empty-state', ['type_menu' => 'components']);
-});
-Route::get('/components-gallery', function () {
-    return view('pages.components-gallery', ['type_menu' => 'components']);
-});
-Route::get('/components-hero', function () {
-    return view('pages.components-hero', ['type_menu' => 'components']);
-});
-Route::get('/components-multiple-upload', function () {
-    return view('pages.components-multiple-upload', ['type_menu' => 'components']);
-});
-Route::get('/components-pricing', function () {
-    return view('pages.components-pricing', ['type_menu' => 'components']);
-});
-Route::get('/components-statistic', function () {
-    return view('pages.components-statistic', ['type_menu' => 'components']);
-});
-Route::get('/components-tab', function () {
-    return view('pages.components-tab', ['type_menu' => 'components']);
-});
-Route::get('/components-table', function () {
-    return view('pages.components-table', ['type_menu' => 'components']);
-});
-Route::get('/components-user', function () {
-    return view('pages.components-user', ['type_menu' => 'components']);
-});
-Route::get('/components-wizard', function () {
-    return view('pages.components-wizard', ['type_menu' => 'components']);
-});
 
-// forms
-Route::get('/forms-advanced-form', function () {
-    return view('pages.forms-advanced-form', ['type_menu' => 'forms']);
-});
-Route::get('/forms-editor', function () {
-    return view('pages.forms-editor', ['type_menu' => 'forms']);
-});
-Route::get('/forms-validation', function () {
-    return view('pages.forms-validation', ['type_menu' => 'forms']);
-});
 
-// google maps
-// belum tersedia
 
-// modules
-Route::get('/modules-calendar', function () {
-    return view('pages.modules-calendar', ['type_menu' => 'modules']);
-});
-Route::get('/modules-chartjs', function () {
-    return view('pages.modules-chartjs', ['type_menu' => 'modules']);
-});
-Route::get('/modules-datatables', function () {
-    return view('pages.modules-datatables', ['type_menu' => 'modules']);
-});
-Route::get('/modules-flag', function () {
-    return view('pages.modules-flag', ['type_menu' => 'modules']);
-});
-Route::get('/modules-font-awesome', function () {
-    return view('pages.modules-font-awesome', ['type_menu' => 'modules']);
-});
-Route::get('/modules-ion-icons', function () {
-    return view('pages.modules-ion-icons', ['type_menu' => 'modules']);
-});
-Route::get('/modules-owl-carousel', function () {
-    return view('pages.modules-owl-carousel', ['type_menu' => 'modules']);
-});
-Route::get('/modules-sparkline', function () {
-    return view('pages.modules-sparkline', ['type_menu' => 'modules']);
-});
-Route::get('/modules-sweet-alert', function () {
-    return view('pages.modules-sweet-alert', ['type_menu' => 'modules']);
-});
-Route::get('/modules-toastr', function () {
-    return view('pages.modules-toastr', ['type_menu' => 'modules']);
-});
-Route::get('/modules-vector-map', function () {
-    return view('pages.modules-vector-map', ['type_menu' => 'modules']);
-});
-Route::get('/modules-weather-icon', function () {
-    return view('pages.modules-weather-icon', ['type_menu' => 'modules']);
-});
 
-// auth
-Route::get('/auth-forgot-password', function () {
-    return view('pages.auth-forgot-password', ['type_menu' => 'auth']);
-});
-Route::get('/auth-login', function () {
-    return view('pages.auth-login', ['type_menu' => 'auth']);
-});
-Route::get('/auth-login2', function () {
-    return view('pages.auth-login2', ['type_menu' => 'auth']);
-});
-Route::get('/auth-register', function () {
-    return view('pages.auth-register', ['type_menu' => 'auth']);
-});
-Route::get('/auth-reset-password', function () {
-    return view('pages.auth-reset-password', ['type_menu' => 'auth']);
-});
 
-// error
-Route::get('/error-403', function () {
-    return view('pages.error-403', ['type_menu' => 'error']);
-});
-Route::get('/error-404', function () {
-    return view('pages.error-404', ['type_menu' => 'error']);
-});
-Route::get('/error-500', function () {
-    return view('pages.error-500', ['type_menu' => 'error']);
-});
-Route::get('/error-503', function () {
-    return view('pages.error-503', ['type_menu' => 'error']);
-});
-
-// features
-Route::get('/features-activities', function () {
-    return view('pages.features-activities', ['type_menu' => 'features']);
-});
-Route::get('/features-post-create', function () {
-    return view('pages.features-post-create', ['type_menu' => 'features']);
-});
-Route::get('/features-post', function () {
-    return view('pages.features-post', ['type_menu' => 'features']);
-});
-Route::get('/features-profile', function () {
-    return view('pages.features-profile', ['type_menu' => 'features']);
-});
-Route::get('/features-settings', function () {
-    return view('pages.features-settings', ['type_menu' => 'features']);
-});
-Route::get('/features-setting-detail', function () {
-    return view('pages.features-setting-detail', ['type_menu' => 'features']);
-});
-Route::get('/features-tickets', function () {
-    return view('pages.features-tickets', ['type_menu' => 'features']);
-});
-
-// utilities
-Route::get('/utilities-contact', function () {
-    return view('pages.utilities-contact', ['type_menu' => 'utilities']);
-});
-Route::get('/utilities-invoice', function () {
-    return view('pages.utilities-invoice', ['type_menu' => 'utilities']);
-});
-Route::get('/utilities-subscribe', function () {
-    return view('pages.utilities-subscribe', ['type_menu' => 'utilities']);
-});
-
-// credits
-Route::get('/credits', function () {
-    return view('pages.credits', ['type_menu' => '']);
-});

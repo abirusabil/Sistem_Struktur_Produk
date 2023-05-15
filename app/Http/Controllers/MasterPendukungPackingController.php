@@ -1,0 +1,161 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Exports\MasterPendukungPackingExport;
+use App\Imports\MasterPendukungPackingImport;
+use App\Models\MasterPendukungPacking;
+use App\Models\Suplier;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+
+
+class MasterPendukungPackingController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('pages.Data-Materials.Pendukung_Packing.Master_Pendukung_Packing',
+            [
+                'type_menu'=>'Pendukung_Packing',
+                'Pendukung_Packing'=>MasterPendukungPacking::with('Suplier')->filter(request(['search']))->paginate(10),  
+            ]
+        );
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        // return Suplier::all();
+        return view('pages.Data-Materials.Pendukung_Packing.Tambah_Pendukung_Packing',
+        [
+            'type_menu'=>'Pendukung_Packing',
+            'supliers'=>Suplier::all()
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate(
+            [
+                'id'=>'required',
+                'Nama_Pendukung_Packing'=>'required',
+                'Tebal_Pendukung_Packing'=>'required',
+                'Lebar_Pendukung_Packing'=>'required',
+                'Panjang_Pendukung_Packing'=>'required',
+                'Satuan_Pendukung_Packing'=>'required',
+                'Harga_Pendukung_Packing'=>'required',
+                'Suplier_Id'=>'required',
+            ],[
+                'required'=>'Kolom Tidak Boleh Kosong',
+                'unique'=>'Kode Telah Digunakan'
+            ]
+        );
+        // return $validatedData;
+        MasterPendukungPacking::create($validatedData);
+        return redirect('Pendukung_Packing')->with('success','Data Pendukung Packing Berhasil Ditambahkan');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\MasterPendukungPacking  $masterPendukungPacking
+     * @return \Illuminate\Http\Response
+     */
+    public function show(MasterPendukungPacking $masterPendukungPacking)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\MasterPendukungPacking  $masterPendukungPacking
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(MasterPendukungPacking $Pendukung_Packing)
+    {
+        return  view('pages.Data-Materials.Pendukung_Packing.Edit_Pendukung_Packing',
+            [
+                'type_menu'=>'Pendukung_Packing',
+                'Pendukung_Packing'=>$Pendukung_Packing,
+                'supliers'=>Suplier::all()
+            ]
+        );
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\MasterPendukungPacking  $masterPendukungPacking
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, MasterPendukungPacking $Pendukung_Packing)
+    {
+        $validatedData = $request->validate(
+            [
+                'id'=>'required',
+                'Nama_Pendukung_Packing'=>'required',
+                'Tebal_Pendukung_Packing'=>'required',
+                'Lebar_Pendukung_Packing'=>'required',
+                'Panjang_Pendukung_Packing'=>'required',
+                'Satuan_Pendukung_Packing'=>'required',
+                'Harga_Pendukung_Packing'=>'required',
+                'Suplier_Id'=>'required',
+            ],[
+                'required'=>'Kolom Tidak Boleh Kosong',
+            ]
+        );
+        // return $validatedData;
+        MasterPendukungPacking::where('id',$Pendukung_Packing->id)->update($validatedData);
+        return redirect('/Pendukung_Packing')->with('success','Data Pendukung Packing Telah Diubah');
+        
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\MasterPendukungPacking  $masterPendukungPacking
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(MasterPendukungPacking $Pendukung_Packing)
+    {
+       MasterPendukungPacking::destroy($Pendukung_Packing->id);
+       return redirect('/Pendukung_Packing')->with('success','Data Berhasil Dihapus');
+    }
+
+    public function export()
+    {
+        return Excel::download(new MasterPendukungPackingExport , 'PendukungPacking.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+         // Validasi file Excel
+         $request->validate([
+            'excel_file' => 'required|mimes:xls,xlsx'
+        ]);
+
+        // Import data dari file Excel
+        $import = new MasterPendukungPackingImport();
+        Excel::import($import, $request->file('excel_file'));
+
+        // Redirect kembali ke halaman awal
+        return redirect('/Pendukung_Packing')->with('success', 'Data Pendukung Packing berhasil diimport!');
+    }
+}
