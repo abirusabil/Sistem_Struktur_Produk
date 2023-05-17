@@ -31,31 +31,44 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <form action="/Register" method="POST">
+                                <form action="/Purchase_Order" method="POST">
                                     @csrf
-                                    <div class="form-group w-50">
+                                    <div class="form-group">
                                         <label>Job Order</label>
-                                        <input type="text" name="Job_Order" class="form-control">
+                                        <input type="text" name="id" id="id" class="form-control @error('id') is-invalid @enderror" value="{{ old('id') }}">
+                                        @error('id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
-                                    <div class="form-group w-50">
+                                    <div class="form-group">
                                         <label>Dasar Purchase Order</label>
-                                        <input type="text" name="Dasar_Purchase_Order" class="form-control">
+                                        <input type="text" name="Dasar_Po" id="Dasar_Po" class="form-control @error('Dasar_Po') is-invalDasar_Po @enderror" value="{{ old('Dasar_Po') }}">
+                                        @error('Dasar_Po')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
-                                    <div class="form-group w-50">
-                                        <label>Buyer</label>
-                                        <select class="form-control" name="Buyer">
-                                            <option>Option 1</option>
-                                            <option>Option 2</option>
-                                            <option>Option 3</option>
-                                        </select>
+                                    <div class="form-group mb-3">
+                                        <label for="Buyer_Id">Buyer:</label>
+                                        <select name="Buyer_Id" id="Buyer_Id" class="form-control">
+                                            <option value="">--Pilih Buyer--</option>
+                                            @foreach ($buyers as $buyer)
+                                                <option value="{{ $buyer->id }}" {{ old('Buyer_Id') == $buyer->id ? 'selected' : '' }}>{{ $buyer->Nama_Buyer }}</option>
+                                            @endforeach
+                                        </select>     
                                     </div>
-                                    <div class="form-group w-50">
+                                    <div class="form-group">
                                         <label>Tanggal Masuk</label>
-                                        <input type="date" name="Tanggal_Masuk" class="form-control">
+                                        <input type="date" name="Tanggal_Masuk" Tanggal_Masuk="Tanggal_Masuk" class="form-control @error('Tanggal_Masuk') is-invalTanggal_Masuk @enderror" value="{{ old('Tanggal_Masuk') }}">
+                                        @error('Tanggal_Masuk')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
-                                    <div class="form-group w-50">
+                                    <div class="form-group">
                                         <label>Schedule Kirim</label>
-                                        <input type="date" name="Schedule_Kirim" class="form-control">
+                                        <input type="date" name="Schedule_Kirim" Schedule_Kirim="Schedule_Kirim" class="form-control @error('Schedule_Kirim') is-invalSchedule_Kirim @enderror" value="{{ old('Schedule_Kirim') }}">
+                                        @error('Schedule_Kirim')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                         <button type="submit" class="btn btn-primary px-5">Simpan</button>
                                 </form>

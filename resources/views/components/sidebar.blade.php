@@ -16,11 +16,11 @@
                 <ul class="dropdown-menu">
                     <li class='{{ Request::is('/') ? 'active' : '' }}'>
                         <a class="nav-link"
-                            href="{{ url('/') }}"># List Purchase Order</a>
+                            href="{{ url('/Purchase_Order') }}"># List Purchase Order</a>
                     </li>
                     <li class="{{ Request::is('create') ? 'active' : '' }}">
                         <a class="nav-link"
-                            href="{{ url('/create') }}"># Tambah Purchase Order</a>
+                            href="{{ url('Purchase_Order/create') }}"># Tambah Purchase Order</a>
                     </li>
                 </ul>
             </li>

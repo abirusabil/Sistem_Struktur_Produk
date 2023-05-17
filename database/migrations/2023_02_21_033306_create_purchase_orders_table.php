@@ -14,12 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
-            $table->id();
-            $table->string('JO');
+            $table->string('id')->primary();
             $table->string('Dasar_Po');
-            $table->integer('id_buyers');
-            $table->date('tanggal_masuk');
-            $table->date('tanggal_kirim');
+            $table->string('Buyer_Id')->foreign('')->references('id')->on('buyers');
+            $table->date('Tanggal_Masuk');
+            $table->date('Schedule_Kirim');
             $table->timestamps();
         });
     }

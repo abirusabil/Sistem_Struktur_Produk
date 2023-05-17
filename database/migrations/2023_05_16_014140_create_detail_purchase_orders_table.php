@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('collections', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->string('Nama_Collection');
-            $table->string('Buyer_Id')->foreign('')->references('id')->on('buyers');
+        Schema::create('detail_purchase_orders', function (Blueprint $table) {
+            $table->id();
+            $table->string('Job_Order')->foreign()->references('id')->on('purchase_orders');
+            $table->string('Item_Id')->foreign()->references('id')->on('items');
+            $table->decimal('Quantity_Purchase_Order');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('collections');
+        Schema::dropIfExists('detail_purchase_orders');
     }
 };

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Ecommerce Dashboard')
+@section('title', 'Purchase Order')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -31,16 +31,25 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                
-                                <div class="w-100">
-                                    <h4>List Purchase Order</h4>
+                            <div class="card-header d-block">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="d-grid d-md-flex  ">
+                                            <a href="{{ url('/create') }}" class="btn rounded btn-primary me-md-2" type="button">
+                                                <i class="fa-solid fa-plus mr-2"></i>Tambah Collection Baru
+                                            </a>
+                                        </div>
+                                    </div>
+                                    
+                                <div class="col-lg-4 w-100">
+                                    <form action="/">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control rounded " placeholder="Search..." name="search" value="{{ request('search') }}" >
+                                            <button class="btn btn-success rounded " type="submit">Search</button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="d-grid gap-2 d-md-flex w-100 justify-content-md-end">
-                                    <a href="{{ url('/create') }}" class="btn rounded btn-primary me-md-2" type="button">
-                                        <i class="fa-solid fa-plus mr-2"></i>Tambah Purchase Order Baru
-                                    </a>
-                                </div>
+                            </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -48,34 +57,49 @@
                                         id="table-1">
                                         <thead>
                                             <tr>
-                                                <th class="text-center">
+                                                <th class="text-center border">
                                                     #
                                                 </th>
-                                                <th>Job Order</th>
-                                                <th>Dasar Purchase Order</th>
-                                                <th>Buyer</th>
-                                                <th>Tanggal Masuk</th>
-                                                <th>Schedule Kirim</th>
+                                                <th class="border">Job Order</th>
+                                                <th class="border">Dasar Purchase Order</th>
+                                                <th class="border">Buyer</th>
+                                                <th class="border">Tanggal Masuk</th>
+                                                <th class="border">Schedule Kirim</th>
+                                                <th class="border">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{-- @foreach ($User as $user) --}}
+                                            @foreach ($Purchase_Orders as $Purchase_Order)
                                             <tr>
-                                                {{-- <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $user->name }}</td>
-                                                <td>{{ $user->email }}</td> --}}
-                                                <td></td>
-                                                <td>
-                                                    <a class="btn btn-warning">Ubah</a>
-                                                    <a class="btn btn-danger">Hapus</a>
+                                                <td class="border">{{ $loop->iteration }}</td>
+                                                <td class="border">{{ $Purchase_Order->id }}</td>
+                                                <td class="border">{{ $Purchase_Order->Dasar_Po }}</td>
+                                                <td class="border">{{ $Purchase_Order->Buyer->Nama_Buyer }}</td>
+                                                <td class="border">{{ $Purchase_Order->Tanggal_Masuk }}</td>
+                                                <td class="border">{{ $Purchase_Order->Schedule_Kirim }}</td>
+                                                <td class="border">
+                                                    <div class="d-flex">
+                                                        <a href="/Purchase_Order/{{ $Purchase_Order->id }}/edit " class="btn btn-warning ml-2">Edit</a>
+                                                        <a href="/Purchase_Order/{{ $Purchase_Order->id }} " class="btn btn-info ml-2">Detail</a>
+                                                        <form action="Purchase_Order/{{ $Purchase_Order->id }}"  method="POST">
+                                                            @method('delete')
+                                                            @csrf
+                                                            <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
-                                            {{-- @endforeach --}}
-                                            
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+                            <div class="card-footer text-right">
+                                <nav class="d-inline-block">
+                                  {{ $Purchase_Orders->links() }}
+                                  </ul>
+                                </nav>
+                              </div>
                         </div>
                     </div>
                 </div>

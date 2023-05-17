@@ -4,6 +4,7 @@ use App\Http\Controllers\BoronganDalamItemController;
 use App\Http\Controllers\BoronganLuarItemController;
 use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\DetailPurchaseOrderController;
 use App\Http\Controllers\GambarItemController;
 use App\Http\Controllers\GambarKerjaController;
 use Illuminate\Support\Facades\Route;
@@ -138,8 +139,16 @@ Route::resource('/Gambar_Kerja',GambarKerjaController::class);
 // End Gambar Kerja
 
 // Purchase Order
-Route::resource('/', PurchaseOrderController::class);
+Route::get('/', [PurchaseOrderController::class, 'index'])->name('home');
+Route::resource('/Purchase_Order', PurchaseOrderController::class);
+Route::get('/Purchase_Order/Export',[PurchaseOrderController::class,'export'])->name('Purchase_Order.export');
+Route::post('/Purchase_Order/Import',[PurchaseOrderController::class,'import'])->name('Purchase_Order.import');
 // End Purchase
+
+
+// Detail Purchase Order
+Route::resource('/Detail_Purchase_Order',DetailPurchaseOrderController::class);
+// End Detail Purchase Order 
 
 // Item
 Route::resource('/Item', ItemController::class);
