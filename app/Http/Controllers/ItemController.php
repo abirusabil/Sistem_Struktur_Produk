@@ -30,7 +30,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        // return Item::with('Collection.Buyer')->get();
+        
         return view('pages.Data_Barang.Item.Master_Item',
         [
             'type_menu'=>'Item',

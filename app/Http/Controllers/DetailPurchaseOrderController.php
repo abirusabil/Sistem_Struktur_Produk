@@ -28,7 +28,7 @@ class DetailPurchaseOrderController extends Controller
         // return $request;
         // return Item::with('Collection')->get();
         // return ;
-        return view('pages.Purchase_order.Tambah_Detail_PurchaseOrder',
+        return view('pages.Purchase_order.Detail_Purchase_Order.Tambah_Detail_Purchase_Order',
         [
             'type_menu' => 'PurchaseOrder',
             'Items'=>Item::whereHas('Collection', function ($query) use ($request) {
@@ -61,17 +61,16 @@ class DetailPurchaseOrderController extends Controller
                 'unique'=>'Kode Telah Digunakan Silahkan Gunakan Kode Lain'
             ]
             );
-            return $validatedData;
+            // return $validatedData;
             // return $request->input('Item_Id.0');
-            for ($i = 0; $i < count($request->Tinggi_Kebutuhan_Karton_Box_Item); $i++) {
+            for ($i = 0; $i < count($request->Quantity_Purchase_Order); $i++) {
                 DetailPurchaseOrder::create([
-                    'id' => $validatedData['id'][$i],
+                    'Job_Order' => $validatedData['Job_Order'][$i],
                     'Item_Id' => $validatedData['Item_Id'][$i],
-                    'Jenis_Kebutuhan_Karton_Box' => $validatedData['Jenis_Kebutuhan_Karton_Box'][$i],
-                    
+                    'Quantity_Purchase_Order' => $validatedData['Quantity_Purchase_Order'][$i],
                 ]);
             }
-            return redirect("/Item/{$request->input('Item_Id.0')}")->with('success_karton_box', 'Data Berhasil Ditambahkan');
+            return redirect("/Purchase_Order/{$request->input('Job_Order.0')}")->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -91,9 +90,15 @@ class DetailPurchaseOrderController extends Controller
      * @param  \App\Models\DetailPurchaseOrder  $detailPurchaseOrder
      * @return \Illuminate\Http\Response
      */
-    public function edit(DetailPurchaseOrder $detailPurchaseOrder)
+    public function edit(DetailPurchaseOrder $Detail_Purchase_Order)
     {
-        //
+        // return $Detail_Purchase_Order;
+        return view('pages.Purchase_order.Detail_Purchase_Order.Edit_Detail_Purchase_Order',
+        [
+            'type_menu' => 'PurchaseOrder',
+                'Detail_Purchase_Order' => $Detail_Purchase_Order,
+                'Items' => Item::all(),
+        ]);
     }
 
     /**
@@ -103,9 +108,22 @@ class DetailPurchaseOrderController extends Controller
      * @param  \App\Models\DetailPurchaseOrder  $detailPurchaseOrder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DetailPurchaseOrder $detailPurchaseOrder)
+    public function update(Request $request, DetailPurchaseOrder $Detail_Purchase_Order)
     {
-        //
+        $validatedData = $request->validate(
+            [
+                'Job_Order'=>'required',
+                'Item_Id'=>'required',
+                'Quantity_Purchase_Order'=>'required',
+                
+            ],[
+                'required'=>'Kolom Tidak Boleh Kosong',
+                'unique'=>'Kode Telah Digunakan Silahkan Gunakan Kode Lain'
+            ]
+        );
+        // return $validatedData;
+        DetailPurchaseOrder::where('id', $Detail_Purchase_Order->id)->update($validatedData);
+        return redirect("/Purchase_Order/$Detail_Purchase_Order->Job_Order")->with('success', 'Data Berhasil Dihapus');
     }
 
     /**
@@ -114,8 +132,10 @@ class DetailPurchaseOrderController extends Controller
      * @param  \App\Models\DetailPurchaseOrder  $detailPurchaseOrder
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DetailPurchaseOrder $detailPurchaseOrder)
+    public function destroy(DetailPurchaseOrder $Detail_Purchase_Order)
     {
-        //
+        // return $Detail_Purchase_Order;
+        DetailPurchaseOrder::destroy($Detail_Purchase_Order->id);
+        return redirect("/Purchase_Order/$Detail_Purchase_Order->Job_Order")->with('success', 'Data Berhasil Dihapus');
     }
 }

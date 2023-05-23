@@ -30,13 +30,19 @@
             <div class="section-body">
                 <div class="row">
                     <div class="col-12">
+                        @if (session()->has('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('success') }}
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            </div>
+                        @endif
                         <div class="card">
                             <div class="card-header d-block">
                                 <div class="row">
                                     <div class="col-lg-8">
                                         <div class="d-grid d-md-flex  ">
-                                            <a href="{{ url('/create') }}" class="btn rounded btn-primary me-md-2" type="button">
-                                                <i class="fa-solid fa-plus mr-2"></i>Tambah Collection Baru
+                                            <a href="{{ url('Purchase_Order/create') }}" class="btn rounded btn-primary me-md-2" type="button">
+                                                <i class="fa-solid fa-plus mr-2"></i>Purchase Order Baru
                                             </a>
                                         </div>
                                     </div>

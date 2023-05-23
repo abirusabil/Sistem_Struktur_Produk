@@ -22,7 +22,7 @@
             <div class="section-header">
                 <h1>Tambah Item Purchase Order Baru</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">User</a></div>
+                    <div class="breadcrumb-item active"><a href="#">Purchase Order</a></div>
                     <div class="breadcrumb-item">Tambah Item Purchase Order Baru</div>
                 </div>
             </div>
@@ -31,31 +31,34 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <form action="/Detail_Purchase_Order" method="POST">
+                                <form action="/Detail_Purchase_Order/{{ $Detail_Purchase_Order->id }}" method="POST">
+                                    @method('put')
                                     @csrf
-                                    @for ($i = 0; $i < $loop_count; $i++)
                                     <div class="d-flex">
                                     <div class="form-group ">
-                                        <input type="text" name="Job_Order[{{ $i }}]" id="Job_Order" class="form-control @error('Job_Order') is-invalid @enderror" value="{{ $job_order }}">
+                                        <input type="hidden" name="Job_Order" id="Job_Order" class="form-control @error('Job_Order') is-invalid @enderror" value="{{ $Detail_Purchase_Order->Job_Order }}">
                                     </div>
-                                    <div class="form-group ">
+                                    <div class="form-group w-50 ">
                                         <label for="Item_Id">Item:</label>
-                                        <select name="Item_Id[{{ $i }}]" id="Item_Id" class="form-control">
-                                            <option value="">--Pilih Item--</option>
+                                        <select name="Item_Id" disabled="true" id="Item_Id" class="form-control">
+                                            <option value="" >--Pilih Item--</option>
                                             @foreach ($Items as $Item)
-                                                <option value="{{ $Item->id }}" {{ old('Item_Id.' . $i) == $Item->id ? 'selected' : '' }}>{{ $Item->Nama_Item }} | {{ $Item->Warna_Item }}</option>
+                                            @if ( old('Item_Id',$Detail_Purchase_Order->Item_Id) == $Item->id )
+                                                <option value="{{ $Item->id }}" selected>{{ $Item->Nama_Item }}</option>
+                                            @else
+                                                <option value="{{ $Item->id }}">{{ $Item->Nama_Item }}</option> 
+                                            @endif
                                             @endforeach
                                         </select>     
                                     </div>
                                     <div class="form-group ml-3">
                                         <label>Quantity Purchase Order</label>
-                                        <input type="number" name="Quantity_Purchase_Order[{{ $i }}]" id="Quantity_Purchase_Order" class="form-control @error('Quantity_Purchase_Order.' . $i) is-invalid @enderror" value="{{ old('Quantity_Purchase_Order.' . $i) }}">
-                                        @error('Quantity_Purchase_Order.' . $i)
+                                        <input type="number" name="Quantity_Purchase_Order" id="Quantity_Purchase_Order" class="form-control @error('Quantity_Purchase_Order') is-invalid @enderror" value="{{ old('Quantity_Purchase_Order',$Detail_Purchase_Order->Quantity_Purchase_Order) }}">
+                                        @error('Quantity_Purchase_Order')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
-                                    @endfor
                                         <button type="submit" class="btn btn-primary px-5">Simpan</button>
                                 </form>
                             </div>

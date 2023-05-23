@@ -47,4 +47,10 @@ class Item extends Model
     {
         return $this->belongsTo(Collection::class ,'Collection_Id' ,'id');
     }
+
+    public function kebutuhankayuitem()
+    {
+        return $this->hasMany(KebutuhanKayuItem::class,'Item_Id', 'id' );
+    }
+    
 }

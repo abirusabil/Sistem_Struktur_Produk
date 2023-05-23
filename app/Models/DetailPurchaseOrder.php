@@ -9,6 +9,12 @@ class DetailPurchaseOrder extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'Item_Id',
+        'Job_Order',
+        'Quantity_Purchase_Order'
+    ];
+
     public function item()
     {
         return $this->belongsTo(Item::class ,'Item_Id' ,'id');
