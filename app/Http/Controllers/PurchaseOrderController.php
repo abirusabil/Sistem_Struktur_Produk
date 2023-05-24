@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Buyer;
 use App\Models\DetailPurchaseOrder;
+use App\Models\Item;
 use App\Models\PurchaseOrder;
 use Illuminate\Http\Request;
 
@@ -78,7 +79,7 @@ class PurchaseOrderController extends Controller
     {
         // return $Purchase_Order;
         // return DetailPurchaseOrder::with('Item.Collection')->where('Job_Order',$Purchase_Order->id)->get()->groupBy('Item.Collection_Id') ;
-        return view('pages.Purchase_Order.Detail_Purchase_Order',
+        return view('pages.Purchase_Order.Detail_Purchase_Order.Detail_Purchase_Order',
             [
                 'type_menu'=>'PurchaseOrder',
                 'Purchase_Order'=>$Purchase_Order,
@@ -144,6 +145,18 @@ class PurchaseOrderController extends Controller
         // return $Purchase_Order;
         $Purchase_Order->delete();
         return redirect('/Purchase_Order')->with('success', 'Purchase order deleted successfully');
+    }
+
+     public function detailkebutuhan(PurchaseOrder $Purchase_Order)
+    {
+        // return DetailPurchaseOrder::with('Item.KebutuhanKayuItem.MasterKayu')->where('Job_Order',$Purchase_Order->id)->get();
+        // return [Item::with('KebutuhanKayuItem')->get()];
+        return view('pages.Purchase_Order.Detail_Kebutuhan_Purchase_Order.Detail_Kebutuhan_Purchase_Order',
+        [
+            'type_menu'=>'PurchaseOrder',
+            'DetailKebutuhanPurchaseOrders'=>DetailPurchaseOrder::with('Item.KebutuhanKayuItem.MasterKayu')->where('Job_Order',$Purchase_Order->id)->get(),
+           
+        ]);
     }
 
 }

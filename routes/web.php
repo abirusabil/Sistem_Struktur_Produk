@@ -142,7 +142,7 @@ Route::resource('/Gambar_Kerja',GambarKerjaController::class);
 Route::get('/', [PurchaseOrderController::class, 'index'])->name('home');
 Route::resource('/Purchase_Order', PurchaseOrderController::class);
 Route::get('/Purchase_Order/Export',[PurchaseOrderController::class,'export'])->name('Purchase_Order.export');
-Route::post('/Purchase_Order/Import',[PurchaseOrderController::class,'import'])->name('Purchase_Order.import');
+Route::get('/Purchase_Order/{Purchase_Order}/detailkebutuhan', [PurchaseOrderController::class, 'detailkebutuhan'])->name('purchase_order.detailkebutuhan');
 // End Purchase
 
 

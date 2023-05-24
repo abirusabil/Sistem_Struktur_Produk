@@ -89,7 +89,7 @@
                                             <a href="/Purchase_Order/{{ $Purchase_Order->id }}/edit" class="btn ml-3 mt-2 rounded px-5 btn-warning ml-2">Edit</a>
                                         </div> 
                                         <div class="col d-flex justify-content-end mr-4">
-                                            <a href="/Purchase_Order/{{ $Purchase_Order->id }}/edit" class="btn ml-3 mt-2 rounded px-5 btn-info ml-2">Detail Kebutuhan Bahan Baku</a>
+                                            <a class="btn ml-3 mt-2 rounded px-5 btn-info ml-2" href="{{ route('purchase_order.detailkebutuhan', ['Purchase_Order' => $Purchase_Order->id]) }}">Detail Kebutuhan</a>
                                         </div>   
                                     </div>
                                 <hr class="border border-black opacity-100 ">

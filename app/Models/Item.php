@@ -48,9 +48,13 @@ class Item extends Model
         return $this->belongsTo(Collection::class ,'Collection_Id' ,'id');
     }
 
-    public function kebutuhankayuitem()
+    public function KebutuhanKayuItem()
     {
-        return $this->hasMany(KebutuhanKayuItem::class,'Item_Id', 'id' );
+        return $this->hasMany(KebutuhanKayuItem::class, 'Item_Id', 'id');
+    }
+    public function DetailPurchaseOrder()
+    {
+        return $this->hasMany(DetailPurchaseOrder::class, 'Item_Id', 'id');
     }
     
 }

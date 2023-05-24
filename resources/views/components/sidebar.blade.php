@@ -14,11 +14,11 @@
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-clipboard-list"></i><span>Purchase Order</span></a>
                 <ul class="dropdown-menu">
-                    <li class='{{ Request::is('/') ? 'active' : '' }}'>
+                    <li class='{{ Request::is('Purchase_Order') ? 'active' : '' }}'>
                         <a class="nav-link"
                             href="{{ url('/Purchase_Order') }}"># List Purchase Order</a>
                     </li>
-                    <li class="{{ Request::is('create') ? 'active' : '' }}">
+                    <li class="{{ Request::is('Purchase_Order/create') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('Purchase_Order/create') }}"># Tambah Purchase Order</a>
                     </li>
