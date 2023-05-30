@@ -43,7 +43,7 @@
                                         <select name="Item_Id[{{ $i }}]" id="Item_Id" class="form-control">
                                             <option value="">--Pilih Item--</option>
                                             @foreach ($Items as $Item)
-                                                <option value="{{ $Item->id }}" {{ old('Item_Id.' . $i) == $Item->id ? 'selected' : '' }}>{{ $Item->Nama_Item }} | {{ $Item->Warna_Item }}</option>
+                                                <option value="{{ $Item->id }}" {{ old('Item_Id.' . $i) == $Item->id ? 'selected' : '' }}>{{ $Item->id }} | {{ $Item->Nama_Item }} | {{ $Item->Warna_Item }}</option>
                                             @endforeach
                                         </select>     
                                     </div>

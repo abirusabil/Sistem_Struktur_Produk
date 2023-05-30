@@ -52,9 +52,37 @@ class Item extends Model
     {
         return $this->hasMany(KebutuhanKayuItem::class, 'Item_Id', 'id');
     }
-    public function DetailPurchaseOrder()
+    public function KebutuhanPlywoodMdfItem()
     {
-        return $this->hasMany(DetailPurchaseOrder::class, 'Item_Id', 'id');
+        return $this->hasMany(KebutuhanPlywoodMdfItem::class, 'Item_Id', 'id');
     }
+    public function KebutuhanAccessoriesHardwareItem()
+    {
+        return $this->hasMany(KebutuhanAccessoriesHardwareItem::class, 'Item_Id', 'id');
+    }
+    public function KebutuhanKomponenFinishingItem()
+    {
+        return $this->hasMany(KebutuhanKomponenFinishingItem::class, 'Item_Id', 'id');
+    }
+    public function KebutuhanPendukungPackingItem()
+    {
+        return $this->hasMany(KebutuhanPendukungPackingItem::class, 'Item_Id', 'id');
+    }
+    public function KebutuhanKartonBoxItem()
+    {
+        return $this->hasMany(KebutuhanKartonBoxItem::class, 'Item_Id', 'id');
+    }
+    public function BoronganDalamItem()
+    {
+        return $this->hasMany(BoronganDalamItem::class, 'Item_Id', 'id');
+    }
+    public function BoronganLuarItem()
+    {
+        return $this->hasMany(BoronganLuarItem::class, 'Item_Id', 'id');
+    }
+    // public function DetailPurchaseOrder()
+    // {
+    //     return $this->hasMany(DetailPurchaseOrder::class, 'Item_Id', 'id');
+    // }
     
 }

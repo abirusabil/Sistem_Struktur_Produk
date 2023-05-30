@@ -22,7 +22,7 @@ class KebutuhanKomponenFinishingItemImport implements ToModel , WithHeadingRow
     {
         return new KebutuhanKomponenFinishingItem([
             'Item_Id' => $this->itemId,
-            'id' => $row['kode_cutting'],
+            'id' => $row['no_cutting'],
             'Komponen_Finishing_Id' => $row['kode_komponen_finishing'],
             'Quantity_Kebutuhan_Komponen_Finishing_Item' => $row['quantity'],
         ]);

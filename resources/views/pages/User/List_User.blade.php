@@ -71,10 +71,16 @@
                                                 <td>{{ $user->email }}</td>
                                                 <td>
                                                     @if ($user->akses == '1')
-                                                    Super Administrator
+                                                    ALL Akses
                                                     @elseif ($user->akses == '2')
-                                                    Administrator
+                                                    Purchasing
                                                     @elseif ($user->akses == '3')
+                                                    Accounting
+                                                    @elseif ($user->akses == '4')
+                                                    R&D
+                                                    @elseif ($user->akses == '5')
+                                                    PPIC
+                                                    @elseif ($user->akses == '6')
                                                     Normal User
                                                     @else
                                                     @endif

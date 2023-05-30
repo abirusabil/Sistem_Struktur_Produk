@@ -38,7 +38,7 @@ class MasterPendukungPackingExport implements FromCollection , WithHeadings , Wi
             'Panjang',
             'Luas',
             'Satuan',
-            'Harga/Lembar',
+            'Harga',
             'Harga/M2',
             'Suplier'
         ];
@@ -56,12 +56,13 @@ class MasterPendukungPackingExport implements FromCollection , WithHeadings , Wi
             $data->Tebal_Pendukung_Packing,
             $data->Lebar_Pendukung_Packing,
             $data->Panjang_Pendukung_Packing,
-            $data->Lebar_Pendukung_Packing*$data->Panjang_Pendukung_Packing/1000000,
+            $data->Lebar_Pendukung_Packing * $data->Panjang_Pendukung_Packing / 1000000,
             $data->Satuan_Pendukung_Packing,
             number_format($data->Harga_Pendukung_Packing, 2, '.', ','),
-            number_format($data->Harga_Pendukung_Packing/($data->Panjang_Pendukung_Packing *  $data->Lebar_Pendukung_Packing /1000000), 2, '.', ','),
+            ($data->Satuan_Pendukung_Packing == "Meter")
+                ? number_format($data->Harga_Pendukung_Packing / ($data->Panjang_Pendukung_Packing * $data->Lebar_Pendukung_Packing / 1000000), 2, '.', ',')
+                : "-",
             $data->suplier->nama_suplier
-
         ];
     }
     
