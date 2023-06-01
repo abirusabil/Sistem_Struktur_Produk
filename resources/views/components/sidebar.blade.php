@@ -159,9 +159,9 @@
                             <a class="nav-link"
                                 href="{{ url('/Komponen_Finishing/create') }}"># Tambah Komponen Finishing</a>
                         </li>
-                        <li class="{{ Request::is('#') ? 'active' : '' }}">
+                        <li class="{{ Request::is('Kebutuhan_Komponen_Finishing') ? 'active' : '' }}">
                             <a class="nav-link"
-                                href="{{ url('#') }}"># List Kebutuhan Komponen Finishing</a>
+                                href="{{ url('/Kebutuhan_Komponen_Finishing') }}"># List Kebutuhan Komponen Finishing</a>
                         </li>
                     </ul>
                 </li>
@@ -183,9 +183,9 @@
                             <a class="nav-link"
                                 href="{{ url('/Pendukung_Packing/create') }}"># Tambah Pendukung Packing</a>
                         </li>
-                        <li class="{{ Request::is('#') ? 'active' : '' }}">
+                        <li class="{{ Request::is('Kebutuhan_Pendukung_Packing') ? 'active' : '' }}">
                             <a class="nav-link"
-                                href="{{ url('#') }}"># List Kebutuhan Pendukung Packing</a>
+                                href="{{ url('/Kebutuhan_Pendukung_Packing') }}"># List Kebutuhan Pendukung Packing</a>
                         </li>
                     </ul>
                 </li>
@@ -205,9 +205,9 @@
                             <a class="nav-link"
                                 href="{{ url('Karton_Box/create') }}"># Tambah Karton Box</a>
                         </li> --}}
-                        <li class="{{ Request::is('#') ? 'active' : '' }}">
+                        <li class="{{ Request::is('Kebutuhan_Karton_Box') ? 'active' : '' }}">
                             <a class="nav-link"
-                                href="{{ url('#') }}"># List Kebutuhan Karton Box</a>
+                                href="{{ url('/Kebutuhan_Karton_Box') }}"># List Kebutuhan Karton Box</a>
                         </li>
                     </ul>
                 </li>

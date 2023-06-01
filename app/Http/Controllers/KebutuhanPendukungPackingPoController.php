@@ -14,7 +14,11 @@ class KebutuhanPendukungPackingPoController extends Controller
      */
     public function index()
     {
-        //
+        // return KebutuhanPendukungPackingPo::with('PurchaseOrder')->get();
+        return view('pages.Data-Materials.Pendukung_Packing.List_Kebutuhan_Pendukung_Packing',[
+            'type_menu'=>'Pendukung_Packing',
+            'KebutuhanPendukungPacking'=>KebutuhanPendukungPackingPo::with('PurchaseOrder')->filter(request(['search']))->paginate(40)
+        ]);
     }
 
     /**

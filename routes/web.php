@@ -24,10 +24,14 @@ use App\Http\Controllers\KebutuhanPlywoodMdfItemController;
 use App\Http\Controllers\KebutuhanAccessoriesHardwareItemController;
 use App\Http\Controllers\KebutuhanAccessoriesHardwarePoController;
 use App\Http\Controllers\KebutuhanKartonBoxItemController;
+use App\Http\Controllers\KebutuhanKartonBoxPoController;
 use App\Http\Controllers\KebutuhanKayuPoController;
 use App\Http\Controllers\KebutuhanKomponenFinishingItemController;
+use App\Http\Controllers\KebutuhanKomponenFinishingPoController;
 use App\Http\Controllers\KebutuhanPendukungPackingItemController;
+use App\Http\Controllers\KebutuhanPendukungPackingPoController;
 use App\Http\Controllers\KebutuhanPlywoodMdfPoController;
+use App\Models\KebutuhanKartonBoxPo;
 use App\Models\KebutuhanKayuPo;
 use App\Models\KebutuhanPlywoodMdfItem;
 use App\Models\KebutuhanPlywoodMdfPo;
@@ -67,25 +71,21 @@ Route::post('/Kebutuhan_Kayu_Item/import/{itemId}', [KebutuhanKayuItemController
 Route::resource('Kebutuhan_Kayu',KebutuhanKayuPoController::class)->middleware('auth');
 // End List kebutuhan kayu keseluruhan 
 
-// list Kebutuhan Plywood MDF Keseluruhan
-Route::resource('/Kebutuhan_Plywood_MDF',KebutuhanPlywoodMdfPoController::class)->middleware('auth');
-// end List kebutuhan plywood MDF Keseluruhan
-
-// list Kebutuhan Accessories Hardware Keseluruhan
-Route::resource('/Kebutuhan_Accessories_Hardware',KebutuhanAccessoriesHardwarePoController::class)->middleware('auth');
-// End List Kebutuhan Accessories hardware keseluruhan
-
 // Plywood MDF
 Route::resource('/Plywood_MDF',MasterPlywoodMDFController::class)->middleware('auth');
 Route::post('/Plywood_MDF_import', [MasterPlywoodMDFController::class, 'import'])->name('Plywood_MDF.import')->middleware('auth');
 Route::get('/Plywood_MDF_export', [MasterPlywoodMDFController::class, 'export'])->name('Plywood_MDF.export')->middleware('auth');
 // End Plywood MDF
 
-// Kebutuhan Plywood MDF
+// Kebutuhan Plywood MDF Item
 Route::resource('/Kebutuhan_Plywood_MDF_Item',KebutuhanPlywoodMdfItemController::class)->middleware('auth');
 Route::get('/Kebutuhan_Plywood_MDF_Item/export/{itemId}',[KebutuhanPlywoodMdfItemController::class,'export'])->name('Kebutuhan_Plywood_MDF_Item.export')->middleware('auth');
 Route::post('/Kebutuhan_Plywood_MDF_Item/import/{itemId}',[KebutuhanPlywoodMdfItemController::class,'import'])->name('Kebutuhan_Plywood_MDF_Item.import')->middleware('auth');
-// End Kebutuhan Plywood MDF
+// End Kebutuhan Plywood MDF Item
+
+// list Kebutuhan Plywood MDF Keseluruhan
+Route::resource('/Kebutuhan_Plywood_MDF',KebutuhanPlywoodMdfPoController::class)->middleware('auth');
+// end List kebutuhan plywood MDF Keseluruhan
 
 // Accessories Hardware
 Route::resource('/Accessories_Hardware',MasterAccessoriesHardwareController::class)->middleware('auth');
@@ -93,11 +93,15 @@ Route::get('/Accessories_Hardware_Export',[MasterAccessoriesHardwareController::
 Route::post('/Accessories_Hardware_Import',[MasterAccessoriesHardwareController::class,'import'])->name('Accessories_Hardware.import')->middleware('auth');
 // End AccessoriesHardware
 
-// Kebutuhan Accessories Hardware
+// Kebutuhan Accessories Hardware Item
 Route::resource('/Kebutuhan_Accessories_Item',KebutuhanAccessoriesHardwareItemController::class)->middleware('auth');
 Route::get('/Kebutuhan_Accessories_Item/export/{itemId}',[KebutuhanAccessoriesHardwareItemController::class,'export'])->name('Kebutuhan_Accessories_Hardware_Item.export')->middleware('auth');
 Route::post('/Kebutuhan_Accessories_Item/import/{itemId}',[KebutuhanAccessoriesHardwareItemController::class,'import'])->name('Kebutuhan_Accessories_Hardware_Item.import')->middleware('auth');
-// End Kebutuhan Accessries Hardware
+// End Kebutuhan Accessries Hardware Item
+
+// list Kebutuhan Accessories Hardware Keseluruhan
+Route::resource('/Kebutuhan_Accessories_Hardware',KebutuhanAccessoriesHardwarePoController::class)->middleware('auth');
+// End List Kebutuhan Accessories hardware keseluruhan
 
 // KomponenFinishing
 Route::resource('/Komponen_Finishing',MasterKomponenFinishingController::class)->middleware('auth');
@@ -105,11 +109,31 @@ Route::get('/Komponen_Finishing_Export',[MasterKomponenFinishingController::clas
 Route::post('/Komponen_Finishing_Import',[MasterKomponenFinishingController::class,'import'])->name('Komponen_Finishing.import')->middleware('auth');
 // End KomponenFinishing
 
-// Kebutuhan Komponen Finishing 
+// Kebutuhan Komponen Finishing Item
 Route::resource('/Kebutuhan_Finishing_Item',KebutuhanKomponenFinishingItemController::class)->middleware('auth');
 Route::get('/Kebutuhan_Finishing_Item/export/{itemId}',[KebutuhanKomponenFinishingItemController::class,'export'])->name('Kebutuhan_Komponen_Finishing_Item.export')->middleware('auth');
 Route::post('/Kebutuhan_Finishing_Item/import/{itemId}',[KebutuhanKomponenFinishingItemController::class,'import'])->name('Kebutuhan_Komponen_Finishing_Item.import')->middleware('auth');
-// End Kebutuhan Komponen Finishing
+// End Kebutuhan Komponen Finishing Item
+
+// List Kebutuhan Komponen Finishing PO
+Route::resource('/Kebutuhan_Komponen_Finishing',KebutuhanKomponenFinishingPoController::class)->middleware('auth');
+// end List Kebutuhan Komponen Finishing PO
+
+// Pendukung_Packing
+Route::resource('/Pendukung_Packing',MasterPendukungPackingController::class)->middleware('auth');
+Route::get('Pendukung_Packing_Export',[MasterPendukungPackingController::class,'export'])->name('Pendukung_Packing.export')->middleware('auth');
+Route::post('Pendukung_Packing_Import',[MasterPendukungPackingController::class,'import'])->name('Pendukung_Packing.import')->middleware('auth');
+// end Pendukung Packing
+
+// Kebutuhan Pendukung Packing
+Route::resource('/Kebutuhan_Packing_Item',KebutuhanPendukungPackingItemController::class)->middleware('auth');
+Route::get('/Kebutuhan_Packing_Item/export/{itemId}',[KebutuhanPendukungPackingItemController::class,'export'])->name('Kebutuhan_Pendukung_Packing_Item.export')->middleware('auth');
+Route::post('/Kebutuhan_Packing_Item/import/{itemId}',[KebutuhanPendukungPackingItemController::class,'import'])->name('Kebutuhan_Pendukung_Packing_Item.import')->middleware('auth');
+// End Kebutuhan Pendukung Packing
+
+// List Kebutuhan Pendukukung Packing PO Keseluruhan
+Route::resource('Kebutuhan_Pendukung_Packing',KebutuhanPendukungPackingPoController::class)->middleware('auth');
+// End List kebutuhan Pendukung Packing Po Keseluruhan
 
 // KartonBox
 Route::resource('/Karton_Box',MasterKartonBoxController::class)->middleware('auth');
@@ -123,17 +147,10 @@ Route::get('/Kebutuhan_Karton_Box_Item/export/{itemId}',[KebutuhanKartonBoxItemC
 Route::post('/Kebutuhan_Karton_Box_Item/import/{itemId}',[KebutuhanKartonBoxItemController::class,'import'])->name('Kebutuhan_Karton_Box_Item.import')->middleware('auth');
 // End Kebutuhan Karton Box
 
-// Pendukung_Packing
-Route::resource('/Pendukung_Packing',MasterPendukungPackingController::class)->middleware('auth');
-Route::get('Pendukung_Packing_Export',[MasterPendukungPackingController::class,'export'])->name('Pendukung_Packing.export')->middleware('auth');
-Route::post('Pendukung_Packing_Import',[MasterPendukungPackingController::class,'import'])->name('Pendukung_Packing.import')->middleware('auth');
-// end Pendukung Packing
+// List Kebutuhan Karton Box PO Keseluruhan
+Route::resource('/Kebutuhan_Karton_Box',KebutuhanKartonBoxPoController::class)->middleware('auth');
+// end List Kebutuhan Karton Box PO Keseluruhan
 
-// Kebutuhan Pendukung Packing
-Route::resource('/Kebutuhan_Packing_Item',KebutuhanPendukungPackingItemController::class)->middleware('auth');
-Route::get('/Kebutuhan_Packing_Item/export/{itemId}',[KebutuhanPendukungPackingItemController::class,'export'])->name('Kebutuhan_Pendukung_Packing_Item.export')->middleware('auth');
-Route::post('/Kebutuhan_Packing_Item/import/{itemId}',[KebutuhanPendukungPackingItemController::class,'import'])->name('Kebutuhan_Pendukung_Packing_Item.import')->middleware('auth');
-// End Kebutuhan Pendukung Packing
 
 // Borongan Dalam
 Route::resource('/Borongan_Dalam_Item',BoronganDalamItemController::class)->middleware('auth');

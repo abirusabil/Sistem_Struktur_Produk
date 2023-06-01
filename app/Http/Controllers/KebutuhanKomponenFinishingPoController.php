@@ -14,7 +14,12 @@ class KebutuhanKomponenFinishingPoController extends Controller
      */
     public function index()
     {
-        //
+        // return KebutuhanKomponenFinishingPo::with('PurchaseOrder')->get();
+        return view('pages.Data-Materials.Komponen_Finishing.List_Kebutuhan_Komponen_finishing' , 
+        [
+            'type_menu'=>'Komponen_Finishing',
+            'KebutuhanKomponenFinishing'=>KebutuhanKomponenFinishingPo::with('PurchaseOrder')->filter(request(['search']))->paginate(40)
+        ]);
     }
 
     /**

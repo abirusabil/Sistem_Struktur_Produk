@@ -374,7 +374,7 @@
                                 {{-- End Kebutuhan Komponen Finishing --}}
 
                                 {{-- Kebutuhan Pendukung Packing --}}
-                                <div class="KebutuhanKomponenFinishing pt-5">
+                                <div class="KebutuhanPendukungPacking pt-5">
                                     <div class="row">
                                         <div class="col">
                                             @if (session()->has('success'))

@@ -14,7 +14,12 @@ class KebutuhanKartonBoxPoController extends Controller
      */
     public function index()
     {
-        //
+    //    return KebutuhanKartonBoxPo::with('PurchaseOrder')->get();
+       return view('pages.Data-Materials.Karton_Box.List_Kebutuhan_Karton_Box',
+       [
+        'type_menu'=>'Karton_Box',
+        'KebutuhanKartonBox'=>KebutuhanKartonBoxPo::with('PurchaseOrder')->filter(request(['search']))->paginate(40)
+       ]);
     }
 
     /**
