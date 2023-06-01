@@ -58,9 +58,12 @@
                                         <label>Akses</label>
                                         <select class="form-control @error('akses') is-invalid @enderror" name="akses">
                                             <option value="">--Pilih Hak Akses--</option>
-                                            <option value="1">Super Administrator</option>
-                                            <option value="2">Administrator</option>
-                                            <option value="3">Normal User</option>
+                                            <option value="1">All Akses</option>
+                                            <option value="2">Purchasing</option>
+                                            <option value="3">Accounting</option>
+                                            <option value="4">R&D</option>
+                                            <option value="5">PPIC</option>
+                                            <option value="6">Guest</option>
                                         </select>
                                         @error('akses')
                                         <div class="invalid-feedback">{{ $message }}</div>

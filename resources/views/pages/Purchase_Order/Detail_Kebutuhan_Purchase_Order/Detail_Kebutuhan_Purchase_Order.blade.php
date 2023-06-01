@@ -855,6 +855,7 @@
                                 {{-- End Biaya Borongan Luar --}}
 
                                 {{-- Total Biaya Keseluruhan--}}
+                                @if(auth()->user()->akses == 1)
                                 <div class="TotalBiayaKeseluruhan pt-5">
                                     <div class="row">
                                         <div class="col">
@@ -919,6 +920,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
                                 {{-- End Total Biaya Keseluruhan--}}
                             </div>
                         </div>

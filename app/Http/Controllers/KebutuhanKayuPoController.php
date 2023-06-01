@@ -14,7 +14,15 @@ class KebutuhanKayuPoController extends Controller
      */
     public function index()
     {
-        //
+        // return KebutuhanKayuPo::with('PurchaseOrder')->get();
+        return view('pages.Data-Materials.Kayu.List_Kebutuhan_Kayu',
+        [
+            "type_menu" => "Kayu" ,
+            'KebutuhanKayu' => KebutuhanKayuPo::with('PurchaseOrder')->filter(request(['search']))->paginate(40),
+            // 'KebutuhanKayu' => KebutuhanKayuPo::with('PurchaseOrder')->get(),
+            // 'Suplier'=>Suplier::all()
+        ]
+    );
     }
 
     /**

@@ -81,7 +81,7 @@
                                                     @elseif ($user->akses == '5')
                                                     PPIC
                                                     @elseif ($user->akses == '6')
-                                                    Normal User
+                                                    Guest
                                                     @else
                                                     @endif
                                                     

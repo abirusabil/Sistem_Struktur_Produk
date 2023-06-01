@@ -22,10 +22,15 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\KebutuhanKayuItemController;
 use App\Http\Controllers\KebutuhanPlywoodMdfItemController;
 use App\Http\Controllers\KebutuhanAccessoriesHardwareItemController;
+use App\Http\Controllers\KebutuhanAccessoriesHardwarePoController;
 use App\Http\Controllers\KebutuhanKartonBoxItemController;
+use App\Http\Controllers\KebutuhanKayuPoController;
 use App\Http\Controllers\KebutuhanKomponenFinishingItemController;
 use App\Http\Controllers\KebutuhanPendukungPackingItemController;
+use App\Http\Controllers\KebutuhanPlywoodMdfPoController;
+use App\Models\KebutuhanKayuPo;
 use App\Models\KebutuhanPlywoodMdfItem;
+use App\Models\KebutuhanPlywoodMdfPo;
 use App\Models\MasterKomponenFinishing;
 use App\Models\MasterPendukungPacking;
 
@@ -57,6 +62,18 @@ Route::resource('Kebutuhan_Kayu_Item',KebutuhanKayuItemController::class)->middl
 Route::get('/Kebutuhan_Kayu_Item/export/{itemId}', [KebutuhanKayuItemController::class, 'export'])->name('Kebutuhan_Kayu_Item.export')->middleware('auth');
 Route::post('/Kebutuhan_Kayu_Item/import/{itemId}', [KebutuhanKayuItemController::class, 'import'])->name('Kebutuhan_Kayu_Item.import')->middleware('auth');
 // End Kebutuhan Kayu Item
+
+// List Kebutuhan Kayu Keseluruhan
+Route::resource('Kebutuhan_Kayu',KebutuhanKayuPoController::class)->middleware('auth');
+// End List kebutuhan kayu keseluruhan 
+
+// list Kebutuhan Plywood MDF Keseluruhan
+Route::resource('/Kebutuhan_Plywood_MDF',KebutuhanPlywoodMdfPoController::class)->middleware('auth');
+// end List kebutuhan plywood MDF Keseluruhan
+
+// list Kebutuhan Accessories Hardware Keseluruhan
+Route::resource('/Kebutuhan_Accessories_Hardware',KebutuhanAccessoriesHardwarePoController::class)->middleware('auth');
+// End List Kebutuhan Accessories hardware keseluruhan
 
 // Plywood MDF
 Route::resource('/Plywood_MDF',MasterPlywoodMDFController::class)->middleware('auth');

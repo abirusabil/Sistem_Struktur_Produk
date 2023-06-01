@@ -14,7 +14,11 @@ class KebutuhanAccessoriesHardwarePoController extends Controller
      */
     public function index()
     {
-        //
+        // return KebutuhanAccessoriesHardwarePo::with('PurchaseOrder')->get();
+        return view('pages.Data-Materials.Accessories_Hardware.List_Kebutuhan_Accessories_Hardware',[
+            'type_menu'=>'Accessories_Hardware',
+            'KebutuhanAccessoriesHardware'=> KebutuhanAccessoriesHardwarePo::with('PurchaseOrder')->filter(request(['search']))->paginate(40)
+           ]);
     }
 
     /**

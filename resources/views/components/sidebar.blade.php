@@ -93,9 +93,9 @@
                             <a class="nav-link"
                                 href="{{ url('/Kayu/create') }}"># Tambah Kayu</a>
                         </li>
-                        <li class="{{ Request::is('#') ? 'active' : '' }}">
+                        <li class="{{ Request::is('Kebutuhan_Kayu') ? 'active' : '' }}">
                             <a class="nav-link"
-                                href="{{ url('#') }}"># List Kebutuhan Kayu</a>
+                                href="{{ url('/Kebutuhan_Kayu') }}"># List Kebutuhan Kayu</a>
                         </li>
                     </ul>
                 </li>
@@ -115,9 +115,9 @@
                             <a class="nav-link"
                                 href="{{ url('/Plywood_MDF/create') }}"># Tambah Plywood Dan Mdf </a>
                         </li>
-                        <li class="{{ Request::is('#') ? 'active' : '' }} ">
+                        <li class="{{ Request::is('Kebutuhan_Plywood_MDF') ? 'active' : '' }} ">
                             <a class="nav-link"
-                                href="{{ url('#') }}"># List Kebutuhan Plywood Dan Mdf</a>
+                                href="{{ url('/Kebutuhan_Plywood_MDF') }}"># List Kebutuhan Plywood Dan Mdf</a>
                         </li>
                     </ul>
                 </li>
@@ -137,9 +137,9 @@
                             <a class="nav-link"
                                 href="{{ url('/Accessories_Hardware/create') }}"># Tambah Accessories & Hardware</a>
                         </li>
-                        <li class="{{ Request::is('#') ? 'active' : '' }}">
+                        <li class="{{ Request::is('Kebutuhan_Accessories_Hardware') ? 'active' : '' }}">
                             <a class="nav-link"
-                                href="{{ url('#') }}"># List Kebutuhan Accessories & Hardware</a>
+                                href="{{ url('/Kebutuhan_Accessories_Hardware') }}"># List Kebutuhan Accessories & Hardware</a>
                         </li>
                     </ul>
                 </li>

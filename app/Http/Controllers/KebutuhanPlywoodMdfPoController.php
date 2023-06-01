@@ -14,7 +14,16 @@ class KebutuhanPlywoodMdfPoController extends Controller
      */
     public function index()
     {
-        //
+        // return KebutuhanPlywoodMdfPo::with('PurchaseOrder')->get();
+        return view('pages.Data-Materials.Plywood_MDF.List_Kebutuhan_Plywood_Mdf',
+            [
+                "type_menu" => "Plywood_MDF" ,
+                // 'KebutuhanPlywoodMdf' => KebutuhanPlywoodMdfPo::with('PurchaseOrder')->filter(request(['search']))->paginate(40),
+                'KebutuhanPlywoodMdf' => KebutuhanPlywoodMdfPo::with('PurchaseOrder')->filter(request(['search']))->paginate(40)
+                
+                // 'Suplier'=>Suplier::all()
+            ]
+        );
     }
 
     /**
