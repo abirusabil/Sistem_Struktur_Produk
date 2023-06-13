@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Advanced Forms')
+@section('title', 'Accessories Hardware')
 
 @push('style')
     <!-- CSS Libraries -->

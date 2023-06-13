@@ -58,20 +58,19 @@
                         <div class="card">
                             <div class="card-header d-block">
                                 <div class="row">
-                                    
-                                        <div class="col-lg-7">
+                                        <div class="col-lg-7 mb-3">
                                             <div class="d-grid d-md-flex  ">
-                                                <a href="{{ url('/Collection/create') }}" class="btn rounded btn-primary me-md-2" type="button">
-                                                    <i class="fa-solid fa-plus mr-2"></i>Tambah Collection Baru
-                                                </a>
-                                                <a href="{{ route('Collection.export') }}" target="_blank" class="btn rounded btn-info me-md-2 ml-2" type="button">
+                                                <a href="{{ route('Collection.export') }}" target="_blank" class="btn rounded btn-info me-md-2 mr-2" type="button">
                                                     <i class="fas fa-regular fa-file-export mr-2"></i>Export Collection
                                                 </a>
-                                                <button type="button" class="btn rounded btn-success ml-2" data-toggle="modal" data-target="#importModal">
-                                                    <i class="fas fa-regular fa-file-import mr-2"></i>Import Collection
-                                                </button>
-
-                                                
+                                                @if(in_array(auth()->user()->akses , [1]))
+                                                    <button type="button" class="btn rounded btn-success mr-2" data-toggle="modal" data-target="#importModal">
+                                                        <i class="fas fa-regular fa-file-import mr-2"></i>Import Collection
+                                                    </button>
+                                                    <a href="{{ url('/Collection/create') }}" class="btn rounded btn-primary me-md-2" type="button">
+                                                        <i class="fa-solid fa-plus mr-2"></i>Tambah Collection Baru
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                         
@@ -115,13 +114,15 @@
                                                 <td>{{ $collection->Buyer->Nama_Buyer }}</td>
                                                 <td>
                                                     <div class="d-flex">
-                                                        <a href="/Collection/{{ $collection->id }}/edit " class="btn btn-warning ml-2">Edit</a>
                                                         <a href="/Collection/{{ $collection->id }} " class="btn btn-info ml-2">Detail</a>
-                                                        <form action="/Collection/{{ $collection->id }}"  method="POST">
-                                                            @method('delete')
-                                                            @csrf
-                                                            <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
-                                                        </form>
+                                                        @if(in_array(auth()->user()->akses , [1]))
+                                                            <a href="/Collection/{{ $collection->id }}/edit " class="btn btn-warning ml-2">Edit</a>
+                                                            <form action="/Collection/{{ $collection->id }}"  method="POST">
+                                                                @method('delete')
+                                                                @csrf
+                                                                <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
+                                                            </form>
+                                                        @endif
                                                     </div>
                                                 </td>
                                             </tr>

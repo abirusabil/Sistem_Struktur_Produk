@@ -8,6 +8,10 @@ use App\Models\Item;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
+use Illuminate\Cache\RateLimiter;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Auth\Access\AuthorizationException;
 class BoronganDalamItemController extends Controller
 {
     /**
@@ -25,14 +29,36 @@ class BoronganDalamItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, RateLimiter $limiter)
     {
-    // return $request;
-    //   dd($request);
-        return view('pages.Data_Barang.Item.Borongan_Dalam.Tambah_Borongan_Dalam', [
-            'type_menu' => 'Item',
-            'itemId' => $request->itemId,
-        ]);
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            // return $request;
+            return view('pages.Data_Barang.Item.Borongan_Dalam.Tambah_Borongan_Dalam', 
+                [
+                    'type_menu' => 'Item',
+                    'itemId' => $request->itemId,
+                ]
+            );
+            
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
     
 
@@ -81,13 +107,36 @@ class BoronganDalamItemController extends Controller
      * @param  \App\Models\BoronganDalamItem  $boronganDalamItem
      * @return \Illuminate\Http\Response
      */
-    public function edit(BoronganDalamItem $Borongan_Dalam_Item)
+    public function edit(BoronganDalamItem $Borongan_Dalam_Item , RateLimiter $limiter)
     {
-        return view('pages.Data_Barang.Item.Borongan_Dalam.Edit_Borongan_Dalam',
-        [
-            'type_menu'=>'Item',
-            'Borongan_Dalam_Item'=>$Borongan_Dalam_Item,
-        ]);
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            
+            return view('pages.Data_Barang.Item.Borongan_Dalam.Edit_Borongan_Dalam',
+                [
+                    'type_menu'=>'Item',
+                    'Borongan_Dalam_Item'=>$Borongan_Dalam_Item,
+                ]
+            );
+            
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**

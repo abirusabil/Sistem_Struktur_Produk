@@ -49,32 +49,27 @@
                     <div class="breadcrumb-item">List Item</div>
                 </div>
             </div>
-
-           
-
             <div class="section-body">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header d-block">
                                 <div class="row">
-                                    
-                                        <div class="col-lg-7">
+                                        <div class="col-lg-7 mb-3">
                                             <div class="d-grid d-md-flex  ">
+                                                <a href="{{ route('Item.export') }}" target="_blank" class="btn rounded btn-info me-md-2 mr-2" type="button">
+                                                    <i class="fas fa-regular fa-file-export mr-2"></i>Export Item
+                                                </a>
+                                                @if(in_array(auth()->user()->akses , [1]))
+                                                <button type="button" class="btn rounded btn-success mr-2" data-toggle="modal" data-target="#importModal">
+                                                    <i class="fas fa-regular fa-file-import mr-2"></i>Import Item
+                                                </button>
                                                 <a href="{{ url('/Item/create') }}" class="btn rounded btn-primary me-md-2" type="button">
                                                     <i class="fa-solid fa-plus mr-2"></i>Tambah Item Baru
                                                 </a>
-                                                <a href="{{ route('Item.export') }}" target="_blank" class="btn rounded btn-info me-md-2 ml-2" type="button">
-                                                    <i class="fas fa-regular fa-file-export mr-2"></i>Export Item
-                                                </a>
-                                                <button type="button" class="btn rounded btn-success ml-2" data-toggle="modal" data-target="#importModal">
-                                                    <i class="fas fa-regular fa-file-import mr-2"></i>Import Item
-                                                </button>
-
-                                                
+                                                @endif
                                             </div>
                                         </div>
-                                        
                                     <div class="col">
                                         <form action="/Item">
                                             <div class="input-group">
@@ -119,13 +114,15 @@
                                                 <td class="px-2">{{ $item->Collection->Buyer->Nama_Buyer }}</td>
                                                 <td class="px-2">
                                                     <div class="d-flex">
-                                                        {{-- <a href="/Item/{{ $item->id }}/edit " class="btn btn-warning ml-2">Edit</a> --}}
                                                         <a href="/Item/{{ $item->id }} " class="btn btn-info ml-2">Detail</a>
+                                                        @if(in_array(auth()->user()->akses , [1]))
+                                                        <a href="/Item/{{ $item->id }}/edit " class="btn btn-warning ml-2">Edit</a>
                                                         <form action="/Item/{{ $item->id }}"  method="POST">
                                                             @method('delete')
                                                             @csrf
                                                             <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
                                                         </form>
+                                                        @endif
                                                     </div>
                                                 </td>
                                             </tr>

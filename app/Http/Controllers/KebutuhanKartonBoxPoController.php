@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\KebutuhanKartonBoxPoExport;
 use App\Models\KebutuhanKartonBoxPo;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Access\AuthorizationException;
+// untuk mengatasi bruteforce
+use Illuminate\Cache\RateLimiter;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class KebutuhanKartonBoxPoController extends Controller
 {
@@ -60,9 +67,36 @@ class KebutuhanKartonBoxPoController extends Controller
      * @param  \App\Models\KebutuhanKartonBoxPo  $kebutuhanKartonBoxPo
      * @return \Illuminate\Http\Response
      */
-    public function edit(KebutuhanKartonBoxPo $kebutuhanKartonBoxPo)
+    public function edit(KebutuhanKartonBoxPo $Kebutuhan_Karton_Box , RateLimiter $limiter)
     {
-        //
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+            
+            // jika memiliki Akses
+
+            return view('pages.Data-Materials.Karton_Box.Edit_Kebutuhan_Karton_Box',
+                [
+                    'type_menu'=>'Purchase_Order',
+                    'KebutuhanKartonBox'=>$Kebutuhan_Karton_Box
+                ]
+            ); 
+
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -72,9 +106,29 @@ class KebutuhanKartonBoxPoController extends Controller
      * @param  \App\Models\KebutuhanKartonBoxPo  $kebutuhanKartonBoxPo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, KebutuhanKartonBoxPo $kebutuhanKartonBoxPo)
+    public function update(Request $request, KebutuhanKartonBoxPo $Kebutuhan_Karton_Box)
     {
-        //
+        $validetedData = $request->validate(
+            [
+                'id'=>'required',
+                'Job_Order'=>'required',
+                'Nama_Item'=>'required',
+                'Quantity_Purchase_Order'=>'required',
+                'No_Cutting'=>'required',
+                'Jenis_Kebutuhan_Karton_Box'=>'required',
+                'Keterangan_Kebutuhan_Karton_Box_Item'=>'required',
+                'Tinggi_Kebutuhan_Karton_Box_Item'=>'required',
+                'Lebar_Kebutuhan_Karton_Box_Item'=>'required',
+                'Panjang_Kebutuhan_Karton_Box_Item'=>'required',
+                'Quantity_Kebutuhan_Karton_Box_Item'=>'required'
+                
+            ]
+        );
+
+        // return $validetedData;
+
+        KebutuhanKartonBoxPo::where('id',$Kebutuhan_Karton_Box->id)->update($validetedData);
+        return redirect()->route('purchase_order.detailkebutuhan', ['Purchase_Order' =>$Kebutuhan_Karton_Box->Job_Order])->with('success_karton_box', 'Data Berhasil diubah');
     }
 
     /**
@@ -86,5 +140,9 @@ class KebutuhanKartonBoxPoController extends Controller
     public function destroy(KebutuhanKartonBoxPo $kebutuhanKartonBoxPo)
     {
         //
+    }
+    public function export($JobOrder)
+    {
+        return Excel::download(new KebutuhanKartonBoxPoExport($JobOrder), 'Kebutuhan Karton Box JO '.$JobOrder.'.xlsx');
     }
 }

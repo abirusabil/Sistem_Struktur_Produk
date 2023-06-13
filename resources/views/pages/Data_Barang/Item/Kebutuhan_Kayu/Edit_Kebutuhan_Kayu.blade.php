@@ -37,7 +37,7 @@
                                 <form action="/Kebutuhan_Kayu_Item/{{ $Kebutuhan_Kayu_Item->id }}" method="POST">
                                     @method('put')
                                     @csrf
-                                    <input type="text" name="Item_Id" value="{{ $Kebutuhan_Kayu_Item->Item_Id }}">
+                                    <input type="hidden" name="Item_Id" value="{{ $Kebutuhan_Kayu_Item->Item_Id }}">
                                     <div class="form-group">
                                         <label>Kode Cutting</label>
                                         <input readonly type="text" name="id" id="id" class="form-control @error('id') is-invalid @enderror" value="{{ old('id',$Kebutuhan_Kayu_Item->id) }}">

@@ -9,6 +9,12 @@ use App\Models\MasterPendukungPacking;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
+
+use Illuminate\Cache\RateLimiter;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Auth\Access\AuthorizationException;
+
 class KebutuhanPendukungPackingItemController extends Controller
 {
     /**
@@ -26,15 +32,36 @@ class KebutuhanPendukungPackingItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, RateLimiter $limiter)
     {
-        return view('pages.Data_Barang.Item.Kebutuhan_Pendukung_Packing.Tambah_Kebutuhan_Pendukung_Packing',
-        [
-            'type_menu' => 'Item',
-            'Item'=>$request,
-                'PendukungPacking'=>MasterPendukungPacking::all(),
-        ]
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            return view('pages.Data_Barang.Item.Kebutuhan_Pendukung_Packing.Tambah_Kebutuhan_Pendukung_Packing',
+                [
+                    'type_menu' => 'Item',
+                    'Item'=>$request,
+                        'PendukungPacking'=>MasterPendukungPacking::all(),
+                ]
+            );
+            
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -94,15 +121,38 @@ class KebutuhanPendukungPackingItemController extends Controller
      * @param  \App\Models\KebutuhanPendukungPackingItem  $kebutuhanPendukungPackingItem
      * @return \Illuminate\Http\Response
      */
-    public function edit(KebutuhanPendukungPackingItem $Kebutuhan_Packing_Item)
+    public function edit(KebutuhanPendukungPackingItem $Kebutuhan_Packing_Item, RateLimiter $limiter)
     {
-        return view('pages.Data_Barang.Item.Kebutuhan_Pendukung_Packing.Edit_Kebutuhan_Pendukung_Packing',
-        [
-            'type_menu'=>'item',
-            'Kebutuhan_Pendukung_Packing_Items'=> $Kebutuhan_Packing_Item ,
-            'PendukungPacking'=>MasterPendukungPacking::all()
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
 
-        ]);
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            
+            return view('pages.Data_Barang.Item.Kebutuhan_Pendukung_Packing.Edit_Kebutuhan_Pendukung_Packing',
+                [
+                    'type_menu'=>'item',
+                    'Kebutuhan_Pendukung_Packing_Items'=> $Kebutuhan_Packing_Item ,
+                    'PendukungPacking'=>MasterPendukungPacking::all()
+
+                ]
+            );
+            
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**

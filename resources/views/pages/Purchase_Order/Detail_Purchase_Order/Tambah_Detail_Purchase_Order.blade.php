@@ -22,7 +22,8 @@
             <div class="section-header">
                 <h1>Tambah Item Purchase Order Baru</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">User</a></div>
+                    <div class="breadcrumb-item active"><a href="/Purchase_Order">Purchase Order</a></div>
+                    <div class="breadcrumb-item active"><a href="/Purchase_Order/{{ $job_order }}">Detail Purchase Order</a></div>
                     <div class="breadcrumb-item">Tambah Item Purchase Order Baru</div>
                 </div>
             </div>

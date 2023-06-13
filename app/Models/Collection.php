@@ -35,4 +35,9 @@ class Collection extends Model
     {
         return $this->belongsTo(Buyer::class ,'Buyer_Id' ,'id');
     }
+
+    public function Item()
+    {
+        return $this->hasMany(Item::class , 'Item_Id' ,'id');
+    }
 }

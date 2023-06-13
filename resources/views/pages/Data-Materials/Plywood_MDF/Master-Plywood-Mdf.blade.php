@@ -49,29 +49,25 @@
                     <div class="breadcrumb-item">List Plywood MDF</div>
                 </div>
             </div>
-
-           
-
             <div class="section-body">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header d-block">
                                 <div class="row">
-                                    
-                                        <div class="col-lg-7">
+                                        <div class="col-lg-7 mb-3">
                                             <div class="d-grid d-md-flex  ">
+                                                <a href="{{ route('Plywood_MDF.export') }}" target="_blank" class="btn rounded btn-info me-md-2 mr-2" type="button">
+                                                    <i class="fas fa-regular fa-file-export mr-2"></i>Export Plywood MDF
+                                                </a>
+                                                @if(in_array(auth()->user()->akses , [1]))
+                                                <button type="button" class="btn rounded btn-success mr-2" data-toggle="modal" data-target="#importModal">
+                                                    <i class="fas fa-regular fa-file-import mr-2"></i>Import Plywood MDF
+                                                </button>
                                                 <a href="{{ url('/Plywood_MDF/create') }}" class="btn rounded btn-primary me-md-2" type="button">
                                                     <i class="fa-solid fa-plus mr-2"></i>Tambah Plywood MDF Baru
                                                 </a>
-                                                <a href="{{ route('Plywood_MDF.export') }}" target="_blank" class="btn rounded btn-info me-md-2 ml-2" type="button">
-                                                    <i class="fas fa-regular fa-file-export mr-2"></i>Export Plywood MDF
-                                                </a>
-                                                <button type="button" class="btn rounded btn-success ml-2" data-toggle="modal" data-target="#importModal">
-                                                    <i class="fas fa-regular fa-file-import mr-2"></i>Import Plywood MDF
-                                                </button>
-
-                                                
+                                                @endif
                                             </div>
                                         </div>
                                         
@@ -106,11 +102,13 @@
                                                 <th>Panjang /Mm</th>
                                                 <th>Lebar /Mm</th>
                                                 <th>Luas /M</th>
-                                                <th>Harga /Lembar</th>
-                                                <th>Harga /M2</th>
                                                 <th>Satuan</th>
                                                 <th>Suplier</th>
+                                                @if(in_array(auth()->user()->akses , [1]))
+                                                <th>Harga /Lembar</th>
+                                                <th>Harga /M2</th>
                                                 <th>Action</th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -123,25 +121,27 @@
                                                 <td>{{ number_format($plywoodmdf->Panjang_Plywood_MDF,0) }}</td>
                                                 <td>{{ number_format($plywoodmdf->Lebar_Plywood_MDF,0) }}</td>
                                                 <td>{{ number_format($plywoodmdf->Panjang_Plywood_MDF * $plywoodmdf->Lebar_Plywood_MDF / 1000000,4) }}</td>
-                                                <td>Rp. {{ number_format($plywoodmdf->Harga_Plywood_MDF,2,',','.')  }}</td>
-                                                <td>Rp. 
-                                                    {{ number_format(
-                                                        $plywoodmdf->Harga_Plywood_MDF/($plywoodmdf->Panjang_Plywood_MDF * $plywoodmdf->Lebar_Plywood_MDF / 1000000)*1.2,2,',','.'
-                                                        )  
-                                                    }}
-                                                </td>
                                                 <td>{{ $plywoodmdf->Satuan_Plywood_MDF }}</td>
                                                 <td>{{ $plywoodmdf->Suplier->nama_suplier }}</td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <a href="/Plywood_MDF/{{ $plywoodmdf->id }}/edit " class="btn btn-warning ml-2">Edit</a>
-                                                        <form action="/Plywood_MDF/{{ $plywoodmdf->id }}"  method="POST">
-                                                            @method('delete')
-                                                            @csrf
-                                                            <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
-                                                        </form>
-                                                    </div>
-                                                </td>
+                                                @if(in_array(auth()->user()->akses , [1]))
+                                                    <td>Rp. {{ number_format($plywoodmdf->Harga_Plywood_MDF,2,',','.')  }}</td>
+                                                    <td>Rp. 
+                                                        {{ number_format(
+                                                            $plywoodmdf->Harga_Plywood_MDF/($plywoodmdf->Panjang_Plywood_MDF * $plywoodmdf->Lebar_Plywood_MDF / 1000000)*1.2,2,',','.'
+                                                            )  
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <a href="/Plywood_MDF/{{ $plywoodmdf->id }}/edit " class="btn btn-warning ml-2">Edit</a>
+                                                            <form action="/Plywood_MDF/{{ $plywoodmdf->id }}"  method="POST">
+                                                                @method('delete')
+                                                                @csrf
+                                                                <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
+                                                @endif
                                             </tr>
                                             @endforeach
                                             

@@ -49,7 +49,7 @@
             <div class="section-header">
                 <h1>Purchase Order </h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Purchase Order</a></div>
+                    <div class="breadcrumb-item active"><a href="/Purchase_Order">Purchase Order</a></div>
                     <div class="breadcrumb-item">Detail Purchase Order </div>
                 </div>
             </div>
@@ -75,20 +75,22 @@
                                     </div>
                                     <div class="col-lg">
                                         <div class="row">
-                                            <div class="col-4 px-0"><p>Tanggal_Masuk</p></div>
+                                            <div class="col-4 "><p>Tanggal_Masuk</p></div>
                                             <div class="col px-0"><h6 class="pt-1"> : {{ $Purchase_Order->Tanggal_Masuk }}</h6></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-4 px-0"><p>Schedule_Kirim</p></div>
+                                            <div class="col-4"><p>Schedule_Kirim</p></div>
                                             <div class="col px-0"><h6 class="pt-1">: {{ $Purchase_Order->Schedule_Kirim }}</h6></div>
                                         </div>
                                     </div>
                                 </div>
                                     <div class="row">
-                                        <div class="col">
-                                            <a href="/Purchase_Order/{{ $Purchase_Order->id }}/edit" class="btn ml-3 mt-2 rounded px-5 btn-warning ml-2">Edit</a>
-                                        </div> 
-                                        <div class="col d-flex justify-content-end mr-4">
+                                        @if(in_array(auth()->user()->akses , [1]))
+                                            <div class="col pl-2">
+                                                <a href="/Purchase_Order/{{ $Purchase_Order->id }}/edit" class="btn mt-2 rounded px-5 btn-warning ml-2">Edit</a>
+                                            </div> 
+                                        @endif
+                                        <div class="col d-flex justify-content-end pr-3">
                                             <a class="btn ml-3 mt-2 rounded px-5 btn-info ml-2" href="{{ route('purchase_order.detailkebutuhan', ['Purchase_Order' => $Purchase_Order->id]) }}">Detail Kebutuhan</a>
                                         </div>   
                                     </div>
@@ -110,18 +112,20 @@
                                                             <th class="text-center border">
                                                                 #
                                                             </th>
-                                                            <th class="border">Item</th>
-                                                            <th class="border">Code</th>
-                                                            <th class="border">Qty</th>
-                                                            <th class="border">Keterangan</th>
-                                                            <th class="border">Action</th>
+                                                            <th class="border text-center">Item</th>
+                                                            <th class="border text-center">Code</th>
+                                                            <th class="border text-center">Qty</th>
+                                                            <th class="border text-center">Keterangan</th>
+                                                            @if(in_array(auth()->user()->akses , [1]))
+                                                            <th class="border text-center">Action</th>
+                                                            @endif
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @foreach($detailPurchaseOrders as $detailPurchaseOrder => $items) 
                                                             <tr class="border">
                                                                 <td colspan="5">
-                                                                    <h5>{{ $detailPurchaseOrder }}</h5>
+                                                                    <h5 class="m-0">{{ $detailPurchaseOrder }}</h5>
                                                                 </td>
                                                             </tr>
                                                             @php
@@ -145,22 +149,24 @@
                                                                     <p class="mb-0">Dimension :<br>
                                                                         {{ number_format($item->Item->Tinggi_Item ) }} X 
                                                                         {{ number_format($item->Item->Lebar_Item ) }} X 
-                                                                        {{ number_format($item->Item->Panjang_Item ) }} X 
+                                                                        {{ number_format($item->Item->Panjang_Item ) }}
                                                                     </p>
                                                                     <p>Colour : <br>
                                                                         {{ $item->Item->Warna_Item  }}
                                                                     </p>
                                                                 </td>
-                                                                <td class="border">
-                                                                    <div class="d-flex">
-                                                                        <a href="/Detail_Purchase_Order/{{ $item->id }}/edit" class="btn btn-warning ml-2">Edit</a>
-                                                                        <form action="/Detail_Purchase_Order/{{ $item->id }}" method="POST">
-                                                                            @method('delete')
-                                                                            @csrf
-                                                                            <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus?')">Hapus</button>
-                                                                        </form>
-                                                                    </div>
-                                                                </td>            
+                                                                @if(in_array(auth()->user()->akses , [1]))
+                                                                    <td class="border">
+                                                                        <div class="d-flex">
+                                                                            <a href="/Detail_Purchase_Order/{{ $item->id }}/edit" class="btn btn-warning ml-2">Edit</a>
+                                                                            <form action="/Detail_Purchase_Order/{{ $item->id }}" method="POST">
+                                                                                @method('delete')
+                                                                                @csrf
+                                                                                <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus?')">Hapus</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </td>  
+                                                                @endif          
                                                             </tr>
                                                             @php
                                                                 $totalQuantity += $item->Quantity_Purchase_Order;
@@ -168,10 +174,10 @@
                                                         @endforeach
                                                         <tr>
                                                             <td class="text-center border " colspan="3">
-                                                                <h6>Total Item</h6>
+                                                                <h6 class="m-0">Total Item</h6>
                                                             </td>
                                                             <td class="border">
-                                                                <h6 class="text-center">{{ $totalQuantity }}</h6>
+                                                                <h6 class="text-center m-0">{{ $totalQuantity }}</h6>
                                                             </td>
                                                             <td class="border" colspan="2"></td>
                                                         </tr>
@@ -179,17 +185,22 @@
                                                     </tbody>
                                                 </table>
                                         </div>
+                                        <div class="col d-flex justify-content-end p-0">
+                                            <a class="btn ml-3 mt-2 rounded px-5 btn-info ml-2" href="{{ route('purchase_order.exportToPDF', ['Purchase_Order' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Print</a>
+                                        </div> 
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer text-right">
-                                <div class="col d-flex flex-row-reverse">
-                                    <button data-target="#JumlahKolomForm" data-toggle="modal" class=" btn rounded px-3 btn-primary ml-2">
-                                        <i class="fa-solid fa-plus"></i>
-                                        Tambah Item Baru
-                                    </button>
+                            @if(in_array(auth()->user()->akses , [1]))
+                                <div class="card-footer text-right">
+                                    <div class="col d-flex flex-row-reverse p-0">
+                                        <button data-target="#JumlahKolomForm" data-toggle="modal" class=" btn rounded px-3 btn-primary ml-2">
+                                            <i class="fa-solid fa-plus"></i>
+                                            Tambah Item Baru
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

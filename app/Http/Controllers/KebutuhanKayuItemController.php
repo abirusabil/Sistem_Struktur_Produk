@@ -10,6 +10,10 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\KebutuhanKayuItemExport;
 use App\Imports\KebutuhanKayuItemImport;
 use App\Imports\KebutuhanPlywoodMDFItemImport;
+use Illuminate\Cache\RateLimiter;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class KebutuhanKayuItemController extends Controller
 {
@@ -28,19 +32,38 @@ class KebutuhanKayuItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, RateLimiter $limiter)
     {
-        // return $request;
-        // $loopCount = $request->input('loop_count');
-        return view(
-            'pages.Data_Barang.Item.Kebutuhan_Kayu.Tambah_Kebutuhan_Kayu',
-            [
-                'type_menu' => 'Item',
-                'Item' => $request,
-                'kayus' => MasterKayu::all(),
-                // 'loopCount' => $loopCount
-            ]
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            return view(
+                'pages.Data_Barang.Item.Kebutuhan_Kayu.Tambah_Kebutuhan_Kayu',
+                [
+                    'type_menu' => 'Item',
+                    'Item' => $request,
+                    'kayus' => MasterKayu::all(),
+                    // 'loopCount' => $loopCount
+                ]
+            );
+            
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -108,18 +131,40 @@ class KebutuhanKayuItemController extends Controller
      * @param  \App\Models\KebutuhanKayuItem  $kebutuhanKayuItem
      * @return \Illuminate\Http\Response
      */
-    public function edit(KebutuhanKayuItem $Kebutuhan_Kayu_Item)
+    public function edit(KebutuhanKayuItem $Kebutuhan_Kayu_Item , RateLimiter $limiter)
     {
-        // return $Kebutuhan_Kayu_Item;
-        return view(
-            'pages.Data_Barang.Item.Kebutuhan_Kayu.Edit_Kebutuhan_Kayu',
-            [
-                'type_menu' => 'Item',
-                'Kebutuhan_Kayu_Item' => $Kebutuhan_Kayu_Item,
-                'kayus' => MasterKayu::all(),
-            ]
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            // return $Kebutuhan_Kayu_Item;
+            return view(
+                'pages.Data_Barang.Item.Kebutuhan_Kayu.Edit_Kebutuhan_Kayu',
+                [
+                    'type_menu' => 'Item',
+                    'Kebutuhan_Kayu_Item' => $Kebutuhan_Kayu_Item,
+                    'kayus' => MasterKayu::all(),
+                ]
+            );
+            
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
+    
 
     /**
      * Update the specified resource in storage.

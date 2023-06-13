@@ -15,6 +15,15 @@ use App\Models\KebutuhanPendukungPackingPo;
 use App\Models\KebutuhanPlywoodMdfPo;
 use App\Models\PurchaseOrder;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Access\AuthorizationException;
+// untuk mengatasi bruteforce
+use Illuminate\Cache\RateLimiter;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Dompdf\Dompdf;
+use Carbon\Carbon;
+
+// use Illuminate\Support\Facades\RateLimiter;
 
 class PurchaseOrderController extends Controller
 {
@@ -39,15 +48,33 @@ class PurchaseOrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(RateLimiter $limiter)
     {
-        return view('pages.Purchase_order.Tambah_Purchase_Order',
-            [
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            return view('pages.Purchase_order.Tambah_Purchase_Order', [
                 'type_menu' => 'PurchaseOrder',
-                'buyers'=>Buyer::all()
+                'buyers' => Buyer::all()
+            ]);
             
-            ]
-        );
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -102,16 +129,36 @@ class PurchaseOrderController extends Controller
      * @param  \App\Models\PurchaseOrder  $purchaseOrder
      * @return \Illuminate\Http\Response
      */
-    public function edit(PurchaseOrder $Purchase_Order)
+    public function edit(PurchaseOrder $Purchase_Order , RateLimiter $limiter)
     {
-        return view('pages.Purchase_order.Edit_Purchase_Order',
-            [
-                'type_menu' => 'PurchaseOrder',
-                'buyers'=>Buyer::all(),
-                'Purchase_Orders'=>$Purchase_Order
-            
-            ]
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            return view('pages.Purchase_order.Edit_Purchase_Order',
+                [
+                    'type_menu' => 'PurchaseOrder',
+                    'buyers'=>Buyer::all(),
+                    'Purchase_Orders'=>$Purchase_Order
+                
+                ]
+            );
+
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -148,20 +195,36 @@ class PurchaseOrderController extends Controller
      * @param  \App\Models\PurchaseOrder  $purchaseOrder
      * @return \Illuminate\Http\Response
      */
-        public function destroy(PurchaseOrder $Purchase_Order)
+        
+    public function destroy(PurchaseOrder $Purchase_Order , RateLimiter $limiter)
     {
-        // return $Purchase_Order;
-        $Purchase_Order->delete();
-        return redirect('/Purchase_Order')->with('success', 'Purchase order deleted successfully');
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika Memiliki Akses
+            $Purchase_Order->delete();
+            return redirect('/Purchase_Order')->with('success', 'Purchase order deleted successfully');
+
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
-     public function detailkebutuhan(PurchaseOrder $Purchase_Order)
+     public function detailkebutuhan(PurchaseOrder $Purchase_Order , RateLimiter $limiter)
     {
-        // return DetailPurchaseOrder::with('Item.KebutuhanKayuItem.MasterKayu' , 'Item.KebutuhanPlywoodMdfItem' , 'Item.KebutuhanPlywoodMdfItem.MasterPlywoodMdf')->where('Job_Order',$Purchase_Order->id)->get();
-        // return [Item::with('KebutuhanKayuItem')->get()];
-        // // return $Purchase_Order;
-        // return KebutuhanPlywoodMdfPo::where('Job_Order',$Purchase_Order->id)->get();
-        // return DetailPurchaseOrder::with('Item.KebutuhanKayuItem.MasterKayu' , 'Item.KebutuhanPlywoodMdfItem.MasterPlywoodMdf','Item.KebutuhanAccessoriesHardwareItem.MasterAccessoriesHardware','Item.KebutuhanKomponenFinishingItem.MasterKomponenFinishing','Item.KebutuhanPendukungPackingItem.MasterPendukungPacking','Item.KebutuhanKartonBoxItem','Item.BoronganDalamItem','Item.BoronganLuarItem')->where('Job_Order',$Purchase_Order->id)->get();
 
         $DetailKebutuhanKayuPo = KebutuhanKayuPo::where('Job_Order',$Purchase_Order->id)->get();
         $DetailKebutuhanPlywoodMdfPo = KebutuhanPlywoodMdfPo::where('Job_Order',$Purchase_Order->id)->get();
@@ -171,7 +234,6 @@ class PurchaseOrderController extends Controller
         $DetailKebutuhanKartonBoxPo = KebutuhanKartonBoxPo::where('Job_Order',$Purchase_Order->id)->get();
         $DetailBoronganDalamPo = BoronganDalamPo::where('Job_Order',$Purchase_Order->id)->get();
         $DetailBoronganLuarPo = BoronganLuarPo::where('Job_Order',$Purchase_Order->id)->get();
-        // return $DetailBoronganLuarPo;
         $isi = count($DetailKebutuhanKayuPo);
         
         if ($isi >= 1 ) {
@@ -190,8 +252,24 @@ class PurchaseOrderController extends Controller
             
             ]);
         } else {
-            $DetailKebutuhanPurchaseOrders = DetailPurchaseOrder::with('Item.KebutuhanKayuItem.MasterKayu' , 'Item.KebutuhanPlywoodMdfItem.MasterPlywoodMdf','Item.KebutuhanAccessoriesHardwareItem.MasterAccessoriesHardware','Item.KebutuhanKomponenFinishingItem.MasterKomponenFinishing','Item.KebutuhanPendukungPackingItem.MasterPendukungPacking','Item.KebutuhanKartonBoxItem','Item.BoronganDalamItem','Item.BoronganLuarItem')->where('Job_Order',$Purchase_Order->id)->get();
-        
+            try {
+                if (!in_array(auth()->user()->akses, [1, 2])) {
+                    throw new AuthorizationException();
+                }
+    
+                // Check for brute force attacks
+                $key = 'login.' . request()->ip();
+                $maxAttempts = 5;
+                $decayMinutes = 1;
+    
+                if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                    throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+                }
+    
+                $limiter->hit($key, $decayMinutes * 60);
+    
+                // Jika Memiliki Akses
+                $DetailKebutuhanPurchaseOrders = DetailPurchaseOrder::with('Item.KebutuhanKayuItem.MasterKayu' , 'Item.KebutuhanPlywoodMdfItem.MasterPlywoodMdf','Item.KebutuhanAccessoriesHardwareItem.MasterAccessoriesHardware','Item.KebutuhanKomponenFinishingItem.MasterKomponenFinishing','Item.KebutuhanPendukungPackingItem.MasterPendukungPacking','Item.KebutuhanKartonBoxItem','Item.BoronganDalamItem','Item.BoronganLuarItem')->where('Job_Order',$Purchase_Order->id)->get();
             $KebutuhanKayuPOs = [];
             $kebutuhanPlywoodMdfPOs = []; 
             $kebutuhanKomponenFinishingPOs = []; 
@@ -361,11 +439,47 @@ class PurchaseOrderController extends Controller
             }
                     // return $KebutuhanPendukungPackingPOs ;
                     return redirect()->route('purchase_order.detailkebutuhan', ['Purchase_Order' => $Purchase_Order->id])->with('success','Item Berhasil Ditambahkan ');
+    
+            } catch (AuthorizationException $exception) {
+                throw new AuthorizationException('Cutting List Belum dibuat', 403);
+            }
+            
         }
         
         
 
         
     }
+
+    public function exportToPDF(PurchaseOrder $Purchase_Order)
+{
+    // Ambil data DetailPurchaseOrder yang ingin diekspor
+    $detailPurchaseOrders = DetailPurchaseOrder::with('Item.Collection')->where('Job_Order', $Purchase_Order->id)->get()->groupBy('Item.Collection.Nama_Collection');
+
+    $Purchase_Order = $Purchase_Order;
+
+    // Buat objek Dompdf
+    $dompdf = new Dompdf();
+
+    // Generate HTML untuk ditampilkan di PDF
+    $html = view('pages.Purchase_Order.Detail_Purchase_Order.export', [
+        'detailPurchaseOrders' => $detailPurchaseOrders,
+        'Purchase_Order' => $Purchase_Order,
+        'schedule_kirim' => Carbon::parse($Purchase_Order->Schedule_Kirim)->locale('id')->isoFormat('D MMMM Y'),
+        'tanggal_masuk' => Carbon::parse($Purchase_Order->Tanggal_Masuk)->locale('id')->isoFormat('D MMMM Y'),
+    ]);
+
+    // Load HTML ke Dompdf
+    $dompdf->loadHtml($html);
+
+    // Render PDF
+    $dompdf->render();
+
+    // Tampilkan file PDF di browser
+    $dompdf->stream();
+}
+
+
+
 
 }

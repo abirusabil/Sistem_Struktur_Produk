@@ -6,8 +6,15 @@ use App\Exports\CollectionExport;
 use App\Imports\CollectionImport;
 use App\Models\Buyer;
 use App\Models\Collection;
+use App\Models\Item;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+
+// untuk mengatasi bruteforce
+use Illuminate\Cache\RateLimiter;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class CollectionController extends Controller
 {
@@ -33,14 +40,35 @@ class CollectionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+
+    public function create(RateLimiter $limiter)
     {
-        return view('pages.Data_Barang.Collection.Tambah_Collection',
-            [
-              'type_menu'=>'Collection' ,
-              'buyers'=>Buyer::all() 
-            ]
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            return view('pages.Data_Barang.Collection.Tambah_Collection',
+                [
+                'type_menu'=>'Collection' ,
+                'buyers'=>Buyer::all() 
+                ]
+            );
+
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -73,12 +101,11 @@ class CollectionController extends Controller
      */
     public function show(Collection $Collection)
     {
-        // return $Collection;
-        // dd();
         return view('pages.Data_Barang.Collection.Detail_Collection',
             [
                 'type_menu'=>'Collection',
-                'Collection'=>$Collection
+                'Collection' => $Collection,
+                'items'=> Item::where('Collection_Id',$Collection->id)->get()
             ]
         );
     }

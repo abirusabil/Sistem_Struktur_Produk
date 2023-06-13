@@ -5,8 +5,16 @@ namespace App\Http\Controllers;
 use App\Exports\BuyerExport;
 use App\Imports\BuyerImport;
 use App\Models\Buyer;
+use App\Models\Collection;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+
+// untuk mengatasi bruteforce
+use Illuminate\Cache\RateLimiter;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Auth\Access\AuthorizationException;
+
 
 class BuyerController extends Controller
 {
@@ -17,7 +25,7 @@ class BuyerController extends Controller
      */
     public function index()
     {
-        // return Buyer::all();
+    // return Buyer::all();
         return view('pages/Data_Barang/Buyer/List_Buyer',
             [
              'type_menu'=>'Buyer',
@@ -31,11 +39,31 @@ class BuyerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(RateLimiter $limiter)
     {
-        return view('pages/Data_Barang/Buyer/Tambah_Buyer',
-         [ 'type_menu'=>'Buyer']
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            return view('pages/Data_Barang/Buyer/Tambah_Buyer',
+                [ 'type_menu'=>'Buyer']
+            );
+
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -68,9 +96,16 @@ class BuyerController extends Controller
      * @param  \App\Models\Buyer  $buyer
      * @return \Illuminate\Http\Response
      */
-    public function show(Buyer $buyer)
+    public function show(Buyer $Buyer)
     {
-        //
+        
+        return view('pages.Data_Barang.Buyer.Detail_Buyer',
+                [
+                    'type_menu' => "Buyer",
+                    'Buyer' => $Buyer,
+                    'Collection'=> Collection::where('Buyer_Id',$Buyer->id)->get()
+                ]
+        );
     }
 
     /**

@@ -37,7 +37,8 @@ class DetailPurchaseOrderController extends Controller
             ->with('Collection')
             ->get(),
             'loop_count' => $request->loop_count,
-            'job_order'=>$request->id
+            'job_order'=>$request->id,
+            ''
         ]
     );
     }

@@ -61,17 +61,17 @@
                                     
                                         <div class="col-lg-7">
                                             <div class="d-grid d-md-flex  ">
-                                                <a href="{{ url('/Kayu/create') }}" class="btn rounded btn-primary me-md-2" type="button">
-                                                    <i class="fa-solid fa-plus mr-2"></i>Tambah Kayu Baru
-                                                </a>
-                                                <a href="{{ route('kayu.export') }}" target="_blank" class="btn rounded btn-info me-md-2 ml-2" type="button">
+                                                <a href="{{ route('kayu.export') }}" target="_blank" class="btn rounded btn-info me-md-2 mr-2" type="button">
                                                     <i class="fas fa-regular fa-file-export mr-2"></i>Export Kayu
                                                 </a>
-                                                <button type="button" class="btn rounded btn-success ml-2" data-toggle="modal" data-target="#importModal">
-                                                    <i class="fas fa-regular fa-file-import mr-2"></i>Import Kayu
-                                                </button>
-
-                                                
+                                                @if(in_array(auth()->user()->akses , [1]))
+                                                    <button type="button" class="btn rounded btn-success mr-2" data-toggle="modal" data-target="#importModal">
+                                                        <i class="fas fa-regular fa-file-import mr-2"></i>Import Kayu
+                                                    </button>
+                                                    <a href="{{ url('/Kayu/create') }}" class="btn rounded btn-primary me-md-2" type="button">
+                                                        <i class="fa-solid fa-plus mr-2"></i>Tambah Kayu Baru
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                         
@@ -103,9 +103,11 @@
                                                 <th>Kode</th>
                                                 <th>Kayu</th>
                                                 <th>Satuan </th>
-                                                <th>Harga</th>
                                                 <th>Suplier</th>
-                                                <th>Action</th>
+                                                @if(in_array(auth()->user()->akses , [1]))
+                                                    <th>Harga</th>
+                                                    <th>Action</th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -115,18 +117,20 @@
                                                 <td>{{ $masterkayu->id }}</td>
                                                 <td>{{ $masterkayu->Nama_Kayu }}</td>
                                                 <td>{{ $masterkayu->Satuan }}</td>
-                                                <td>Rp. {{ number_format($masterkayu->Harga_Kayu,2,',','.')  }}</td>
                                                 <td>{{ $masterkayu->Suplier->nama_suplier }}</td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <a href="/Kayu/{{ $masterkayu->id }}/edit " class="btn btn-warning ml-2">Edit</a>
-                                                        <form action="/Kayu/{{ $masterkayu->id }}"  method="POST">
-                                                            @method('delete')
-                                                            @csrf
-                                                            <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
-                                                        </form>
-                                                    </div>
-                                                </td>
+                                                @if(in_array(auth()->user()->akses , [1]))
+                                                    <td>Rp. {{ number_format($masterkayu->Harga_Kayu,2,',','.')  }}</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <a href="/Kayu/{{ $masterkayu->id }}/edit " class="btn btn-warning ml-2">Edit</a>
+                                                            <form action="/Kayu/{{ $masterkayu->id }}"  method="POST">
+                                                                @method('delete')
+                                                                @csrf
+                                                                <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
+                                                @endif
                                             </tr>
                                             @endforeach
                                             

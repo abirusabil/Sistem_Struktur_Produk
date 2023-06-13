@@ -22,7 +22,7 @@
             <div class="section-header">
                 <h1>Purchase Order</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Purchase Order</a></div>
+                    <div class="breadcrumb-item active"><a href="/Purchase_Order">Purchase Order</a></div>
                     <div class="breadcrumb-item">List Purchase Order</div>
                 </div>
             </div>
@@ -39,11 +39,13 @@
                         <div class="card">
                             <div class="card-header d-block">
                                 <div class="row">
-                                    <div class="col-lg-8">
+                                    <div class="col-lg-8 mb-3">
                                         <div class="d-grid d-md-flex  ">
+                                            @if(in_array(auth()->user()->akses , [1]))
                                             <a href="{{ url('Purchase_Order/create') }}" class="btn rounded btn-primary me-md-2" type="button">
                                                 <i class="fa-solid fa-plus mr-2"></i>Purchase Order Baru
                                             </a>
+                                            @endif
                                         </div>
                                     </div>
                                     
@@ -85,13 +87,15 @@
                                                 <td class="border">{{ $Purchase_Order->Schedule_Kirim }}</td>
                                                 <td class="border">
                                                     <div class="d-flex">
-                                                        <a href="/Purchase_Order/{{ $Purchase_Order->id }}/edit " class="btn btn-warning ml-2">Edit</a>
                                                         <a href="/Purchase_Order/{{ $Purchase_Order->id }} " class="btn btn-info ml-2">Detail</a>
-                                                        <form action="Purchase_Order/{{ $Purchase_Order->id }}"  method="POST">
-                                                            @method('delete')
-                                                            @csrf
-                                                            <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
-                                                        </form>
+                                                        @if(in_array(auth()->user()->akses , [1]))
+                                                            <a href="/Purchase_Order/{{ $Purchase_Order->id }}/edit " class="btn btn-warning ml-2">Edit</a>
+                                                            <form action="Purchase_Order/{{ $Purchase_Order->id }}"  method="POST">
+                                                                @method('delete')
+                                                                @csrf
+                                                                <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
+                                                            </form>
+                                                        @endif
                                                     </div>
                                                 </td>
                                             </tr>

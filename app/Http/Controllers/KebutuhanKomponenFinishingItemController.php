@@ -9,6 +9,11 @@ use App\Models\MasterKomponenFinishing;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
+use Illuminate\Cache\RateLimiter;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Auth\Access\AuthorizationException;
+
 class KebutuhanKomponenFinishingItemController extends Controller
 {
     /**
@@ -26,17 +31,39 @@ class KebutuhanKomponenFinishingItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, RateLimiter $limiter)
     {
-        return view('pages.Data_Barang.Item.Kebutuhan_Komponen_Finishing.Tambah_Kebutuhan_Komponen_Finishing',
-            [
-                'type_menu'=>'Item',
-                'Item'=>$request,
-                'KomponenFinishing'=>MasterKomponenFinishing::all(),
-                // 'loopCount' => $loopCount
-            ]
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            return view('pages.Data_Barang.Item.Kebutuhan_Komponen_Finishing.Tambah_Kebutuhan_Komponen_Finishing',
+                [
+                    'type_menu'=>'Item',
+                    'Item'=>$request,
+                    'KomponenFinishing'=>MasterKomponenFinishing::all(),
+                    // 'loopCount' => $loopCount
+                ]
+            );
+            
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -90,16 +117,39 @@ class KebutuhanKomponenFinishingItemController extends Controller
      * @param  \App\Models\KebutuhanKomponenFinishingItem  $kebutuhanKomponenFinishingItem
      * @return \Illuminate\Http\Response
      */
-    public function edit(KebutuhanKomponenFinishingItem $Kebutuhan_Finishing_Item)
+    public function edit(KebutuhanKomponenFinishingItem $Kebutuhan_Finishing_Item , RateLimiter $limiter)
     {
-        return view('pages.Data_Barang.Item.Kebutuhan_Komponen_Finishing.Edit_Kebutuhan_Komponen_Finishing',
-            [
-                'type_menu'=>'Item',
-                'Kebutuhan_Komponen_Finishing_Item'=>$Kebutuhan_Finishing_Item,
-                'Komponen_Finishings'=>MasterKomponenFinishing::all(),
-            ]
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            
+            return view('pages.Data_Barang.Item.Kebutuhan_Komponen_Finishing.Edit_Kebutuhan_Komponen_Finishing',
+                [
+                    'type_menu'=>'Item',
+                    'Kebutuhan_Komponen_Finishing_Item'=>$Kebutuhan_Finishing_Item,
+                    'Komponen_Finishings'=>MasterKomponenFinishing::all(),
+                ]
+            );
+            
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
+    
 
     /**
      * Update the specified resource in storage.

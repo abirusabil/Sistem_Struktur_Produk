@@ -22,7 +22,7 @@
             <div class="section-header">
                 <h1>Purchase Order Baru</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Purchase_Order</a></div>
+                    <div class="breadcrumb-item active"><a href="/Purchase_Order">Purchase Order</a></div>
                     <div class="breadcrumb-item">Purchase Order Baru</div>
                 </div>
             </div>

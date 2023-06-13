@@ -20,10 +20,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Tambah Item Purchase Order Baru</h1>
+                <h1>Ubah Item Purchase Order Baru</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Purchase Order</a></div>
-                    <div class="breadcrumb-item">Tambah Item Purchase Order Baru</div>
+                    <div class="breadcrumb-item active"><a href="/Purchase_Order">Purchase Order</a></div>
+                    <div class="breadcrumb-item active"><a href="/Purchase_Order/{{ $Detail_Purchase_Order->Job_Order }}">Detail Purchase Order</a></div>
+                    <div class="breadcrumb-item">Ubah Item Purchase Order Baru</div>
                 </div>
             </div>
             <div class="section-body">

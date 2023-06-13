@@ -199,6 +199,10 @@ return [
         // Custom
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
+        // Custom PDF
+        Barryvdh\DomPDF\ServiceProvider::class,
+
+
     ],
 
     /*
@@ -216,5 +220,10 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
+
+    // 'aliases' => [
+        
+    //     'PDF' => Barryvdh\DomPDF\Facade::class,
+    // ]
 
 ];

@@ -59,17 +59,19 @@
                             <div class="card-header d-block">
                                 <div class="row">
                                     
-                                        <div class="col-lg-7">
+                                        <div class="col-lg-7 mb-3">
                                             <div class="d-grid d-md-flex  ">
+                                                <a href="{{ route('Buyer.export') }}" target="_blank" class="btn rounded btn-info me-md-2 mr-2" type="button">
+                                                    <i class="fas fa-regular fa-file-export mr-2"></i>Export Buyer
+                                                </a>
+                                                @if(in_array(auth()->user()->akses , [1]))
+                                            <button type="button" class="btn rounded btn-success mr-2" data-toggle="modal" data-target="#importModal">
+                                                    <i class="fas fa-regular fa-file-import mr-2"></i>Import Buyer
+                                                </button>
                                                 <a href="{{ url('/Buyer/create') }}" class="btn rounded btn-primary me-md-2" type="button">
                                                     <i class="fa-solid fa-plus mr-2"></i>Tambah Buyer Baru
                                                 </a>
-                                                <a href="{{ route('Buyer.export') }}" target="_blank" class="btn rounded btn-info me-md-2 ml-2" type="button">
-                                                    <i class="fas fa-regular fa-file-export mr-2"></i>Export Buyer
-                                                </a>
-                                                <button type="button" class="btn rounded btn-success ml-2" data-toggle="modal" data-target="#importModal">
-                                                    <i class="fas fa-regular fa-file-import mr-2"></i>Import Buyer
-                                                </button>
+                                                @endif
                                             </div>
                                         </div>
                                         
@@ -115,12 +117,15 @@
                                                 <td>{{ $Buyers->Kontak_Buyer }}</td>
                                                 <td>
                                                     <div class="d-flex">
-                                                        <a href="/Buyer/{{ $Buyers->id }}/edit " class="btn btn-warning ml-2">Edit</a>
-                                                        <form action="/Buyer/{{ $Buyers->id }}"  method="POST">
-                                                            @method('delete')
-                                                            @csrf
-                                                            <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
-                                                        </form>
+                                                        <a href="/Buyer/{{ $Buyers->id }} " class="btn btn-info ml-2">Detail</a>
+                                                        @if(in_array(auth()->user()->akses , [1]))
+                                                            <a href="/Buyer/{{ $Buyers->id }}/edit " class="btn btn-warning ml-2">Edit</a>
+                                                            <form action="/Buyer/{{ $Buyers->id }}"  method="POST">
+                                                                @method('delete')
+                                                                @csrf
+                                                                <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
+                                                            </form>
+                                                        @endif
                                                     </div>
                                                 </td>
                                             </tr>

@@ -9,6 +9,12 @@ use App\Models\Suplier;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
+// untuk mengatasi bruteforce
+use Illuminate\Cache\RateLimiter;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Auth\Access\AuthorizationException;
+
 class KayuController extends Controller
 {
     /**
@@ -29,21 +35,41 @@ class KayuController extends Controller
             ]
         );
     }
+    
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(RateLimiter $limiter)
     {
-        // dd(Suplier::all());
-        return view ('pages/Data-Materials/Kayu/Tambah_Kayu',
-            [
-                "type_menu" => "Kayu" ,
-                'supliers'=>Suplier::all()
-            ]
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            return view ('pages/Data-Materials/Kayu/Tambah_Kayu',
+                [
+                    "type_menu" => "Kayu" ,
+                    'supliers'=>Suplier::all()
+                ]
+            );
+
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**

@@ -18,10 +18,12 @@
                         <a class="nav-link"
                             href="{{ url('/Purchase_Order') }}"># List Purchase Order</a>
                     </li>
+                    @if(in_array(auth()->user()->akses , [1,2]))
                     <li class="{{ Request::is('Purchase_Order/create') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('Purchase_Order/create') }}"># Tambah Purchase Order</a>
                     </li>
+                    @endif
                 </ul>
             </li>
             {{--end Purchase Order --}}
@@ -37,10 +39,12 @@
                         <a class="nav-link"
                             href="{{ url('/Item') }}"># List item</a>
                     </li>
+                    @if(in_array(auth()->user()->akses , [1,2]))
                     <li class="{{ Request::is('Item/create') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('/Item/create') }}"># Tambah Item</a>
                     </li>
+                    @endif
                 </ul>
             </li>
             <li class="nav-item dropdown {{ $type_menu === 'Collection' ? 'active' : '' }}">
@@ -52,10 +56,12 @@
                         <a class="nav-link"
                             href="{{ url('/Collection') }}"># List Collection</a>
                     </li>
+                    @if(in_array(auth()->user()->akses , [1,2]))
                     <li class="{{ Request::is('Collection/create') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('Collection/create') }}"># Tambah Collection</a>
                     </li>
+                    @endif
                 </ul>
             </li>
             <li class="nav-item dropdown {{ $type_menu === 'Buyer' ? 'active' : '' }}">
@@ -67,10 +73,12 @@
                         <a class="nav-link"
                             href="{{ url('/Buyer') }}"># List Buyer</a>
                     </li>
+                    @if(in_array(auth()->user()->akses , [1,2]))
                     <li class="{{ Request::is('transparent-sidebar') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('/Buyer/create') }}"># Tambah Buyer</a>
                     </li>
+                    @endif
                 </ul>
             </li>
 
@@ -89,10 +97,12 @@
                             <a class="nav-link"
                                 href="{{ url('/Kayu') }}"># List Kayu</a>
                         </li>
+                        @if(in_array(auth()->user()->akses , [1,2]))
                         <li class="{{ Request::is('Kayu/create') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Kayu/create') }}"># Tambah Kayu</a>
                         </li>
+                        @endif
                         <li class="{{ Request::is('Kebutuhan_Kayu') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Kebutuhan_Kayu') }}"># List Kebutuhan Kayu</a>
@@ -111,10 +121,12 @@
                             <a class="nav-link"
                                 href="{{ url('/Plywood_MDF') }}"># List Plywood Dan Mdf</a>
                         </li>
+                        @if(in_array(auth()->user()->akses , [1,2]))
                         <li class="{{ Request::is('Plywood_MDF/create') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Plywood_MDF/create') }}"># Tambah Plywood Dan Mdf </a>
                         </li>
+                        @endif
                         <li class="{{ Request::is('Kebutuhan_Plywood_MDF') ? 'active' : '' }} ">
                             <a class="nav-link"
                                 href="{{ url('/Kebutuhan_Plywood_MDF') }}"># List Kebutuhan Plywood Dan Mdf</a>
@@ -133,10 +145,12 @@
                             <a class="nav-link"
                                 href="{{ url('/Accessories_Hardware') }}"># List Accessories & Hardware</a>
                         </li>
+                        @if(in_array(auth()->user()->akses , [1,2]))
                         <li class="{{ Request::is('Accessories_Hardware/create') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Accessories_Hardware/create') }}"># Tambah Accessories & Hardware</a>
                         </li>
+                        @endif
                         <li class="{{ Request::is('Kebutuhan_Accessories_Hardware') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Kebutuhan_Accessories_Hardware') }}"># List Kebutuhan Accessories & Hardware</a>
@@ -155,10 +169,12 @@
                             <a class="nav-link"
                                 href="{{ url('/Komponen_Finishing') }}"># List Komponen Finishing</a>
                         </li>
+                        @if(in_array(auth()->user()->akses , [1,2]))
                         <li class="{{ Request::is('Komponen_Finishing/create') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Komponen_Finishing/create') }}"># Tambah Komponen Finishing</a>
                         </li>
+                        @endif
                         <li class="{{ Request::is('Kebutuhan_Komponen_Finishing') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Kebutuhan_Komponen_Finishing') }}"># List Kebutuhan Komponen Finishing</a>
@@ -179,10 +195,12 @@
                             <a class="nav-link"
                                 href="{{ url('/Pendukung_Packing') }}"># List Pendukung Packing</a>
                         </li>
+                        @if(in_array(auth()->user()->akses , [1,2]))
                         <li class="{{ Request::is('Pendukung_Packing/create') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Pendukung_Packing/create') }}"># Tambah Pendukung Packing</a>
                         </li>
+                        @endif
                         <li class="{{ Request::is('Kebutuhan_Pendukung_Packing') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Kebutuhan_Pendukung_Packing') }}"># List Kebutuhan Pendukung Packing</a>
@@ -192,25 +210,20 @@
                 {{-- List Pendukung Packing --}}
 
                 {{-- Karton Box --}}
+                
+                
                 <li class="nav-item dropdown {{ $type_menu === 'Karton_Box' ? 'active' : '' }}">
                     <a href="#"
                         class="nav-link has-dropdown"
                         data-toggle="dropdown"><i class="fas fa-solid fa-box-open"></i><span>Karton Box</span></a>
                     <ul class="dropdown-menu">
-                        {{-- <li class="{{ Request::is('Karton_Box') ? 'active' : '' }}">
-                            <a class="nav-link"
-                                href="{{ url('/Karton_Box') }}"># List Karton Box</a>
-                        </li>
-                        <li class="{{ Request::is('Karton_Box/create') ? 'active' : '' }}">
-                            <a class="nav-link"
-                                href="{{ url('Karton_Box/create') }}"># Tambah Karton Box</a>
-                        </li> --}}
                         <li class="{{ Request::is('Kebutuhan_Karton_Box') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Kebutuhan_Karton_Box') }}"># List Kebutuhan Karton Box</a>
                         </li>
                     </ul>
                 </li>
+                
                 {{-- List Karton Box --}}
 
             {{-- end Data Materials --}}
@@ -225,15 +238,18 @@
                         <a class="nav-link"
                             href="{{ url('/Suplier') }}"># List Suplier</a>
                     </li>
+                    @if(in_array(auth()->user()->akses , [1,2]))
                     <li class="{{ Request::is('Suplier/create') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('/Suplier/create') }}"># Tambah Suplier</a>
                     </li>
+                    @endif
                 </ul>
             </li>
             {{--end Pembelian --}}
 
             {{-- Pembelian --}}
+            @if(in_array(auth()->user()->akses , [1]))
             <li class="menu-header">User</li>
             <li class="nav-item dropdown {{ $type_menu === 'User' ? 'active' : '' }}">
                 <a href="#"
@@ -249,6 +265,7 @@
                     </li>
                 </ul>
             </li>
+           @endif
             {{--end Pembelian --}}
       
     </aside>

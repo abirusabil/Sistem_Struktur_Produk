@@ -11,6 +11,12 @@ use App\Models\MasterKayu;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
+
+use Illuminate\Cache\RateLimiter;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Auth\Access\AuthorizationException;
+
 class KebutuhanAccessoriesHardwareItemController extends Controller
 {
     /**
@@ -28,17 +34,39 @@ class KebutuhanAccessoriesHardwareItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    
+    public function create(Request $request, RateLimiter $limiter)
     {
-        // return MasterAccessoriesHardware::all();
-        return view('pages.Data_Barang.Item.Kebutuhan_Accessories_Hardware.Tambah_Kebutuhan_Accessories_Hardware',
-            [
-                'type_menu'=>'Item',
-                'Item'=>$request,
-                'AccessoriesHardware'=>MasterAccessoriesHardware::all(),
-                // 'loopCount' => $loopCount
-            ]
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            // return $Kebutuhan_Kayu_Item;
+            return view('pages.Data_Barang.Item.Kebutuhan_Accessories_Hardware.Tambah_Kebutuhan_Accessories_Hardware',
+                [
+                    'type_menu'=>'Item',
+                    'Item'=>$request,
+                    'AccessoriesHardware'=>MasterAccessoriesHardware::all(),
+                    // 'loopCount' => $loopCount
+                ]
+            );
+            
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -95,15 +123,37 @@ class KebutuhanAccessoriesHardwareItemController extends Controller
      * @param  \App\Models\KebutuhanAccessoriesHardwareItem  $kebutuhanAccessoriesHardwareItem
      * @return \Illuminate\Http\Response
      */
-    public function edit(KebutuhanAccessoriesHardwareItem $Kebutuhan_Accessories_Item)
+    public function edit(KebutuhanAccessoriesHardwareItem $Kebutuhan_Accessories_Item , RateLimiter $limiter)
     {
-        return view('pages.Data_Barang.Item.Kebutuhan_Accessories_Hardware.Edit_Kebutuhan_Accessories_Hardware',
-            [
-                'type_menu'=>'Item',
-                'Kebutuhan_Accessories_Hardware_Item'=>$Kebutuhan_Accessories_Item,
-                'Accessories_Hardwares'=>MasterAccessoriesHardware::all(),
-            ]
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            
+            return view('pages.Data_Barang.Item.Kebutuhan_Accessories_Hardware.Edit_Kebutuhan_Accessories_Hardware',
+                [
+                    'type_menu'=>'Item',
+                    'Kebutuhan_Accessories_Hardware_Item'=>$Kebutuhan_Accessories_Item,
+                    'Accessories_Hardwares'=>MasterAccessoriesHardware::all(),
+                ]
+            );
+            
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**

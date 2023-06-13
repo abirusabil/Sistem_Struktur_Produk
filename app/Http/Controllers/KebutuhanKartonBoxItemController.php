@@ -8,6 +8,11 @@ use App\Models\KebutuhanKartonBoxItem;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
+use Illuminate\Cache\RateLimiter;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Auth\Access\AuthorizationException;
+
 class KebutuhanKartonBoxItemController extends Controller
 {
     /**
@@ -25,15 +30,36 @@ class KebutuhanKartonBoxItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, RateLimiter $limiter)
     {
-        // return $request;
-        return view('pages.Data_Barang.Item.Kebutuhan_Karton_Box.Tambah_Kebutuhan_Karton_Box',
-        [
-            'type_menu' => 'Item',
-            'Item'=>$request,
-        ]
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            // return $request;
+            return view('pages.Data_Barang.Item.Kebutuhan_Karton_Box.Tambah_Kebutuhan_Karton_Box',
+                [
+                    'type_menu' => 'Item',
+                    'Item'=>$request,
+                ]
+            );
+            
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -96,14 +122,37 @@ class KebutuhanKartonBoxItemController extends Controller
      * @param  \App\Models\KebutuhanKartonBoxItem  $kebutuhanKartonBoxItem
      * @return \Illuminate\Http\Response
      */
-    public function edit(KebutuhanKartonBoxItem $Kebutuhan_Karton_Box_Item)
+    public function edit(KebutuhanKartonBoxItem $Kebutuhan_Karton_Box_Item , RateLimiter $limiter)
     {
-        return view('pages.Data_Barang.Item.Kebutuhan_Karton_Box.Edit_Kebutuhan_Karton_Box',
-        [
-            'type_menu'=>'item',
-            'Kebutuhan_Karton_Box_Items'=> $Kebutuhan_Karton_Box_Item ,
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2])) {
+                throw new AuthorizationException();
+            }
 
-        ]);
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            
+            return view('pages.Data_Barang.Item.Kebutuhan_Karton_Box.Edit_Kebutuhan_Karton_Box',
+                [
+                    'type_menu'=>'item',
+                    'Kebutuhan_Karton_Box_Items'=> $Kebutuhan_Karton_Box_Item ,
+        
+                ]
+            );
+            
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
