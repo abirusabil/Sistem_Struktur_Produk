@@ -25,7 +25,9 @@
             <div class="section-header">
                 <h1>Edit Kebutuhan Pendukung Packing</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Pendukung Packing</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">List Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item/{{ $Kebutuhan_Pendukung_Packing_Items->Item_Id  }}">Detail Item</a></div>
                     <div class="breadcrumb-item">Edit Kebutuhan Pendukung_Packing</div>
                 </div>
             </div>

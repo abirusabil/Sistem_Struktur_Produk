@@ -471,7 +471,7 @@
                                                                             <td class="border border-black px-3">{{ $KebutuhanPendukungPackingPo->No_Cutting }}</td>
                                                                             <td class="border border-black px-3">{{ $KebutuhanPendukungPackingPo->Pendukung_Packing_Id }}</td>
                                                                             <td class="border border-black px-3">{{ $KebutuhanPendukungPackingPo->Nama_Pendukung_Packing }}</td>
-                                                                            <td class="border border-black px-3">-</td>
+                                                                            <td class="border border-black px-3">{{ $KebutuhanPendukungPackingPo->Keterangan_Kebutuhan_Pendukung_Packing_Item }}</td></td>
                                                                             <td class="border border-black px-3 text-center">{{ $KebutuhanPendukungPackingPo->Satuan_Pendukung_Packing }}</td>
                                                                             <td class="border border-black px-3 text-center">{{ number_format($tebal,0) }}</td>
                                                                             <td class="border border-black px-3 text-center">{{number_format($lebar,0)}}</td>

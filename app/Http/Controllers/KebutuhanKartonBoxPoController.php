@@ -89,7 +89,7 @@ class KebutuhanKartonBoxPoController extends Controller
 
             return view('pages.Data-Materials.Karton_Box.Edit_Kebutuhan_Karton_Box',
                 [
-                    'type_menu'=>'Purchase_Order',
+                    'type_menu'=>'PurchaseOrder',
                     'KebutuhanKartonBox'=>$Kebutuhan_Karton_Box
                 ]
             ); 

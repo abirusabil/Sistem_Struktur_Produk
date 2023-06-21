@@ -45,7 +45,7 @@
             <div class="section-header">
                 <h1>Kayu</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Kayu</a></div>
+                    <div class="breadcrumb-item active"><a href="/Kayu">Kayu</a></div>
                     <div class="breadcrumb-item">List Kayu</div>
                 </div>
             </div>
@@ -61,14 +61,14 @@
                                     
                                         <div class="col-lg-7">
                                             <div class="d-grid d-md-flex  ">
-                                                <a href="{{ route('kayu.export') }}" target="_blank" class="btn rounded btn-info me-md-2 mr-2" type="button">
+                                                <a href="{{ route('kayu.export') }}" target="_blank" class="btn rounded btn-info me-md-2 mr-2 mb-2" type="button">
                                                     <i class="fas fa-regular fa-file-export mr-2"></i>Export Kayu
                                                 </a>
                                                 @if(in_array(auth()->user()->akses , [1]))
-                                                    <button type="button" class="btn rounded btn-success mr-2" data-toggle="modal" data-target="#importModal">
+                                                    <button type="button" class="btn rounded btn-success mr-2 mb-2" data-toggle="modal" data-target="#importModal">
                                                         <i class="fas fa-regular fa-file-import mr-2"></i>Import Kayu
                                                     </button>
-                                                    <a href="{{ url('/Kayu/create') }}" class="btn rounded btn-primary me-md-2" type="button">
+                                                    <a href="{{ url('/Kayu/create') }}" class="btn rounded btn-primary me-md-2 mb-2" type="button">
                                                         <i class="fa-solid fa-plus mr-2"></i>Tambah Kayu Baru
                                                     </a>
                                                 @endif

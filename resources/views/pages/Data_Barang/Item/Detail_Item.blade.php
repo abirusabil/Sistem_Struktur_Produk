@@ -53,7 +53,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="put" action="{{route('Kebutuhan_Kayu_Item.create'), $Item->id }}">
+                <form method="put" action="{{route('Kebutuhan_Kayu_Item.create')}}" >
                     @csrf
                     <label for="loop_count">Masukkan jumlah komponen:</label>
                     <input type="number" name="loop_count" id="loop_count">
@@ -102,7 +102,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="put" action="{{route('Kebutuhan_Plywood_MDF_Item.create'), $Item->id }}">
+                <form method="put" action="{{route('Kebutuhan_Plywood_MDF_Item.create') }}">
                     @csrf
                     <label for="loop_count">Masukkan jumlah komponen:</label>
                     <input type="number" name="loop_count" id="loop_count">
@@ -150,7 +150,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="put" action="{{route('Kebutuhan_Accessories_Item.create'), $Item->id }}">
+                <form method="put" action="{{route('Kebutuhan_Accessories_Item.create') }}">
                     @csrf
                     <label for="loop_count">Masukkan jumlah komponen:</label>
                     <input type="number" name="loop_count" id="loop_count">
@@ -198,7 +198,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="put" action="{{route('Kebutuhan_Finishing_Item.create'), $Item->id }}">
+                <form method="put" action="{{route('Kebutuhan_Finishing_Item.create') }}">
                     @csrf
                     <label for="loop_count">Masukkan jumlah komponen:</label>
                     <input type="number" name="loop_count" id="loop_count">
@@ -246,7 +246,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="put" action="{{route('Kebutuhan_Packing_Item.create'), $Item->id }}">
+                <form method="put" action="{{route('Kebutuhan_Packing_Item.create') }}">
                     @csrf
                     <label for="loop_count">Masukkan jumlah komponen:</label>
                     <input type="number" name="loop_count" id="loop_count">
@@ -294,7 +294,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="put" action="{{route('Kebutuhan_Karton_Box_Item.create'), $Item->id }}">
+                <form method="put" action="{{route('Kebutuhan_Karton_Box_Item.create') }}">
                     @csrf
                     <label for="loop_count">Masukkan jumlah komponen:</label>
                     <input type="number" name="loop_count" id="loop_count">
@@ -313,8 +313,9 @@
             <div class="section-header">
                 <h1>{{ $Item->Nama_Item }}</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Item</a></div>
-                    <div class="breadcrumb-item">Detail Item {{ $Item->Nama_Item }}</div>
+                    <div class="breadcrumb-item active"><a href="/Item">Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">List Item</a></div>
+                    <div class="breadcrumb-item">Detail Item</div>
                 </div>
             </div>
 
@@ -326,7 +327,7 @@
                         <div class="card">
                             <div class="card-header d-block pb-0">
                                 <div class="row">
-                                    <div class="col-5">
+                                    <div class="col-lg-5">
                                         <div class="row">
                                             <div class="col-4"><span>Kode</span></div>
                                             <div class="col px-0 "><h6 class="pt-1">: {{ $Item->id }}</h6></div>
@@ -340,31 +341,31 @@
                                             <div class="col px-0"><h6 class="pt-1">: {{ $Item->Warna_Item }}</h6></div>
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-lg-4">
                                         <div class="row">
-                                            <div class="col-4 px-0"><span>Collection</span></div>
+                                            <div class="col-4"><span>Collection</span></div>
                                             <div class="col px-0"><h6 class="pt-1">: {{ $Item->Collection->Nama_Collection }}</h6></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-4 px-0"><span>Buyer</span></div>
+                                            <div class="col-4 "><span>Buyer</span></div>
                                             <div class="col px-0"><h6 class="pt-1">: {{ $Item->Collection->Buyer->Nama_Buyer }}</h6></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-4 px-0"><span>Berat</span></div>
+                                            <div class="col-4 "><span>Berat</span></div>
                                             <div class="col px-0"><h6 class="pt-1">: {{ number_format($Item->Berat_Item) }} Kg</h6></div>
                                         </div>
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-lg-3">
                                         <div class="row">
-                                            <div class="col-4 px-0"><span>Panjang</span></div>
+                                            <div class="col-4 "><span>Panjang</span></div>
                                             <div class="col px-0"><h6 class="pt-1">: {{ number_format($Item->Panjang_Item) }} Mm</h6></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-4 px-0"><span>Lebar</span></div>
+                                            <div class="col-4 "><span>Lebar</span></div>
                                             <div class="col px-0"><h6 class="pt-1">: {{ number_format($Item->Lebar_Item) }} Mm</h6></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-4 px-0"><span>Tinggi</span></div>
+                                            <div class="col-4 "><span>Tinggi</span></div>
                                             <div class="col px-0"><h6 class="pt-1">: {{ number_format($Item->Tinggi_Item) }} Mm</h6></div>
                                         </div>
                                     </div>
@@ -1413,11 +1414,11 @@
                                 {{-- Gambar Item --}}
                                 <div class="Gambar_Item">
                                     <div class="row py-4">
-                                        <div class="col">
+                                        <div class="col-lg">
                                             <h5>Gambar Item</h5>
                                         </div>
                                         @if(in_array(auth()->user()->akses , [1]))
-                                            <div class="col d-flex flex-row-reverse">
+                                            <div class="col-lg d-flex flex-row-reverse">
                                                 <a href="{{ route('Gambar_Item.create', ['itemId' => $Item]) }}" class="btn rounded btn-primary me-md-2 ml-2 px-5" type="button">
                                                     <i class="fas fa-plus mr-2"></i>Tambah Gambar Item Baru
                                                 </a>
@@ -1461,11 +1462,11 @@
                                 {{-- Gambar Kerja --}}
                                 <div class="Gambar_Item">
                                     <div class="row py-4 mt-5">
-                                        <div class="col">
+                                        <div class="col-lg">
                                             <h5>Gambar Kerja</h5>
                                         </div>
                                         @if(in_array(auth()->user()->akses , [1]))
-                                            <div class="col d-flex flex-row-reverse">
+                                            <div class="col-lg d-flex flex-row-reverse">
                                                 <a href="{{ route('Gambar_Kerja.create', ['itemId' => $Item]) }}" class="btn rounded btn-primary me-md-2 ml-2 px-5" type="button">
                                                     <i class="fas fa-plus mr-2"></i>Tambah Gambar Kerja Baru
                                                 </a>

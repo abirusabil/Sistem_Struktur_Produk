@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Accessories_Hardware')
+@section('title', 'Edit Kebutuhan Pendukung Packing PO')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -23,12 +23,12 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Ubah Kebutuhan Pendukung Packing</h1>
+                <h1>Edit Kebutuhan Pendukung Packing PO</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="/Purchase_Order">Purchase Order</a></div>
                     <div class="breadcrumb-item active"><a href="/Purchase_Order/{{ $KebutuhaPendukungPacking->Job_Order }}">Detail Purchase Order</a></div>
                     <div class="breadcrumb-item active"><a href="/Purchase_Order/{{ $KebutuhaPendukungPacking->Job_Order }}/detailkebutuhan">Detail Kebutuhan Purchase Order</a></div>
-                    <div class="breadcrumb-item">Ubah Data Pendukung Packing</div>
+                    <div class="breadcrumb-item">Edit Kebutuhan Pendukung Packing PO</div>
                 </div>
             </div>
             <div class="section-body">
@@ -85,6 +85,13 @@
                                         <label>Nama Pendukung Packing</label>
                                         <input type="text" name="Nama_Pendukung_Packing" id="Nama_Pendukung_Packing" class="form-control @error('Nama_Pendukung_Packing') is-invalid @enderror" value="{{ old('Nama_Pendukung_Packing',$KebutuhaPendukungPacking->Nama_Pendukung_Packing) }}">
                                         @error('Nama_Pendukung_Packing')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Keterangan Kebutuhan Pendukung Packing Item</label>
+                                        <input type="text" name="Keterangan_Kebutuhan_Pendukung_Packing_Item" id="Keterangan_Kebutuhan_Pendukung_Packing_Item" class="form-control @error('Keterangan_Kebutuhan_Pendukung_Packing_Item') is-invalid @enderror" value="{{ old('Keterangan_Kebutuhan_Pendukung_Packing_Item',$KebutuhaPendukungPacking->Keterangan_Kebutuhan_Pendukung_Packing_Item) }}">
+                                        @error('Keterangan_Kebutuhan_Pendukung_Packing_Item')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>

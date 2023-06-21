@@ -96,7 +96,7 @@
                                                                         $luas_lembar_plywood_mdf = $kebutuhanplywoodmdfitem->Luas_Plywood_MDF;
                                                                         $biaya_lembar = $kebutuhanplywoodmdfitem->Harga_Plywood_MDF  ;
                                                                         $biaya_m2 = $biaya_lembar / $luas_lembar_plywood_mdf * 1.2;
-                                                                        $total_biaya = $biaya_m2 * $luas *1.2;
+                                                                        $total_biaya = $biaya_m2 * $luas;
                                                                         $total_biaya_mdf += $total_biaya ;
                                                                     @endphp
                                                                         <tr>

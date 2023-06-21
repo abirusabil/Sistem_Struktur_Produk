@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Accessories_Hardware')
+@section('title', 'Edit Kebutuhan Accessories Hardware PO')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -23,12 +23,12 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Ubah Kebutuhan Accessories Hardware</h1>
+                <h1>Edit Kebutuhan Accessories Hardware PO</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="/Purchase_Order">Purchase Order</a></div>
                     <div class="breadcrumb-item active"><a href="/Purchase_Order/{{ $KebutuhanAccessoriesHardware->Job_Order }}">Detail Purchase Order</a></div>
                     <div class="breadcrumb-item active"><a href="/Purchase_Order/{{ $KebutuhanAccessoriesHardware->Job_Order }}/detailkebutuhan">Detail Kebutuhan Purchase Order</a></div>
-                    <div class="breadcrumb-item">Ubah Data Accessories Hardware</div>
+                    <div class="breadcrumb-item">Edit Kebutuhan Accessories Hardware PO</div>
                 </div>
             </div>
             <div class="section-body">

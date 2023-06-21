@@ -88,7 +88,7 @@ class KebutuhanAccessoriesHardwarePoController extends Controller
 
             return view('pages.Data-Materials.Accessories_Hardware.Edit_Kebutuhan_Accessories_Hardware',
                 [
-                    'type_menu'=>'Purchase_Order',
+                    'type_menu'=>'PurchaseOrder',
                     'KebutuhanAccessoriesHardware'=>$Kebutuhan_Accessories_Hardware
                 ]
             );  

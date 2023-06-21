@@ -76,7 +76,7 @@ class KebutuhanPendukungPackingPoExport implements FromCollection, WithHeadings 
             $data->No_Cutting,
             $data->Pendukung_Packing_Id,
             $data->Nama_Pendukung_Packing,
-            '-',
+            $data->Keterangan_Kebutuhan_Pendukung_Packing_Item,
             $Satuan,
             $Tebal,
             $Lebar,

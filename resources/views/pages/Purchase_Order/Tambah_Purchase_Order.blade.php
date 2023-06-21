@@ -34,14 +34,14 @@
                                 <form action="/Purchase_Order" method="POST">
                                     @csrf
                                     <div class="form-group">
-                                        <label>Job Order</label>
+                                        <label for="id">Job Order</label>
                                         <input type="text" name="id" id="id" class="form-control @error('id') is-invalid @enderror" value="{{ old('id') }}">
                                         @error('id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label>Dasar Purchase Order</label>
+                                        <label for="Dasar_Po">Dasar Purchase Order</label>
                                         <input type="text" name="Dasar_Po" id="Dasar_Po" class="form-control @error('Dasar_Po') is-invalDasar_Po @enderror" value="{{ old('Dasar_Po') }}">
                                         @error('Dasar_Po')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -57,15 +57,15 @@
                                         </select>     
                                     </div>
                                     <div class="form-group">
-                                        <label>Tanggal Masuk</label>
-                                        <input type="date" name="Tanggal_Masuk" Tanggal_Masuk="Tanggal_Masuk" class="form-control @error('Tanggal_Masuk') is-invalTanggal_Masuk @enderror" value="{{ old('Tanggal_Masuk') }}">
+                                        <label for="Tanggal_Masuk">Tanggal Masuk</label>
+                                        <input type="date" name="Tanggal_Masuk" id="Tanggal_Masuk" class="form-control @error('Tanggal_Masuk') is-invalTanggal_Masuk @enderror" value="{{ old('Tanggal_Masuk') }}">
                                         @error('Tanggal_Masuk')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label>Schedule Kirim</label>
-                                        <input type="date" name="Schedule_Kirim" Schedule_Kirim="Schedule_Kirim" class="form-control @error('Schedule_Kirim') is-invalSchedule_Kirim @enderror" value="{{ old('Schedule_Kirim') }}">
+                                        <label for="Schedule_Kirim">Schedule Kirim</label>
+                                        <input type="date" name="Schedule_Kirim" id="Schedule_Kirim" class="form-control @error('Schedule_Kirim') is-invalSchedule_Kirim @enderror" value="{{ old('Schedule_Kirim') }}">
                                         @error('Schedule_Kirim')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror

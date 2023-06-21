@@ -22,7 +22,7 @@
             <div class="section-header">
                 <h1>Detail Buyer </h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Buyer</a></div>
+                    <div class="breadcrumb-item active"><a href="/Buyer">Buyer</a></div>
                     <div class="breadcrumb-item">Detail Buyer</div>
                 </div>
             </div>

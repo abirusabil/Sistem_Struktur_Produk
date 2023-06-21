@@ -23,10 +23,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Tambah Collection Baru</h1>
+                <h1>Edit Collection</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Collection</a></div>
-                    <div class="breadcrumb-item">Tambah Collection Baru</div>
+                    <div class="breadcrumb-item active"><a href="/Collection">Collection</a></div>
+                    <div class="breadcrumb-item active"><a href="/Collection">List Collection</a></div>
+                    <div class="breadcrumb-item">Edit Collection</div>
                 </div>
             </div>
             <div class="section-body">

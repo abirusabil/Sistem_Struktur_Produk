@@ -371,6 +371,7 @@ class PurchaseOrderController extends Controller
                     $KebutuhanPendukungPackingPo->Nama_Pendukung_Packing = $kebutuhanpendukungpackingitem->MasterPendukungPacking->Nama_Pendukung_Packing ;
                     $KebutuhanPendukungPackingPo->Lebar_Kebutuhan_Pendukung_Packing_Item = $kebutuhanpendukungpackingitem->Lebar_Kebutuhan_Pendukung_Packing_Item ;
                     $KebutuhanPendukungPackingPo->Panjang_Kebutuhan_Pendukung_Packing_Item = $kebutuhanpendukungpackingitem->Panjang_Kebutuhan_Pendukung_Packing_Item ;
+                    $KebutuhanPendukungPackingPo->Keterangan_Kebutuhan_Pendukung_Packing_Item = $kebutuhanpendukungpackingitem->Keterangan_Kebutuhan_Pendukung_Packing_Item ;
                     $KebutuhanPendukungPackingPo->Quantity_Kebutuhan_Pendukung_Packing_Item = $kebutuhanpendukungpackingitem->Quantity_Kebutuhan_Pendukung_Packing_Item ;
                     $KebutuhanPendukungPackingPo->Tebal_Pendukung_Packing = $kebutuhanpendukungpackingitem->MasterPendukungPacking->Tebal_Pendukung_Packing ;
                     $KebutuhanPendukungPackingPo->Luas_Pendukung_Packing = $kebutuhanpendukungpackingitem->MasterPendukungPacking->Lebar_Pendukung_Packing * $kebutuhanpendukungpackingitem->MasterPendukungPacking->Panjang_Pendukung_Packing / 1000000;

@@ -25,7 +25,9 @@
             <div class="section-header">
                 <h1>Edit Kebutuhan Kayu </h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">List Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item/{{ $Kebutuhan_Kayu_Item->Item_Id  }}">Detail Item</a></div>
                     <div class="breadcrumb-item">Edit Kebutuhan Kayu </div>
                 </div>
             </div>

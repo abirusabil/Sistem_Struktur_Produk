@@ -25,7 +25,9 @@
             <div class="section-header">
                 <h1>Edit Kebutuhan Karton Box</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Karton Box</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">List Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item/{{ $Kebutuhan_Karton_Box_Items->Item_Id  }}">Detail Item</a></div>
                     <div class="breadcrumb-item">Edit Kebutuhan Karton Box</div>
                 </div>
             </div>

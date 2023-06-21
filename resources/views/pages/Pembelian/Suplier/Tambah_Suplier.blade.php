@@ -22,7 +22,8 @@
             <div class="section-header">
                 <h1>Tambah Suplier Baru</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">User</a></div>
+                    <div class="breadcrumb-item active"><a href="/Suplier">Suplier</a></div>
+                    <div class="breadcrumb-item active"><a href="/Suplier">List Suplier</a></div>
                     <div class="breadcrumb-item">Tambah Suplier Baru</div>
                 </div>
             </div>

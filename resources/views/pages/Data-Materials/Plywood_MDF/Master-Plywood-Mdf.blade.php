@@ -45,7 +45,7 @@
             <div class="section-header">
                 <h1>Plywood MDF</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Plywood MDF</a></div>
+                    <div class="breadcrumb-item active"><a href="/Plywood_MDF">Plywood MDF</a></div>
                     <div class="breadcrumb-item">List Plywood MDF</div>
                 </div>
             </div>
@@ -57,14 +57,14 @@
                                 <div class="row">
                                         <div class="col-lg-7 mb-3">
                                             <div class="d-grid d-md-flex  ">
-                                                <a href="{{ route('Plywood_MDF.export') }}" target="_blank" class="btn rounded btn-info me-md-2 mr-2" type="button">
+                                                <a href="{{ route('Plywood_MDF.export') }}" target="_blank" class="btn rounded btn-info me-md-2 mr-2 mb-2" type="button">
                                                     <i class="fas fa-regular fa-file-export mr-2"></i>Export Plywood MDF
                                                 </a>
                                                 @if(in_array(auth()->user()->akses , [1]))
-                                                <button type="button" class="btn rounded btn-success mr-2" data-toggle="modal" data-target="#importModal">
+                                                <button type="button" class="btn rounded btn-success mr-2 mb-2" data-toggle="modal" data-target="#importModal">
                                                     <i class="fas fa-regular fa-file-import mr-2"></i>Import Plywood MDF
                                                 </button>
-                                                <a href="{{ url('/Plywood_MDF/create') }}" class="btn rounded btn-primary me-md-2" type="button">
+                                                <a href="{{ url('/Plywood_MDF/create') }}" class="btn rounded btn-primary me-md-2 mb-2" type="button">
                                                     <i class="fa-solid fa-plus mr-2"></i>Tambah Plywood MDF Baru
                                                 </a>
                                                 @endif

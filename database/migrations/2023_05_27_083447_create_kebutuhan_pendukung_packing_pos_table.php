@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('No_Cutting')->foreign()->references('id')->on('kebutuhan_pendukung_packing_items');
             $table->string('Pendukung_Packing_Id')->foreign()->references('id')->on('master_pendukung_packings');
             $table->string('Nama_Pendukung_Packing');
+            $table->string('Keterangan_Kebutuhan_Pendukung_Packing_Item');
             $table->decimal('Lebar_Kebutuhan_Pendukung_Packing_Item');
             $table->decimal('Panjang_Kebutuhan_Pendukung_Packing_Item');
             $table->decimal('Quantity_Kebutuhan_Pendukung_Packing_Item');

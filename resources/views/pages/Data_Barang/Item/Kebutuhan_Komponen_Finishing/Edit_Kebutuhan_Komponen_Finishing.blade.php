@@ -25,7 +25,9 @@
             <div class="section-header">
                 <h1>Edit Kebutuhan Komponen Finishing </h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">List Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item/{{ $Kebutuhan_Komponen_Finishing_Item->Item_Id  }}">Detail Item</a></div>
                     <div class="breadcrumb-item">Edit Kebutuhan Komponen Finishing </div>
                 </div>
             </div>

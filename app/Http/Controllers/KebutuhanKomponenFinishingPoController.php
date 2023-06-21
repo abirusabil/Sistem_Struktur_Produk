@@ -89,7 +89,7 @@ class KebutuhanKomponenFinishingPoController extends Controller
 
             return view('pages.Data-Materials.Komponen_Finishing.Edit_Kebutuhan_Komponen_Finishing',
                 [
-                    'type_menu'=>'Purchase_Order',
+                    'type_menu'=>'PurchaseOrder',
                     'KebutuhanKomponenFinishing'=>$Kebutuhan_Komponen_Finishing
                 ]
             );  

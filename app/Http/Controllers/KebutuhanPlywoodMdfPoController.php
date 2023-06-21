@@ -93,7 +93,7 @@ class KebutuhanPlywoodMdfPoController extends Controller
 
             return view('pages.Data-Materials.Plywood_MDF.Edit_Kebutuhan_Plywood_MDF',
                 [
-                    'type_menu'=>'Purchase_Order',
+                    'type_menu'=>'PurchaseOrder',
                     'KebutuhanPlywoodMDF'=>$Kebutuhan_Plywood_MDF
                 ]
             );  

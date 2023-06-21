@@ -20,10 +20,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Ubah Data Suplier</h1>
+                <h1>Edit Data Suplier</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">User</a></div>
-                    <div class="breadcrumb-item">Ubah Data Suplier</div>
+                    <div class="breadcrumb-item active"><a href="/Suplier">Suplier</a></div>
+                    <div class="breadcrumb-item active"><a href="/Suplier">List Suplier</a></div>
+                    <div class="breadcrumb-item">Edit Data Suplier</div>
                 </div>
             </div>
             <div class="section-body">

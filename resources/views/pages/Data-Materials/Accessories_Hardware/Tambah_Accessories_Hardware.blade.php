@@ -25,7 +25,8 @@
             <div class="section-header">
                 <h1>Tambah Accessories Hardware Baru</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Accessories Hardware</a></div>
+                    <div class="breadcrumb-item active"><a href="/Accessories_Hardware">Accessories Hardware</a></div>
+                    <div class="breadcrumb-item active"><a href="/Accessories_Hardware">List Accessories Hardware</a></div>
                     <div class="breadcrumb-item">Tambah Accessories Hardware Baru</div>
                 </div>
             </div>

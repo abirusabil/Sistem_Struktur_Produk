@@ -14,7 +14,7 @@
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-clipboard-list"></i><span>Purchase Order</span></a>
                 <ul class="dropdown-menu">
-                    <li class='{{ Request::is('Purchase_Order') ? 'active' : '' }}'>
+                    <li class='{{ Request::is('Purchase_Order','Purchase_Order/*','Kebutuhan_Kayu/*/edit','Kebutuhan_Plywood_MDF/*/edit','Kebutuhan_Accessories_Hardware/*/edit','Kebutuhan_Komponen_Finishing/*/edit','Kebutuhan_Pendukung_Packing/*/edit','Kebutuhan_Karton_Box/*/edit','Borongan_Dalam_Po/*/edit','Borongan_Luar_Po/*/edit') ? 'active' : '' }}'>
                         <a class="nav-link"
                             href="{{ url('/Purchase_Order') }}"># List Purchase Order</a>
                     </li>
@@ -35,7 +35,7 @@
                     class="nav-link has-dropdown"
                     data-toggle="dropdown"><i class="fas fa-solid fa-couch"></i><span>Item</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ Request::is('Item') ? 'active' : '' }}">
+                    <li class="{{ Request::is('Item','Item/*') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('/Item') }}"># List item</a>
                     </li>

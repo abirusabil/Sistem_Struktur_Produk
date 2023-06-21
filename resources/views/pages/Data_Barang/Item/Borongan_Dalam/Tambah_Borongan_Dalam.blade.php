@@ -25,7 +25,9 @@
             <div class="section-header">
                 <h1>Ongkos Kerja Borongan Dalam Baru</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">List Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item/{{ $itemId }}">Detail Item</a></div>
                     <div class="breadcrumb-item">Ongkos Kerja Borongan Dalam Baru</div>
                 </div>
             </div>

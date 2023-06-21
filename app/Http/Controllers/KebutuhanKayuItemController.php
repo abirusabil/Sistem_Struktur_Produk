@@ -32,8 +32,9 @@ class KebutuhanKayuItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, RateLimiter $limiter)
+    public function create(Request $request, KebutuhanKayuItem $Kebutuhan_Kayu_Item ,RateLimiter $limiter)
     {
+        
         try {
             if (!in_array(auth()->user()->akses, [1, 2])) {
                 throw new AuthorizationException();

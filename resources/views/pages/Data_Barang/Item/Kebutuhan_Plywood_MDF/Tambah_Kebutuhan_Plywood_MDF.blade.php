@@ -25,7 +25,9 @@
             <div class="section-header">
                 <h1>Kebutuhan Plywood MDF Baru</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">List Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item/{{ $Item->id }}">Detail Item</a></div>
                     <div class="breadcrumb-item">Kebutuhan Plywood_MDF Baru</div>
                 </div>
             </div>

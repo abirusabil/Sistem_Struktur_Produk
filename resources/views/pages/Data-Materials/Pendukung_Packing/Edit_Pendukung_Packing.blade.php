@@ -23,10 +23,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Ubah Data Pendukung Packing </h1>
+                <h1>Edit Data Pendukung Packing </h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Pendukung Packing</a></div>
-                    <div class="breadcrumb-item">Ubah Data Pendukung Packing </div>
+                    <div class="breadcrumb-item active"><a href="/Pendukung_Packing">Pendukung Packing</a></div>
+                    <div class="breadcrumb-item active"><a href="/Pendukung_Packing">List Pendukung Packing</a></div>
+                    <div class="breadcrumb-item">Edit Data Pendukung Packing </div>
                 </div>
             </div>
             <div class="section-body">

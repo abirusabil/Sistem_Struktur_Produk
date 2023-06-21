@@ -57,9 +57,9 @@ class MasterPendukungPackingController extends Controller
 
             $limiter->hit($key, $decayMinutes * 60);
 
-            return view('pages.Data-Materials.Accessories_Hardware.Tambah_Accessories_Hardware' , 
+            return view('pages.Data-Materials.Pendukung_Packing.Tambah_Pendukung_Packing' , 
                 [
-                    'type_menu'=>'Accessories_Hardware',
+                    'type_menu'=>'Pendukung_Packing',
                     'supliers'=>Suplier::all()
                 ]
             );

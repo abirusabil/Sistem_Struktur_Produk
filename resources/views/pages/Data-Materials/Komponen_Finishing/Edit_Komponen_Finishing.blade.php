@@ -25,7 +25,8 @@
             <div class="section-header">
                 <h1>Ubah Data Komponen Finishing </h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Komponen Finishing</a></div>
+                    <div class="breadcrumb-item active"><a href="/Komponen_Finishing">Komponen Finishing</a></div>
+                    <div class="breadcrumb-item active"><a href="/Komponen_Finishing">List Komponen Finishing</a></div>
                     <div class="breadcrumb-item">Ubah Komponen Finishing </div>
                 </div>
             </div>

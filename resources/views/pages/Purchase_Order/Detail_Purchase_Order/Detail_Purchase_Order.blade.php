@@ -59,39 +59,39 @@
                         <div class="card">
                             <div class="card-header d-block pb-0">
                                 <div class="row">
-                                    <div class="col-lg">
+                                    <div class="col-sm">
                                         <div class="row">
-                                            <div class="col-4"><p> Job_Order</p></div>
-                                            <div class="col px-0 "><h6 class="pt-1">: {{ $Purchase_Order->id }}</h6></div>
+                                            <div class="col-5"><p> Job_Order</p></div>
+                                            <div class="col px-0"><h6 class="pt-1">: {{ $Purchase_Order->id }}</h6></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-4"><p>Dasar_Po</p></div>
+                                            <div class="col-5"><p>Dasar_Po</p></div>
                                             <div class="col px-0"><h6 class="pt-1">: {{ $Purchase_Order->Dasar_Po }}</h6></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-4"><p>Buyer</p></div>
+                                            <div class="col-5"><p>Buyer</p></div>
                                             <div class="col px-0"><h6 class="pt-1">: {{ $Purchase_Order->Buyer->Nama_Buyer }}</h6></div>
                                         </div>
                                     </div>
-                                    <div class="col-lg">
+                                    <div class="col-sm">
                                         <div class="row">
-                                            <div class="col-4 "><p>Tanggal_Masuk</p></div>
+                                            <div class="col-5"><p>Tanggal_Masuk</p></div>
                                             <div class="col px-0"><h6 class="pt-1"> : {{ $Purchase_Order->Tanggal_Masuk }}</h6></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-4"><p>Schedule_Kirim</p></div>
+                                            <div class="col-5"><p>Schedule_Kirim</p></div>
                                             <div class="col px-0"><h6 class="pt-1">: {{ $Purchase_Order->Schedule_Kirim }}</h6></div>
                                         </div>
                                     </div>
                                 </div>
                                     <div class="row">
                                         @if(in_array(auth()->user()->akses , [1]))
-                                            <div class="col pl-2">
-                                                <a href="/Purchase_Order/{{ $Purchase_Order->id }}/edit" class="btn mt-2 rounded px-5 btn-warning ml-2">Edit</a>
+                                            <div class="col-4 ">
+                                                <a href="/Purchase_Order/{{ $Purchase_Order->id }}/edit" class="btn mt-2 rounded px-5 btn-warning ">Edit</a>
                                             </div> 
                                         @endif
-                                        <div class="col d-flex justify-content-end pr-3">
-                                            <a class="btn ml-3 mt-2 rounded px-5 btn-info ml-2" href="{{ route('purchase_order.detailkebutuhan', ['Purchase_Order' => $Purchase_Order->id]) }}">Detail Kebutuhan</a>
+                                        <div class="col-8 d-flex justify-content-end">
+                                            <a class="btn mt-2 rounded btn-info px-4" href="{{ route('purchase_order.detailkebutuhan', ['Purchase_Order' => $Purchase_Order->id]) }}">Detail Kebutuhan</a>
                                         </div>   
                                     </div>
                                 <hr class="border border-black opacity-100 ">

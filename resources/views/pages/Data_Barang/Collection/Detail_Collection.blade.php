@@ -22,8 +22,8 @@
             <div class="section-header">
                 <h1>Detail {{ $Collection->Nama_Collection }}</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Collection</a></div>
-                    <div class="breadcrumb-item">List Item {{ $Collection->Nama_Collection }}</div>
+                    <div class="breadcrumb-item active"><a href="/Collection">Collection</a></div>
+                    <div class="breadcrumb-item">Detail Collection</div>
                 </div>
             </div>
             <div class="section-body">

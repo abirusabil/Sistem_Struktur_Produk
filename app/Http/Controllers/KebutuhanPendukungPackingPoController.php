@@ -89,7 +89,7 @@ class KebutuhanPendukungPackingPoController extends Controller
 
             return view('pages.Data-Materials.Pendukung_Packing.Edit_Kebutuhan_Pendukung_Packing',
                 [
-                    'type_menu'=>'Purchase_Order',
+                    'type_menu'=>'PurchaseOrder',
                     'KebutuhaPendukungPacking'=>$Kebutuhan_Pendukung_Packing
                 ]
             ); 
@@ -119,6 +119,7 @@ class KebutuhanPendukungPackingPoController extends Controller
                 'Nama_Pendukung_Packing'=>'required',
                 'Lebar_Kebutuhan_Pendukung_Packing_Item'=>'',
                 'Panjang_Kebutuhan_Pendukung_Packing_Item'=>'',
+                'Keterangan_Kebutuhan_Pendukung_Packing_Item'=>'',
                 'Quantity_Kebutuhan_Pendukung_Packing_Item'=>'required',
                 'Tebal_Pendukung_Packing'=>'',
                 'Harga_Pendukung_Packing'=>'required'

@@ -25,7 +25,8 @@
             <div class="section-header">
                 <h1>Tambah Item Baru</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">Item</a></div>
+                    <div class="breadcrumb-item active"><a href="/Item">List Item</a></div>
                     <div class="breadcrumb-item">Tambah Item Baru</div>
                 </div>
             </div>

@@ -23,10 +23,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Ubah Data Kayu</h1>
+                <h1>Edit Data Kayu</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">User</a></div>
-                    <div class="breadcrumb-item">Ubah Data Kayu</div>
+                    <div class="breadcrumb-item active"><a href="/Kayu">Kayu</a></div>
+                    <div class="breadcrumb-item active"><a href="/Kayu">List Kayu</a></div>
+                    <div class="breadcrumb-item">Edit Data Kayu</div>
                 </div>
             </div>
             <div class="section-body">
