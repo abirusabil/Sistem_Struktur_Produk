@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Purchase Order')
+@section('title', 'List Kebutuhan Plywood MDF')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -22,8 +22,8 @@
             <div class="section-header">
                 <h1>Kebutuhan Plywood MDF</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Purchase Order</a></div>
-                    <div class="breadcrumb-item">Detail PO </div>
+                    <div class="breadcrumb-item active"><a href="/Plywood_MDF">Plywood MDF</a></div>
+                    <div class="breadcrumb-item">List Kebutuhan Plywood MDF</div>
                 </div>
             </div>
             <div class="section-body">

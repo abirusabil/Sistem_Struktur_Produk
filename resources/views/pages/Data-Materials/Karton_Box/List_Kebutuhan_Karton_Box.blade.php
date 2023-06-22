@@ -22,8 +22,8 @@
             <div class="section-header">
                 <h1>Kebutuhan Karton Box</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Purchase Order</a></div>
-                    <div class="breadcrumb-item">Detail PO </div>
+                    <div class="breadcrumb-item active"><a href="/Kebutuhan_Karton_Box">Karton Box</a></div>
+                    <div class="breadcrumb-item">List Kebutuhan Karton Box</div>
                 </div>
             </div>
             <div class="section-body">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Purchase Order')
+@section('title', 'List Kebutuhan Pendukung Packing')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -20,10 +20,10 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Kebutuhan Accessories Hardware</h1>
+                <h1>Kebutuhan Pendukung Packing</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Purchase Order</a></div>
-                    <div class="breadcrumb-item">Detail PO </div>
+                    <div class="breadcrumb-item active"><a href="#">Pendukung Packing</a></div>
+                    <div class="breadcrumb-item">List Kebutuhan Pendukung Packing</div>
                 </div>
             </div>
             <div class="section-body">
