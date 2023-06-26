@@ -68,15 +68,21 @@ class SuplierController extends Controller
      */
     public function show(Suplier $Suplier)
     {
-        return MasterKayu::where('Suplier_Id',$Suplier->id)->get();
-        return MasterPlywoodMdf::where('Suplier_Id',$Suplier->id)->get();
-        return MasterAccessoriesHardware::where('Suplier_Id',$Suplier->id)->get();
-        return MasterKomponenFinishing::where('Suplier_Id',$Suplier->id)->get();
-        return MasterPendukungPacking::where('Suplier_Id',$Suplier->id)->get();
+        $Kayu =  MasterKayu::where('Suplier_Id',$Suplier->id)->get();
+        $Plywood_MDF = MasterPlywoodMdf::where('Suplier_Id',$Suplier->id)->get();
+        $AccessoriesHardware =  MasterAccessoriesHardware::where('Suplier_Id',$Suplier->id)->get();
+        $Komponen_Finishing = MasterKomponenFinishing::where('Suplier_Id',$Suplier->id)->get();
+        $Pendukung_Packing =  MasterPendukungPacking::where('Suplier_Id',$Suplier->id)->get();
 
-        return view ('',
+        return view ('pages.Pembelian.Suplier.Detail_Suplier',
             [
-                "type_menu"=>"Suplier"
+                "type_menu"=>"Suplier",
+                "Suplier" => $Suplier,
+                "Kayu"=>$Kayu,
+                "Plywood_MDF"=>$Plywood_MDF,
+                "Accessories_Hardware"=>$AccessoriesHardware,
+                "Komponen_Finishing"=>$Komponen_Finishing,
+                "Pendukung_Packing"=>$Pendukung_Packing
             ]
         );
            
