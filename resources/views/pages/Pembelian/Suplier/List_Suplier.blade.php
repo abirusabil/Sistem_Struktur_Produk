@@ -114,6 +114,7 @@
                                                     <td>
                                                         <div class="d-flex">
                                                             <a href="/Suplier/{{ $Supliers->id }}/edit " class="btn btn-warning ml-2">Edit</a>
+                                                            <a href="/Suplier/{{ $Supliers->id }} " class="btn btn-info ml-2">Detail</a>
                                                             <form action="/Suplier/{{ $Supliers->id }}"  method="POST">
                                                                 @method('delete')
                                                                 @csrf

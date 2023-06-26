@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\SuplierExport;
 use App\Imports\SuplierImport;
+use App\Models\MasterAccessoriesHardware;
+use App\Models\MasterKayu;
+use App\Models\MasterKomponenFinishing;
+use App\Models\MasterPendukungPacking;
+use App\Models\MasterPlywoodMdf;
 
 class SuplierController extends Controller
 {
@@ -61,9 +66,20 @@ class SuplierController extends Controller
      * @param  \App\Models\Suplier  $suplier
      * @return \Illuminate\Http\Response
      */
-    public function show(Suplier $suplier)
+    public function show(Suplier $Suplier)
     {
-        
+        return MasterKayu::where('Suplier_Id',$Suplier->id)->get();
+        return MasterPlywoodMdf::where('Suplier_Id',$Suplier->id)->get();
+        return MasterAccessoriesHardware::where('Suplier_Id',$Suplier->id)->get();
+        return MasterKomponenFinishing::where('Suplier_Id',$Suplier->id)->get();
+        return MasterPendukungPacking::where('Suplier_Id',$Suplier->id)->get();
+
+        return view ('',
+            [
+                "type_menu"=>"Suplier"
+            ]
+        );
+           
     }
 
     /**
