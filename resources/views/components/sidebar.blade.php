@@ -1,10 +1,10 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="index.html">Aneka Regalindo</a>
+            <a href="/Purchase_Order">Aneka Regalindo</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">AR</a>
+            <a href="/Purchase_Order">AR</a>
         </div>
         <ul class="sidebar-menu">
 

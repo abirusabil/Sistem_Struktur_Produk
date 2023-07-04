@@ -53,28 +53,28 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Tinggi Item</label>
-                                        <input type="text" name="Tinggi_Item" id="Tinggi_Item" class="form-control @error('Tinggi_Item') is-invalid @enderror" value="{{ old('Tinggi_Item') }}">
+                                        <input type="number" name="Tinggi_Item" id="Tinggi_Item" class="form-control @error('Tinggi_Item') is-invalid @enderror" value="{{ old('Tinggi_Item') }}">
                                         @error('Tinggi_Item')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Lebar Item</label>
-                                        <input type="text" name="Lebar_Item" id="Lebar_Item" class="form-control @error('Lebar_Item') is-invalid @enderror" value="{{ old('Lebar_Item') }}">
+                                        <input type="number" name="Lebar_Item" id="Lebar_Item" class="form-control @error('Lebar_Item') is-invalid @enderror" value="{{ old('Lebar_Item') }}">
                                         @error('Lebar_Item')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Panjang Item</label>
-                                        <input type="text" name="Panjang_Item" id="Panjang_Item" class="form-control @error('Panjang_Item') is-invalid @enderror" value="{{ old('Panjang_Item') }}">
+                                        <input type="number" name="Panjang_Item" id="Panjang_Item" class="form-control @error('Panjang_Item') is-invalid @enderror" value="{{ old('Panjang_Item') }}">
                                         @error('Panjang_Item')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Berat Item</label>
-                                        <input type="text" name="Berat_Item" id="Berat_Item" class="form-control @error('Berat_Item') is-invalid @enderror" value="{{ old('Berat_Item') }}">
+                                        <input type="number" name="Berat_Item" id="Berat_Item" class="form-control @error('Berat_Item') is-invalid @enderror" value="{{ old('Berat_Item') }}">
                                         @error('Berat_Item')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror

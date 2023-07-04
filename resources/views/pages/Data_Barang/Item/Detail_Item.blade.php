@@ -56,7 +56,7 @@
                 <form method="put" action="{{route('Kebutuhan_Kayu_Item.create')}}" >
                     @csrf
                     <label for="loop_count">Masukkan jumlah komponen:</label>
-                    <input type="number" name="loop_count" id="loop_count">
+                    <input type="number" name="loop_count" max="100" id="loop_count">
                     <input type="hidden" name="id" value="{{ $Item->id }}">
                     <button  class="btn rounded btn-success ml-2" type="submit">Submit</button>
                 </form>
@@ -105,7 +105,7 @@
                 <form method="put" action="{{route('Kebutuhan_Plywood_MDF_Item.create') }}">
                     @csrf
                     <label for="loop_count">Masukkan jumlah komponen:</label>
-                    <input type="number" name="loop_count" id="loop_count">
+                    <input type="number" name="loop_count" max="100" id="loop_count">
                     <input type="hidden" name="id" value="{{ $Item->id }}">
                     <button class="btn rounded btn-success ml-2" type="submit">Submit</button>
                 </form>
@@ -153,7 +153,7 @@
                 <form method="put" action="{{route('Kebutuhan_Accessories_Item.create') }}">
                     @csrf
                     <label for="loop_count">Masukkan jumlah komponen:</label>
-                    <input type="number" name="loop_count" id="loop_count">
+                    <input type="number" name="loop_count" max="100" id="loop_count">
                     <input type="hidden" name="id" value="{{ $Item->id }}">
                     <button class="btn rounded btn-success ml-2" type="submit">Submit</button>
                 </form>
@@ -201,7 +201,7 @@
                 <form method="put" action="{{route('Kebutuhan_Finishing_Item.create') }}">
                     @csrf
                     <label for="loop_count">Masukkan jumlah komponen:</label>
-                    <input type="number" name="loop_count" id="loop_count">
+                    <input type="number" name="loop_count" max="100" id="loop_count">
                     <input type="hidden" name="id" value="{{ $Item->id }}">
                     <button class="btn rounded btn-success ml-2" type="submit">Submit</button>
                 </form>
@@ -249,7 +249,7 @@
                 <form method="put" action="{{route('Kebutuhan_Packing_Item.create') }}">
                     @csrf
                     <label for="loop_count">Masukkan jumlah komponen:</label>
-                    <input type="number" name="loop_count" id="loop_count">
+                    <input type="number" name="loop_count" max="100" id="loop_count">
                     <input type="hidden" name="id" value="{{ $Item->id }}">
                     <button class="btn rounded btn-success ml-2" type="submit">Submit</button>
                 </form>
@@ -297,7 +297,7 @@
                 <form method="put" action="{{route('Kebutuhan_Karton_Box_Item.create') }}">
                     @csrf
                     <label for="loop_count">Masukkan jumlah komponen:</label>
-                    <input type="number" name="loop_count" id="loop_count">
+                    <input type="number" name="loop_count" max="100" id="loop_count">
                     <input type="hidden" name="id" value="{{ $Item->id }}">
                     <button class="btn rounded btn-success ml-2" type="submit">Submit</button>
                 </form>

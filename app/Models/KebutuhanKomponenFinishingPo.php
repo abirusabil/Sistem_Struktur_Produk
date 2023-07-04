@@ -35,4 +35,9 @@ class KebutuhanKomponenFinishingPo extends Model
     {
         return $this->belongsTo(PurchaseOrder::class,'Job_Order','id');
     }
+
+    public function Item()
+    {
+        return $this->belongsTo(Item::class,'Item_Id','id');
+    }
 }

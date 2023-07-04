@@ -47,6 +47,7 @@
                                                 <table class="table table-hover" id="table-1">
                                                     <thead class="table-secondary">
                                                         <tr>
+                                                            <th>No</th>
                                                             <th class="px-5">Nama_Item</th>
                                                             <th class="px-3">NO Cutting</th>
                                                             <th class="px-3">Kode Material</th>
@@ -78,6 +79,7 @@
                                                         @endphp
                                                             @foreach($DetailKebutuhanKayuPo as $kebutuhanKayuItem)
                                                             @php
+                                                                
                                                                 $tebal = $kebutuhanKayuItem->Tebal_Kebutuhan_Kayu_Item;
                                                                 $lebar = $kebutuhanKayuItem->Lebar_Kebutuhan_Kayu_Item;
                                                                 $panjang = $kebutuhanKayuItem->Panjang_Kebutuhan_Kayu_Item;
@@ -94,6 +96,7 @@
                                                                 $total_biaya_kayu += $total_biaya ;
                                                             @endphp
                                                                 <tr>
+                                                                    <td>{{ $loop->iteration; }}</td>
                                                                     <td class="border border-black px-3">{{ $kebutuhanKayuItem->Nama_Item }}</td>
                                                                     <td class="border border-black px-3">{{ $kebutuhanKayuItem->No_Cutting }}</td>
                                                                     <td class="border border-black px-3">{{ $kebutuhanKayuItem->Kayu_Id }}</td>

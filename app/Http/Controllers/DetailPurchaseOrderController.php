@@ -2,8 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BoronganDalamPo;
+use App\Models\BoronganLuarPo;
 use App\Models\DetailPurchaseOrder;
 use App\Models\Item;
+use App\Models\KebutuhanAccessoriesHardwarePo;
+use App\Models\KebutuhanKartonBoxPo;
+use App\Models\KebutuhanKayuPo;
+use App\Models\KebutuhanKomponenFinishingPo;
+use App\Models\KebutuhanPendukungPackingPo;
+use App\Models\KebutuhanPlywoodMdfPo;
 use Illuminate\Http\Request;
 
 class DetailPurchaseOrderController extends Controller
@@ -113,8 +121,6 @@ class DetailPurchaseOrderController extends Controller
     {
         $validatedData = $request->validate(
             [
-                'Job_Order'=>'required',
-                'Item_Id'=>'required',
                 'Quantity_Purchase_Order'=>'required',
                 
             ],[
@@ -124,6 +130,54 @@ class DetailPurchaseOrderController extends Controller
         );
         // return $validatedData;
         DetailPurchaseOrder::where('id', $Detail_Purchase_Order->id)->update($validatedData);
+        KebutuhanKayuPo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->update($validatedData);
+        KebutuhanPlywoodMdfPo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->update($validatedData);
+        KebutuhanAccessoriesHardwarePo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->update($validatedData);
+        KebutuhanKomponenFinishingPo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->update($validatedData);
+        KebutuhanPendukungPackingPo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->update($validatedData);
+        KebutuhanKartonBoxPo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->update($validatedData);
+        BoronganDalamPo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->update($validatedData);
+        BoronganLuarPo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->update($validatedData);
         return redirect("/Purchase_Order/$Detail_Purchase_Order->Job_Order")->with('success', 'Data Berhasil Dihapus');
     }
 

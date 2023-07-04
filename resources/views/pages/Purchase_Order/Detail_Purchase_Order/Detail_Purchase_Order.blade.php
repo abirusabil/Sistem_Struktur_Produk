@@ -31,7 +31,7 @@
                 <form method="get" action="{{ route('Detail_Purchase_Order.create') }}">
                     @csrf
                     <label for="loop_count">Masukkan jumlah item:</label>
-                    <input type="number" name="loop_count" id="loop_count">
+                    <input type="number" name="loop_count" max="100" id="loop_count">
                     <input type="hidden" name="id" value="{{ $Purchase_Order->id }}">
                     <input type="hidden" name="buyer_id" value="{{ $Purchase_Order->Buyer_Id }}">
                     <button class="btn rounded btn-success ml-2" type="submit">Submit</button>

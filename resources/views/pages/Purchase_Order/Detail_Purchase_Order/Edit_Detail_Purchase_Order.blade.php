@@ -20,7 +20,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Edit Item Purchase Order</h1>
+                <h1>Edit Item Purchase Order </h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="/Purchase_Order">Purchase Order</a></div>
                     <div class="breadcrumb-item active"><a href="/Purchase_Order/{{ $Detail_Purchase_Order->Job_Order }}">Detail Purchase Order</a></div>
@@ -39,9 +39,12 @@
                                     <div class="form-group ">
                                         <input type="hidden" name="Job_Order" id="Job_Order" class="form-control @error('Job_Order') is-invalid @enderror" value="{{ $Detail_Purchase_Order->Job_Order }}">
                                     </div>
+                                    <div class="form-group ">
+                                        <input type="hidden" name="Item_Id" id="Item_Id" class="form-control @error('Job_Order') is-invalid @enderror" value="{{ $Detail_Purchase_Order->Item_Id }}">
+                                    </div>
                                     <div class="form-group w-50 ">
-                                        <label for="Item_Id">Item:</label>
-                                        <select name="Item_Id" disabled="true" id="Item_Id" class="form-control">
+                                        <label for="item">Item:</label>
+                                        <select name="item" disabled="true" id="item" class="form-control">
                                             <option value="" >--Pilih Item--</option>
                                             @foreach ($Items as $Item)
                                             @if ( old('Item_Id',$Detail_Purchase_Order->Item_Id) == $Item->id )

@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Quantity</label>
-                                        <input type="text" name="Quantity_Komponen_Finishing" id="Quantity_Komponen_Finishing" class="form-control @error('Quantity_Komponen_Finishing') is-invalid @enderror"   value="{{ old('Quantity_Komponen_Finishing') }}">
+                                        <input type="number" name="Quantity_Komponen_Finishing" id="Quantity_Komponen_Finishing" class="form-control @error('Quantity_Komponen_Finishing') is-invalid @enderror"   value="{{ old('Quantity_Komponen_Finishing') }}">
                                         @error('Quantity_Komponen_Finishing')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
