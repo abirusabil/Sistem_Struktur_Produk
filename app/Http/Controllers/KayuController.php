@@ -30,7 +30,7 @@ class KayuController extends Controller
         return view('pages/Data-Materials/Kayu/Master-Kayu',
             [
                 "type_menu" => "Kayu" ,
-                'MasterKayu' => MasterKayu::with('Suplier')->filter(request(['search']))->paginate(10),
+                'MasterKayu' => MasterKayu::with('Suplier')->filter(request(['search']))->paginate(50),
                 // 'Suplier'=>Suplier::all()
             ]
         );

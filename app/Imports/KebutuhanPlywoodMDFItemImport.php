@@ -21,8 +21,9 @@ class KebutuhanPlywoodMDFItemImport implements ToModel ,WithHeadingRow
     public function model(array $row)
     {
         return new KebutuhanPlywoodMDFItem([
-            'Item_Id' => $this->itemId,
+            // 'Item_Id' => $this->itemId,
             'id' => $row['kode_cutting'],
+            'Item_Id' => $row['item_id'],
             'Plywood_MDF_Id' => $row['kode_material'],
             'KP_Kebutuhan_Plywood_MDF_Item' => $row['kp'],
             'Keterangan_Kebutuhan_Plywood_MDF_Item' => $row['keterangan'],

@@ -1242,7 +1242,7 @@
                                                                     @php
                                                                         $total_harga_kayu = 0; // nilai awal total harga
                                                                     @endphp
-                                                                    @foreach ($kebutuhan_plywood_mdfs as $kebutuhan_plywood_mdf)
+                                                                    @foreach ($kebutuhan_kayus as $kebutuhan_kayu)
                                                                         @php
                                                                             $total_harga_kayu += 
                                                                                 $kebutuhan_kayu->MasterKayu->Harga_Kayu*

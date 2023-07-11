@@ -29,7 +29,7 @@ class MasterKomponenFinishingController extends Controller
         return view('pages.Data-Materials.Komponen_Finishing.Master_Komponen_Finishing',
             [
                 'type_menu'=>'Komponen_Finishing',
-                'Komponen_Finishing'=>MasterKomponenFinishing::with('Suplier')->filter(request(['search']))->paginate(10)
+                'Komponen_Finishing'=>MasterKomponenFinishing::with('Suplier')->filter(request(['search']))->paginate(50)
             ]
         );
     }

@@ -47,7 +47,7 @@
                                                 <table class="table table-hover" id="table-1">
                                                     <thead class="table-secondary">
                                                         <tr>
-                                                            <th>No</th>
+                                                            <th class="px-3">No</th>
                                                             <th class="px-5">Nama_Item</th>
                                                             <th class="px-3">NO Cutting</th>
                                                             <th class="px-3">Kode Material</th>
@@ -96,7 +96,7 @@
                                                                 $total_biaya_kayu += $total_biaya ;
                                                             @endphp
                                                                 <tr>
-                                                                    <td>{{ $loop->iteration; }}</td>
+                                                                    <td class="border border-black px-1 text-center">{{ $loop->iteration; }}</td>
                                                                     <td class="border border-black px-3">{{ $kebutuhanKayuItem->Nama_Item }}</td>
                                                                     <td class="border border-black px-3">{{ $kebutuhanKayuItem->No_Cutting }}</td>
                                                                     <td class="border border-black px-3">{{ $kebutuhanKayuItem->Kayu_Id }}</td>
@@ -157,6 +157,7 @@
                                                         <table class="table table-hover" id="table-1">
                                                             <thead class="table-secondary">
                                                                 <tr>
+                                                                    <th class="px-3">No</th>
                                                                     <th class="px-5">Nama_Item</th>
                                                                     <th class="px-3">NO Cutting</th>
                                                                     <th class="px-3">Kode Material</th>
@@ -198,6 +199,7 @@
                                                                         $total_biaya_mdf += $total_biaya ;
                                                                     @endphp
                                                                         <tr>
+                                                                            <td class="border border-black px-1 text-center">{{ $loop->iteration; }}</td>
                                                                             <td class="border border-black px-3">{{ $kebutuhanplywoodmdfitem->Nama_Item }}</td>
                                                                             <td class="border border-black px-3">{{ $kebutuhanplywoodmdfitem->No_Cutting }}</td>
                                                                             <td class="border border-black px-3">{{ $kebutuhanplywoodmdfitem->Plywood_MDF_Id }}</td>
@@ -256,6 +258,7 @@
                                                         <table class="table table-hover" id="table-1">
                                                             <thead class="table-secondary">
                                                                 <tr>
+                                                                    <th class="px-3">No</th>
                                                                     <th class="px-5">Nama_Item</th>
                                                                     <th class="px-3">NO Cutting</th>
                                                                     <th class="px-3">Kode Material</th>
@@ -287,6 +290,7 @@
                                                                         $total_biaya_accessories += $total_biaya ;
                                                                     @endphp
                                                                         <tr>
+                                                                            <td class=" border border-black px-1 text-center">{{ $loop->iteration }}</td>
                                                                             <td class="border border-black px-3">{{ $KebutuhanAccessoriesHardwarePo->Nama_Item }}</td>
                                                                             <td class="border border-black px-3">{{ $KebutuhanAccessoriesHardwarePo->No_Cutting }}</td>
                                                                             <td class="border border-black px-3">{{ $KebutuhanAccessoriesHardwarePo->Accessories_Hardware_Id }}</td>
@@ -341,6 +345,7 @@
                                                         <table class="table table-hover" id="table-1">
                                                             <thead class="table-secondary">
                                                                 <tr>
+                                                                    <th class="px-3">No</th>
                                                                     <th class="px-5">Nama_Item</th>
                                                                     <th class="px-3">NO Cutting</th>
                                                                     <th class="px-3">Kode Material</th>
@@ -370,6 +375,7 @@
                                                                         $total_biaya_komponen_finishing += $total_biaya ;
                                                                     @endphp
                                                                         <tr>
+                                                                            <td class=" border border-black px-1 text-center">{{ $loop->iteration }}</td>
                                                                             <td class="border border-black px-3">{{ $KebutuhanKomponenFinishingPo->Nama_Item }}</td>
                                                                             <td class="border border-black px-3">{{ $KebutuhanKomponenFinishingPo->No_Cutting }}</td>
                                                                             <td class="border border-black px-3">{{ $KebutuhanKomponenFinishingPo->Komponen_Finishing_Id }}</td>
@@ -422,6 +428,8 @@
                                                         <table class="table table-hover" id="table-1">
                                                             <thead class="table-secondary">
                                                                 <tr>
+
+                                                                    <th class="px-3">No</th>
                                                                     <th class="px-5">Nama_Item</th>
                                                                     <th class="px-3">NO Cutting</th>
                                                                     <th class="px-3">Kode Material</th>
@@ -470,6 +478,7 @@
                                                                         $total_biaya_pendukung_packing += $total_biaya ;
                                                                     @endphp
                                                                         <tr>
+                                                                            <td class=" border border-black px-1 text-center">{{ $loop->iteration }}</td>
                                                                             <td class="border border-black px-3">{{ $KebutuhanPendukungPackingPo->Nama_Item }} </td>
                                                                             <td class="border border-black px-3">{{ $KebutuhanPendukungPackingPo->No_Cutting }}</td>
                                                                             <td class="border border-black px-3">{{ $KebutuhanPendukungPackingPo->Pendukung_Packing_Id }}</td>
@@ -527,6 +536,7 @@
                                                         <table class="table table-hover" id="table-1">
                                                             <thead class="table-secondary">
                                                                 <tr>
+                                                                    <th class="px-3">No</th>
                                                                     <th class="px-5">Nama_Item</th>
                                                                     <th class="px-3">NO Cutting</th>
                                                                     <th class="px-3">Material</th>
@@ -558,6 +568,7 @@
                                                                         $total_biaya_karton_box += $total_biaya ;
                                                                     @endphp
                                                                         <tr>
+                                                                            <td class=" border border-black px-1 text-center">{{ $loop->iteration }}</td>
                                                                             <td class="border border-black px-3">{{ $KebutuhanKartonBoxPo->Nama_Item }}</td>
                                                                             <td class="border border-black px-3">{{ $KebutuhanKartonBoxPo->No_Cutting }}</td>
                                                                             <td class="border border-black px-3">{{ $KebutuhanKartonBoxPo->Jenis_Kebutuhan_Karton_Box }}</td>

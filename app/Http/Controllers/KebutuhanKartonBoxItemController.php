@@ -85,21 +85,22 @@ class KebutuhanKartonBoxItemController extends Controller
                 'required'=>'Kolom Tidak Boleh Kosong',
                 'unique'=>'Kode Telah Digunakan Silahkan Gunakan Kode Lain'
             ]
-            );
+        );
             // return $validatedData;
             // return $request->input('Item_Id.0');
             for ($i = 0; $i < count($request->Tinggi_Kebutuhan_Karton_Box_Item); $i++) {
-                KebutuhanKartonBoxItem::create([
-                    'id' => $validatedData['id'][$i],
-                    'Item_Id' => $validatedData['Item_Id'][$i],
-                    'Jenis_Kebutuhan_Karton_Box' => $validatedData['Jenis_Kebutuhan_Karton_Box'][$i],
-                    'Keterangan_Kebutuhan_Karton_Box_Item' => $validatedData['Keterangan_Kebutuhan_Karton_Box_Item'][$i],
-                    'Tinggi_Kebutuhan_Karton_Box_Item' => $validatedData['Tinggi_Kebutuhan_Karton_Box_Item'][$i],
-                    'Lebar_Kebutuhan_Karton_Box_Item' => $validatedData['Lebar_Kebutuhan_Karton_Box_Item'][$i],
-                    'Panjang_Kebutuhan_Karton_Box_Item' => $validatedData['Panjang_Kebutuhan_Karton_Box_Item'][$i],
-                    'Quantity_Kebutuhan_Karton_Box_Item' => $validatedData['Quantity_Kebutuhan_Karton_Box_Item'][$i],
-                    'Harga_Kebutuhan_Karton_Box_Item' => $validatedData['Harga_Kebutuhan_Karton_Box_Item'][$i],
-                ]);
+                    KebutuhanKartonBoxItem::create([
+                        'id' => $validatedData['id'][$i],
+                        'Item_Id' => $validatedData['Item_Id'][$i],
+                        'Jenis_Kebutuhan_Karton_Box' => $validatedData['Jenis_Kebutuhan_Karton_Box'][$i],
+                        'Keterangan_Kebutuhan_Karton_Box_Item' => $validatedData['Keterangan_Kebutuhan_Karton_Box_Item'][$i],
+                        'Tinggi_Kebutuhan_Karton_Box_Item' => $validatedData['Tinggi_Kebutuhan_Karton_Box_Item'][$i],
+                        'Lebar_Kebutuhan_Karton_Box_Item' => $validatedData['Lebar_Kebutuhan_Karton_Box_Item'][$i],
+                        'Panjang_Kebutuhan_Karton_Box_Item' => $validatedData['Panjang_Kebutuhan_Karton_Box_Item'][$i],
+                        'Quantity_Kebutuhan_Karton_Box_Item' => $validatedData['Quantity_Kebutuhan_Karton_Box_Item'][$i],
+                        'Harga_Kebutuhan_Karton_Box_Item' => $validatedData['Harga_Kebutuhan_Karton_Box_Item'][$i],
+                    ]
+                );
             }
         
             return redirect("/Item/{$request->input('Item_Id.0')}")->with('success_karton_box', 'Data Berhasil Ditambahkan');
@@ -222,6 +223,6 @@ class KebutuhanKartonBoxItemController extends Controller
         Excel::import($import, $request->file('excel_file'));
 
         // Redirect kembali ke halaman awal
-        return redirect("/Item/$itemId")->with('success_accessories_hardware', 'Item berhasil diimport!');
+        return redirect("/Item/$itemId")->with('success_karton_box', 'Item berhasil diimport!');
     }
 }

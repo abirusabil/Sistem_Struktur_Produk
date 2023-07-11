@@ -21,8 +21,9 @@ class KebutuhanKayuItemImport implements ToModel ,WithHeadingRow
     public function model(array $row)
     {
         return new KebutuhanKayuItem([
-            'Item_Id' => $this->itemId,
+            // 'Item_Id' => $this->itemId,
             'id' => $row['kode_cutting'],
+            'Item_Id' => $row['kode_item'],
             'Kayu_Id' => $row['kode_kayu'],
             'KP_Kebutuhan_Kayu_Item' => $row['kp'],
             'Keterangan_Kebutuhan_Kayu_Item' => $row['keterangan'],
