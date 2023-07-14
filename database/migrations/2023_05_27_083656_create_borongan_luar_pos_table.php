@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('borongan_luar_pos', function (Blueprint $table) {
             $table->id();
             $table->string('Job_Order')->foreign()->references('id')->on('purchase_orders');
+            $table->string('Item_Id')->foreign()->references('id')->on('items');
             $table->string('Nama_Item');
             $table->decimal('Quantity_Purchase_Order');
             $table->string('No_Cutting')->foreign()->references('id')->on('borongan_luar_items');

@@ -191,6 +191,54 @@ class DetailPurchaseOrderController extends Controller
     {
         // return $Detail_Purchase_Order;
         DetailPurchaseOrder::destroy($Detail_Purchase_Order->id);
+        KebutuhanKayuPo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->delete();
+        KebutuhanPlywoodMdfPo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->delete();
+        KebutuhanAccessoriesHardwarePo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->delete();
+        KebutuhanKomponenFinishingPo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->delete();
+        KebutuhanPendukungPackingPo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->delete();
+        KebutuhanKartonBoxPo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->delete();
+        BoronganDalamPo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->delete();
+        BoronganLuarPo::where(
+            [
+                ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                ['Job_Order',$Detail_Purchase_Order->Job_Order]
+            ]
+        )->delete();
         return redirect("/Purchase_Order/$Detail_Purchase_Order->Job_Order")->with('success', 'Data Berhasil Dihapus');
     }
 }

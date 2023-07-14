@@ -21,8 +21,9 @@ class KebutuhanAccessoriesHardwareItemImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         return new KebutuhanAccessoriesHardwareItem([
-            'Item_Id' => $this->itemId,
+            // 'Item_Id' => $this->itemId,
             'id' => $row['kode_cutting'],
+            'Item_Id' => $row['kode_item'],
             'Accessories_Hardware_Id' => $row['kode_accessories_hardware'],
             'Keterangan_Kebutuhan_Accessories_Hardware_Item' => $row['keterangan'],
             'Quantity_Kebutuhan_Accessories_Hardware_Item' => $row['quantity'],

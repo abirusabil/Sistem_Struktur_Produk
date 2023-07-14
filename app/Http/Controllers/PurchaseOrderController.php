@@ -331,10 +331,10 @@ class PurchaseOrderController extends Controller
                 $KebutuhanKomponenFinishingPo->Harga_Komponen_Finishing = $kebutuhanKomponenfinishingitem->MasterKomponenFinishing->Harga_Komponen_Finishing ;
                 $kebutuhanKomponenFinishingPOs[] = $KebutuhanKomponenFinishingPo;
                 // Simpan entitas KebutuhanKayuPO
-                $KebutuhanKomponenFinishingPo->save();
-                if (!KebutuhanAccessoriesHardwarePo::where('Job_Order', $detailPurchaseOrder->Job_Order)->where('Item_Id', $detailPurchaseOrder->Item_Id)->where('No_Cutting', $KebutuhanKomponenFinishingPo->id)->exists()) 
+                // $KebutuhanKomponenFinishingPo->save();
+                if (!KebutuhanKomponenFinishingPo::where('Job_Order', $detailPurchaseOrder->Job_Order)->where('Item_Id', $detailPurchaseOrder->Item_Id)->where('No_Cutting', $KebutuhanKomponenFinishingPo->id)->exists()) 
                     {
-                        $KebutuhanAccesoriesHardwarePo->save();
+                        $KebutuhanKomponenFinishingPo->save();
                     }
             }
         }
