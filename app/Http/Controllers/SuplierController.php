@@ -68,6 +68,8 @@ class SuplierController extends Controller
      */
     public function show(Suplier $Suplier)
     {
+        // return  count(MasterAccessoriesHardware::where('Suplier_Id',$Suplier->id)->get());
+        // dd();
         $Kayu =  MasterKayu::where('Suplier_Id',$Suplier->id)->get();
         $Plywood_MDF = MasterPlywoodMdf::where('Suplier_Id',$Suplier->id)->get();
         $AccessoriesHardware =  MasterAccessoriesHardware::where('Suplier_Id',$Suplier->id)->get();
@@ -121,6 +123,24 @@ class SuplierController extends Controller
             
 
         ]);
+
+        // log activity
+
+        $originalData = $Suplier->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->inLog('Suplier')
+            ->performedOn($Suplier)
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validatedData
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+            
+
+         //end log activity
 
         Suplier::where('id',$Suplier->id)
         ->update($validatedData);

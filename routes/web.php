@@ -187,6 +187,7 @@ Route::resource('/Gambar_Kerja',GambarKerjaController::class)->middleware('auth'
 // Purchase Order
 Route::get('/', [PurchaseOrderController::class, 'index'])->name('home')->middleware('auth')->middleware('auth');
 Route::resource('/Purchase_Order', PurchaseOrderController::class)->middleware('auth');
+Route::get('/Purchase_Order/{Purchase_Order}/Edit_Status',[PurchaseOrderController::class,'Edit_Status'])->name('Purchase_Order.Edit_Status')->middleware('auth');
 Route::get('/Purchase_Order/Export',[PurchaseOrderController::class,'export'])->name('Purchase_Order.export')->middleware('auth');
 Route::get('/Purchase_Order/{Purchase_Order}/detailkebutuhan', [PurchaseOrderController::class, 'detailkebutuhan'])->name('purchase_order.detailkebutuhan')->middleware('auth');
 Route::get('/Purchase_Order/{Purchase_Order}/exportToPDF', [PurchaseOrderController::class, 'exportToPDF'])->name('purchase_order.exportToPDF')->middleware('auth');

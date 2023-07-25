@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Ecommerce Dashboard')
+@section('title', 'List User')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -41,7 +41,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label>Email User</label>
+                                        <label>Username</label>
                                         <input type="Email" name="email" class="form-control @error('email') is-invalid @enderror">
                                         @error('email')
                                         <div class="invalid-feedback">{{ $message }}</div>

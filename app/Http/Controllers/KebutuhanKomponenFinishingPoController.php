@@ -137,6 +137,22 @@ class KebutuhanKomponenFinishingPoController extends Controller
                 ['Job_Order',$Kebutuhan_Komponen_Finishing->Job_Order]
             ]
         )->update($validatedData2);
+        // log activity
+
+        $originalData = $Kebutuhan_Komponen_Finishing->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Kebutuhan_Komponen_Finishing)
+            ->inLog('Kebutuhan Komponen Finishing')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => array_merge($validatedData, $validatedData2)
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity
         KebutuhanKomponenFinishingPo::where('id',$Kebutuhan_Komponen_Finishing->id)->update($validatedData);
         return redirect()->route('purchase_order.detailkebutuhan', ['Purchase_Order' =>$Kebutuhan_Komponen_Finishing->Job_Order])->with('success_komponen_finishing', 'Data Berhasil diubah');
     }

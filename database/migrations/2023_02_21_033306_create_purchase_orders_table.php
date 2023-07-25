@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('Buyer_Id')->foreign('')->references('id')->on('buyers');
             $table->date('Tanggal_Masuk');
             $table->date('Schedule_Kirim');
+            $table->string('Status');
             $table->timestamps();
         });
     }

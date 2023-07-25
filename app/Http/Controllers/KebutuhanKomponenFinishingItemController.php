@@ -172,6 +172,22 @@ class KebutuhanKomponenFinishingItemController extends Controller
                 'required'=>'Kolom Tidak Boleh Kosong',
             ]
         );
+        // log activity
+
+        $originalData = $Kebutuhan_Finishing_Item->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Kebutuhan_Finishing_Item)
+            ->inLog('Kebutuhan Finishing Item')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validatedData
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity
         // return $validatedData;
         KebutuhanKomponenFinishingItem::where('id',$Kebutuhan_Finishing_Item->id)->update($validatedData);
         return redirect("/Item/$Kebutuhan_Finishing_Item->Item_Id")->with('success_komponen_finishing','Data Berhasil diubah');

@@ -178,6 +178,22 @@ class KebutuhanAccessoriesHardwareItemController extends Controller
                 'required'=>'Kolom Tidak Boleh Kosong',
             ]
         );
+         // log activity
+
+         $originalData = $Kebutuhan_Accessories_Item->getOriginal();
+
+         activity()
+             ->causedBy(auth()->user())
+             ->performedOn($Kebutuhan_Accessories_Item)
+             ->inLog('Kebutuhan Accessories Item')
+             ->withProperties([
+                 'old' => $originalData,
+                 'new' => $validatedData
+                 ])
+             ->event('Update')
+             ->log('This Model has been Update');
+ 
+         //end log activity
         // return $validatedData;
         KebutuhanAccessoriesHardwareItem::where('id',$Kebutuhan_Accessories_Item->id)->update($validatedData);
         return redirect("/Item/$Kebutuhan_Accessories_Item->Item_Id")->with('success_accessories_hardware','Data Berhasil diubah');

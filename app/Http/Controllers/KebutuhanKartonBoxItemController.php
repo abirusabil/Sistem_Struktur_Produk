@@ -183,6 +183,22 @@ class KebutuhanKartonBoxItemController extends Controller
                 
             ]
             );
+            // log activity
+
+            $originalData = $Kebutuhan_Karton_Box_Item->getOriginal();
+
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($Kebutuhan_Karton_Box_Item)
+                ->inLog('Kebutuhan Karton Box PO')
+                ->withProperties([
+                    'old' => $originalData,
+                    'new' => $validatedData
+                    ])
+                ->event('Update')
+                ->log('This Model has been Update');
+
+            //end log activity
             // return $validatedData;
             KebutuhanKartonBoxItem::where('id',$Kebutuhan_Karton_Box_Item->id)->update($validatedData);
             return redirect("/Item/$Kebutuhan_Karton_Box_Item->Item_Id")->with('success_karton_box', 'Data Berhasil Diubah');

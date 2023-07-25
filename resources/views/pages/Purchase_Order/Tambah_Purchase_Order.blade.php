@@ -70,6 +70,9 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="Status" id="Status" class="form-control @error('Status') is-invalStatus @enderror" value="0">
+                                    </div>
                                         <button type="submit" class="btn btn-primary px-5">Simpan</button>
                                 </form>
                             </div>

@@ -148,6 +148,22 @@ class MasterPlywoodMdfController extends Controller
             'required' => 'Kolom tidak boleh kosong',
             ]
         );
+        // log activity
+
+        $originalData = $Plywood_MDF->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Plywood_MDF)
+            ->inLog('Master Pendukung Packing')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validatedData
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity   
         // return $validatedData;
         MasterPlywoodMdf::where('id',$Plywood_MDF->id)
         ->update($validatedData);

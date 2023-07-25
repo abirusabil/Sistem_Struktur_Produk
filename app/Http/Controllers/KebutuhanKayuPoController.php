@@ -141,7 +141,22 @@ class KebutuhanKayuPoController extends Controller
                 'required' => 'Kolom Tidak Boleh Kosong'
             ]
         );
+         // log activity
 
+         $originalData = $Kebutuhan_Kayu->getOriginal();
+
+         activity()
+             ->causedBy(auth()->user())
+             ->performedOn($Kebutuhan_Kayu)
+             ->inLog('Kebutuhan Kayu PO')
+             ->withProperties([
+                 'old' => $originalData,
+                 'new' => array_merge($validatedData, $validatedData2)
+                 ])
+             ->event('Update')
+             ->log('This Model has been Update');
+ 
+        //end log activity
         KebutuhanKayuPo::where(
             [
                 ['Kayu_Id', $Kebutuhan_Kayu->Kayu_Id],

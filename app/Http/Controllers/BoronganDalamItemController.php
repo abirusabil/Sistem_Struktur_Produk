@@ -162,6 +162,24 @@ class BoronganDalamItemController extends Controller
                 'required'=>'Kolom Tidak Boleh Kosong',
             ]
             );
+            // log activity
+
+            $originalData = $Borongan_Dalam_Item->getOriginal();
+
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($Borongan_Dalam_Item)
+                ->inLog('Borongan Dalam Item')
+                ->withProperties([
+                    'old' => $originalData,
+                    'new' => $validatedData
+                    ])
+                ->event('Update')
+                ->log('This Model has been Update');
+                
+
+             //end log activity
+
             // return $validatedData;
             BoronganDalamItem::where('id',$Borongan_Dalam_Item->id)->update($validatedData);
             return redirect("/Item/{$request->input('Item_Id')}")->with('success_Borongan_Dalam', 'Data Berhasil Diubah');

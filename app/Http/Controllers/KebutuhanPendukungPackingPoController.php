@@ -134,6 +134,22 @@ class KebutuhanPendukungPackingPoController extends Controller
             ['Pendukung_Packing_Id',$Kebutuhan_Pendukung_Packing->Pendukung_Packing_Id],
             ['Job_Order',$Kebutuhan_Pendukung_Packing->Job_Order]
         ])->update($validatedData2);
+        // log activity
+
+        $originalData = $Kebutuhan_Pendukung_Packing->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Kebutuhan_Pendukung_Packing)
+            ->inLog('Kebutuhan Pendukung Packing PO')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => array_merge($validatedData, $validatedData2)
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity
         KebutuhanPendukungPackingPo::where('id',$Kebutuhan_Pendukung_Packing->id)->update($validatedData);
         return redirect()->route('purchase_order.detailkebutuhan', ['Purchase_Order' =>$Kebutuhan_Pendukung_Packing->Job_Order])->with('success_pendukung_packing', 'Data Berhasil diubah');
     }

@@ -189,6 +189,22 @@ class KebutuhanPlywoodMdfItemController extends Controller
                 
             ]
             );
+            // log activity
+
+            $originalData = $Kebutuhan_Plywood_MDF_Item->getOriginal();
+
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($Kebutuhan_Plywood_MDF_Item)
+                ->inLog('Kebutuhan Plywood MDF Item')
+                ->withProperties([
+                    'old' => $originalData,
+                    'new' => $validatedData
+                    ])
+                ->event('Update')
+                ->log('This Model has been Update');
+    
+            //end log activity   
             // return $validatedData;
             KebutuhanPlywoodMdfItem::where('id',$Kebutuhan_Plywood_MDF_Item->id)->update($validatedData);
             return redirect("/Item/$Kebutuhan_Plywood_MDF_Item->Item_Id")->with('success_plywood_mdf', 'Data Berhasil Ditambahkan');

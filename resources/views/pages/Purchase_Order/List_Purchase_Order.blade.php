@@ -65,27 +65,35 @@
                                         id="table-1">
                                         <thead>
                                             <tr>
-                                                <th class="text-center border">
+                                                <th class="text-center px-3 border">
                                                     #
                                                 </th>
-                                                <th class="border">Job Order</th>
-                                                <th class="border">Dasar Purchase Order</th>
-                                                <th class="border">Buyer</th>
-                                                <th class="border">Tanggal Masuk</th>
-                                                <th class="border">Schedule Kirim</th>
-                                                <th class="border">Action</th>
+                                                <th class="border text-center px-3">Job Order</th>
+                                                <th class="border text-center px-3">Dasar Purchase Order</th>
+                                                <th class="border text-center px-3">Buyer</th>
+                                                <th class="border text-center px-3">Status</th>
+                                                <th class="border text-center px-3">Tanggal Masuk</th>
+                                                <th class="border text-center px-3">Schedule Kirim</th>
+                                                <th class="border text-center px-3">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($Purchase_Orders as $Purchase_Order)
                                             <tr>
-                                                <td class="border">{{ $loop->iteration }}</td>
-                                                <td class="border">{{ $Purchase_Order->id }}</td>
-                                                <td class="border">{{ $Purchase_Order->Dasar_Po }}</td>
-                                                <td class="border">{{ $Purchase_Order->Buyer->Nama_Buyer }}</td>
-                                                <td class="border">{{ $Purchase_Order->Tanggal_Masuk }}</td>
-                                                <td class="border">{{ $Purchase_Order->Schedule_Kirim }}</td>
-                                                <td class="border">
+                                                <td class="border px-3">{{ $loop->iteration }}</td>
+                                                <td class="border px-3">{{ $Purchase_Order->id }}</td>
+                                                <td class="border px-3">{{ $Purchase_Order->Dasar_Po }}</td>
+                                                <td class="border px-3">{{ $Purchase_Order->Buyer->Nama_Buyer }}</td>
+                                                <td class="border px-3"> 
+                                                    @if ($Purchase_Order->Status == 0)
+                                                        <div class="badge badge-warning p-2 px-3">Belum Disetujui</div>
+                                                    @else
+                                                        <div class="badge badge-success p-2 px-3">Telah Disetujui</div>
+                                                    @endif
+                                                </td>
+                                                <td class="border px-3">{{ $Purchase_Order->Tanggal_Masuk }}</td>
+                                                <td class="border px-3">{{ $Purchase_Order->Schedule_Kirim }}</td>
+                                                <td class="border px-3">
                                                     <div class="d-flex">
                                                         <a href="/Purchase_Order/{{ $Purchase_Order->id }} " class="btn btn-info ml-2">Detail</a>
                                                         @if(in_array(auth()->user()->akses , [1]))

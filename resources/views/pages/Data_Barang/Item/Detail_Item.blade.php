@@ -680,21 +680,21 @@
                                                     <tbody>
                                                         @foreach ($kebutuhan_accessories_hardwares as $kebutuhan_accessories_hardware)
                                                         <tr>
-                                                            <td>{{ $loop->iteration }}</td>
-                                                            <td>{{ $kebutuhan_accessories_hardware->id }}</td>
-                                                            <td>{{ $kebutuhan_accessories_hardware->Accessories_Hardware_Id }}</td>
-                                                            <td>{{ $kebutuhan_accessories_hardware->MasterAccessoriesHardware->Nama_Accessories_Hardware}}</td>
-                                                            <td>{{ $kebutuhan_accessories_hardware->MasterAccessoriesHardware->Ukuran_Accessories_Hardware}}</td>
-                                                            <td>{{ $kebutuhan_accessories_hardware->Keterangan_Kebutuhan_Accessories_Hardware_Item }}</td>
-                                                            <td>{{ $kebutuhan_accessories_hardware->Quantity_Kebutuhan_Accessories_Hardware_Item }}</td>
+                                                            <td class="border">{{ $loop->iteration }}</td>
+                                                            <td class="border">{{ $kebutuhan_accessories_hardware->id }}</td>
+                                                            <td class="border">{{ $kebutuhan_accessories_hardware->Accessories_Hardware_Id }}</td>
+                                                            <td class="border">{{ $kebutuhan_accessories_hardware->MasterAccessoriesHardware->Nama_Accessories_Hardware}}</td>
+                                                            <td class="border">{{ $kebutuhan_accessories_hardware->MasterAccessoriesHardware->Ukuran_Accessories_Hardware}}</td>
+                                                            <td class="border">{{ $kebutuhan_accessories_hardware->Keterangan_Kebutuhan_Accessories_Hardware_Item }}</td>
+                                                            <td class="border">{{ $kebutuhan_accessories_hardware->Quantity_Kebutuhan_Accessories_Hardware_Item }}</td>
                                                             @if(in_array(auth()->user()->akses , [1])) 
-                                                                <td>Rp. 
+                                                                <td class="border">Rp. 
                                                                     {{ number_format(
                                                                                         $kebutuhan_accessories_hardware->MasterAccessoriesHardware->Harga_Accessories_Hardware,2,'.'
                                                                                     )
                                                                     }}
                                                                 </td>
-                                                                <td>Rp.
+                                                                <td class="border">Rp.
                                                                     {{ 
                                                                         number_format(
                                                                                         $kebutuhan_accessories_hardware->Quantity_Kebutuhan_Accessories_Hardware_Item * 
@@ -778,20 +778,20 @@
                                                     <tbody>
                                                         @foreach ($kebutuhan_komponen_finishings as $kebutuhan_komponen_finishing)
                                                         <tr>
-                                                            <td>{{ $loop->iteration }}</td>
-                                                            <td>{{ $kebutuhan_komponen_finishing->id }}</td>
-                                                            <td>{{ $kebutuhan_komponen_finishing->Komponen_Finishing_Id }}</td>
-                                                            <td>{{ $kebutuhan_komponen_finishing->MasterKomponenFinishing->Nama_Komponen_Finishing}}</td>
-                                                            <td>{{ $kebutuhan_komponen_finishing->Quantity_Kebutuhan_Komponen_Finishing_Item }}</td>
+                                                            <td class="border">{{ $loop->iteration }}</td>
+                                                            <td class="border">{{ $kebutuhan_komponen_finishing->id }}</td>
+                                                            <td class="border">{{ $kebutuhan_komponen_finishing->Komponen_Finishing_Id }}</td>
+                                                            <td class="border">{{ $kebutuhan_komponen_finishing->MasterKomponenFinishing->Nama_Komponen_Finishing}}</td>
+                                                            <td class="border">{{ $kebutuhan_komponen_finishing->Quantity_Kebutuhan_Komponen_Finishing_Item }}</td>
                                                             @if(in_array(auth()->user()->akses , [1]))
-                                                                <td>Rp. 
+                                                                <td class="border">Rp. 
                                                                     {{ number_format(
                                                                                         $kebutuhan_komponen_finishing->MasterKomponenFinishing->Harga_Komponen_Finishing
                                                                                         /$kebutuhan_komponen_finishing->MasterKomponenFinishing->Quantity_Komponen_Finishing,2,'.'
                                                                                     )
                                                                     }}
                                                                 </td>
-                                                                <td>Rp.
+                                                                <td class="border">Rp.
                                                                     {{ 
                                                                         number_format(
                                                                                         $kebutuhan_komponen_finishing->Quantity_Kebutuhan_Komponen_Finishing_Item * 
@@ -904,38 +904,38 @@
                                                                     }}
                                                                 </td>
                                                                 @if(in_array(auth()->user()->akses , [1]))
-                                                                <td class="border">
-                                                                    Rp. {{ number_format(
-                                                                         $Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Harga_Pendukung_Packing/
-                                                                         (
-                                                                             $Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Panjang_Pendukung_Packing
-                                                                             *$Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Lebar_Pendukung_Packing/1000000
-                                                                         ),2,'.'
-                                                                     ) }} 
-                                                                 </td>
-                                                                 <td class="border">
-                                                                    Rp. {{ number_format(
-                                                                        (
+                                                                    <td class="border">
+                                                                        Rp. {{ number_format(
                                                                             $Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Harga_Pendukung_Packing/
-                                                                        (
-                                                                            $Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Panjang_Pendukung_Packing
-                                                                            *$Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Lebar_Pendukung_Packing/1000000
-                                                                        )
-                                                                        )
-                                                                            *
-                                                                        (
-                                                                            $Kebutuhan_Pendukung_Packing->Panjang_Kebutuhan_Pendukung_Packing_Item*
-                                                                            $Kebutuhan_Pendukung_Packing->Lebar_Kebutuhan_Pendukung_Packing_Item/1000000*
-                                                                            $Kebutuhan_Pendukung_Packing->Quantity_Kebutuhan_Pendukung_Packing_Item        
-                                                                        ),2,'.'
-                                                                    ) }}
-                                                                </td>
+                                                                            (
+                                                                                $Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Panjang_Pendukung_Packing
+                                                                                *$Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Lebar_Pendukung_Packing/1000000
+                                                                            ),2,'.'
+                                                                        ) }} 
+                                                                    </td>
+                                                                    <td class="border">
+                                                                        Rp. {{ number_format(
+                                                                            (
+                                                                                $Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Harga_Pendukung_Packing/
+                                                                            (
+                                                                                $Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Panjang_Pendukung_Packing
+                                                                                *$Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Lebar_Pendukung_Packing/1000000
+                                                                            )
+                                                                            )
+                                                                                *
+                                                                            (
+                                                                                $Kebutuhan_Pendukung_Packing->Panjang_Kebutuhan_Pendukung_Packing_Item*
+                                                                                $Kebutuhan_Pendukung_Packing->Lebar_Kebutuhan_Pendukung_Packing_Item/1000000*
+                                                                                $Kebutuhan_Pendukung_Packing->Quantity_Kebutuhan_Pendukung_Packing_Item        
+                                                                            ),2,'.'
+                                                                        ) }}
+                                                                    </td>
                                                                 @endif
                                                             @else
-                                                               <td>--</td> 
+                                                               <td class="border">--</td> 
                                                                 @if(in_array(auth()->user()->akses , [1]))
-                                                                    <td>Rp.{{ number_format($Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Harga_Pendukung_Packing,2,'.') }}</td>
-                                                                    <td>Rp.{{ number_format($Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Harga_Pendukung_Packing * $Kebutuhan_Pendukung_Packing->Quantity_Kebutuhan_Pendukung_Packing_Item,2,'.') }}</td>
+                                                                    <td class="border">Rp.{{ number_format($Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Harga_Pendukung_Packing,2,'.') }}</td>
+                                                                    <td class="border">Rp.{{ number_format($Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Harga_Pendukung_Packing * $Kebutuhan_Pendukung_Packing->Quantity_Kebutuhan_Pendukung_Packing_Item,2,'.') }}</td>
                                                                 @endif
                                                             @endif
                                                             

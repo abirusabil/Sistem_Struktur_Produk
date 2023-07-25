@@ -176,6 +176,22 @@ class ItemController extends Controller
                 'unique'=>'Kode Telah Digunakan , Silahkan Gunakan Kode Lain'
             ]
             );
+        // log activity
+
+        $originalData = $Item->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Item)
+            ->inLog('Item')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validatedData
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity
         Item::where('id',$Item->id)->update($validatedData);
         return redirect("/Item/$Item->id")->with('success','Item Berhasil Diubah ');
     }

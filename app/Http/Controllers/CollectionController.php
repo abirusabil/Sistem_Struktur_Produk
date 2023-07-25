@@ -145,6 +145,22 @@ class CollectionController extends Controller
                 'unique'=>'Kode Telah Digunakan , Silahkan Gunakan Kode Lain'
             ]
         );
+        // log activity
+
+        $originalData = $Collection->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Collection)
+            ->inLog('Collection')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validatedData
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity
         // return $validatedData;
         Collection::where('id',$Collection->id)->update($validatedData);
         return redirect('/Collection')->with('success','Data Berhasil Diubah');

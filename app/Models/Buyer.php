@@ -4,6 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Contracts\Activity;
+
+
 
 class Buyer extends Model
 {
@@ -29,6 +34,19 @@ class Buyer extends Model
                 ->orWhere('Kontak_Buyer', 'like', '%' . $search . '%')
         );
     }
+       // Log Activity
+    use LogsActivity;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logFillable()->useLogName('Buyer');
+    }
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        // $activity->description = "This model has been  {$eventName}";
+        $activity->subject_id = '1';// or user if you are using auth package
+    }
+
+ 
 }
 
 

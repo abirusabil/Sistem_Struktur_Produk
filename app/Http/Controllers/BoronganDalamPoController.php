@@ -116,6 +116,24 @@ class BoronganDalamPoController extends Controller
                 'Packing' => 'required',
             ]
         );
+
+            // log activity
+
+            $originalData = $Borongan_Dalam_Po->getOriginal();
+
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($Borongan_Dalam_Po)
+                ->inLog('Borongan Dalam Po')
+                ->withProperties([
+                    'old' => $originalData,
+                    'new' => $validatedData
+                    ])
+                ->event('Update')
+                ->log('This Model has been Update');
+
+            //end log activity
+
             //    dd($validatedData);
             BoronganDalamPo::where('id',$Borongan_Dalam_Po->id)->update($validatedData);
             return redirect()->route('purchase_order.detailkebutuhan', ['Purchase_Order' => $Borongan_Dalam_Po->Job_Order])->with('success_borongan_dalam', 'Data Berhasil diubah');

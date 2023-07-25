@@ -234,7 +234,7 @@
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-solid fa-truck-field"></i></i><span>Suplier</span></a>
                 <ul class="dropdown-menu">
-                    <li class='{{ Request::is('Suplier') ? 'active' : '' }}'>
+                    <li class='{{ Request::is('Suplier','Suplier/*') ? 'active' : '' }}'>
                         <a class="nav-link"
                             href="{{ url('/Suplier') }}"># List Suplier</a>
                     </li>

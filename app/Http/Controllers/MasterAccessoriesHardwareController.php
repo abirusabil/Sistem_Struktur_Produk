@@ -142,6 +142,22 @@ class MasterAccessoriesHardwareController extends Controller
                 'unique' => 'Data sudah digunakan'
             ]
         );
+         // log activity
+
+         $originalData = $Accessories_Hardware->getOriginal();
+
+         activity()
+             ->causedBy(auth()->user())
+             ->performedOn($Accessories_Hardware)
+             ->inLog('Master Accessories Hardware')
+             ->withProperties([
+                 'old' => $originalData,
+                 'new' => $validatedData
+                 ])
+             ->event('Update')
+             ->log('This Model has been Update');
+ 
+         //end log activity  
         // return $validatedData;
         MasterAccessoriesHardware::where('id',$Accessories_Hardware->id)
         ->update($validatedData);

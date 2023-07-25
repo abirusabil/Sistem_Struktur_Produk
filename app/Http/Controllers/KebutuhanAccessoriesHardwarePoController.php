@@ -132,6 +132,22 @@ class KebutuhanAccessoriesHardwarePoController extends Controller
                 'required'=>'Kolom Tidak Boleh Kosong',
             ]
         );
+        // log activity
+
+        $originalData = $Kebutuhan_Accessories_Hardware->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Kebutuhan_Accessories_Hardware)
+            ->inLog('Kebutuhan Accessories Hardware PO')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => array_merge($validatedData, $validatedData2)
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity
         KebutuhanAccessoriesHardwarePo::where(
             [
                 ['Accessories_Hardware_Id', $Kebutuhan_Accessories_Hardware->Accessories_Hardware_Id],

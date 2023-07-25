@@ -25,7 +25,7 @@
             <div class="section-header">
                 <h1>Ubah Data Plywood MDF</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Plywood MDF</a></div>
+                    <div class="breadcrumb-item active"><a href="/Plywood_MDF">Plywood MDF</a></div>
                     <div class="breadcrumb-item">Tambah Plywood MDF Baru</div>
                 </div>
             </div>

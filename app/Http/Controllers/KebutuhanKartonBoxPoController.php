@@ -124,6 +124,22 @@ class KebutuhanKartonBoxPoController extends Controller
                 
             ]
         );
+        // log activity
+
+        $originalData = $Kebutuhan_Karton_Box->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Kebutuhan_Karton_Box)
+            ->inLog('Kebutuhan Karton Box Po')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validetedData
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity
 
         // return $validetedData;
 

@@ -142,6 +142,22 @@ class BuyerController extends Controller
                 'required'=>'Kolom Tidak Boleh Kosong'
            ]
         );
+         // log activity
+
+         $originalData = $Buyer->getOriginal();
+
+         activity()
+             ->causedBy(auth()->user())
+             ->performedOn($Buyer)
+             ->inLog('Buyer')
+             ->withProperties([
+                 'old' => $originalData,
+                 'new' => $validatedData
+                 ])
+             ->event('Update')
+             ->log('This Model has been Update');
+ 
+         //end log activity
         // return $validatedData;
         Buyer::where('id',$Buyer->id)->update($validatedData);
         return redirect('/Buyer')->with('success','Data Buyer Telah Diubah');

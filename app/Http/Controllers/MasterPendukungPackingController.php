@@ -28,7 +28,7 @@ class MasterPendukungPackingController extends Controller
         return view('pages.Data-Materials.Pendukung_Packing.Master_Pendukung_Packing',
             [
                 'type_menu'=>'Pendukung_Packing',
-                'Pendukung_Packing'=>MasterPendukungPacking::with('Suplier')->filter(request(['search']))->paginate(10),  
+                'Pendukung_Packing'=>MasterPendukungPacking::with('Suplier')->filter(request(['search']))->paginate(50),  
             ]
         );
     }
@@ -148,6 +148,22 @@ class MasterPendukungPackingController extends Controller
                 'required'=>'Kolom Tidak Boleh Kosong',
             ]
         );
+        // log activity
+
+        $originalData = $Pendukung_Packing->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Pendukung_Packing)
+            ->inLog('Master Pendukung Packing')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validatedData
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity 
         // return $validatedData;
         MasterPendukungPacking::where('id',$Pendukung_Packing->id)->update($validatedData);
         return redirect('/Pendukung_Packing')->with('success','Data Pendukung Packing Telah Diubah');

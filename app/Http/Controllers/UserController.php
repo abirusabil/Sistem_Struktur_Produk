@@ -154,8 +154,25 @@ class UserController extends Controller
             'required'=>'Kolom Tidak Boleh Kosong',
             'email'=>'Email Salah'
         ]);
+         // log activity
+
+         $originalData = $User->getOriginal();
+
+         activity()
+             ->causedBy(auth()->user())
+             ->inLog('User')
+             ->performedOn($User)
+             ->withProperties([
+                 'old' => $originalData,
+                 'new' => $validatedData
+                 ])
+             ->event('Update')
+             ->log('This Model has been Update');
+             
+ 
+          //end log activity
         User::where('id',$User->id)->update($validatedData);
-        return redirect('/User')->with('success', 'Pendaftaran User Baru Sukses');
+        return redirect('/User')->with('success', 'Data User Berhasil Dirubah');
     }
 
     /**

@@ -89,43 +89,43 @@
                                         </div>
                                      @endif
                                 <div class="table-responsive">
-                                    <table class="table-striped table"
+                                    <table class="table-striped table table-hover"
                                         id="table-1">
                                         <thead>
                                             <tr>
-                                                <th class="text-center">
+                                                <th class="text-center border">
                                                     #
                                                 </th>
-                                                <th>Kode</th>
-                                                <th>Pendukung Packing</th>
-                                                <th>Tebal /Mm</th>
-                                                <th>Panjang /Mm</th>
-                                                <th>Lebar /Mm</th>
-                                                <th>Luas /M</th>
-                                                <th>Satuan</th>
-                                                <th>Suplier</th>
+                                                <th class="border">Kode</th>
+                                                <th class="border">Pendukung Packing</th>
+                                                <th class="border">Tebal /Mm</th>
+                                                <th class="border">Panjang /Mm</th>
+                                                <th class="border">Lebar /Mm</th>
+                                                <th class="border">Luas /M</th>
+                                                <th class="border">Satuan</th>
+                                                <th class="border">Suplier</th>
                                                 @if(in_array(auth()->user()->akses , [1]))
-                                                    <th>Harga Satuan</th>
-                                                    <th>Harga /M2</th>
-                                                    <th>Action</th>
+                                                    <th class="border">Harga Satuan</th>
+                                                    <th class="border">Harga /M2</th>
+                                                    <th class="border">Action</th>
                                                 @endif
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($Pendukung_Packing as $pendukungpacking)
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $pendukungpacking->id }}</td>
-                                                <td>{{ $pendukungpacking->Nama_Pendukung_Packing }}</td>
-                                                <td>{{ number_format($pendukungpacking->Tebal_Pendukung_Packing,0) }}</td>
-                                                <td>{{ number_format($pendukungpacking->Panjang_Pendukung_Packing,0) }}</td>
-                                                <td>{{ number_format($pendukungpacking->Lebar_Pendukung_Packing,0) }}</td>
-                                                <td>{{ number_format($pendukungpacking->Panjang_Pendukung_Packing * $pendukungpacking->Lebar_Pendukung_Packing / 1000000,4) }}</td>
-                                                <td>{{ $pendukungpacking->Satuan_Pendukung_Packing }}</td>
-                                                <td>{{ $pendukungpacking->Suplier->nama_suplier }}</td>
+                                                <td class="border">{{ $loop->iteration }}</td>
+                                                <td class="border">{{ $pendukungpacking->id }}</td>
+                                                <td class="border">{{ $pendukungpacking->Nama_Pendukung_Packing }}</td>
+                                                <td class="border">{{ number_format($pendukungpacking->Tebal_Pendukung_Packing,0) }}</td>
+                                                <td class="border">{{ number_format($pendukungpacking->Panjang_Pendukung_Packing,0) }}</td>
+                                                <td class="border">{{ number_format($pendukungpacking->Lebar_Pendukung_Packing,0) }}</td>
+                                                <td class="border">{{ number_format($pendukungpacking->Panjang_Pendukung_Packing * $pendukungpacking->Lebar_Pendukung_Packing /1000000,4,'.',',') }}</td>
+                                                <td class="border">{{ $pendukungpacking->Satuan_Pendukung_Packing }}</td>
+                                                <td class="border">{{ $pendukungpacking->Suplier->nama_suplier }}</td>
                                                 @if(in_array(auth()->user()->akses , [1]))
-                                                    <td>Rp. {{ number_format($pendukungpacking->Harga_Pendukung_Packing,2,',','.')  }}</td>
-                                                    <td>Rp. 
+                                                    <td class="border">Rp. {{ number_format($pendukungpacking->Harga_Pendukung_Packing,2,',','.')  }}</td>
+                                                    <td class="border">Rp. 
                                                         @if ($pendukungpacking->Satuan_Pendukung_Packing == "Meter")
                                                         {{ number_format(
                                                             $pendukungpacking->Harga_Pendukung_Packing/($pendukungpacking->Panjang_Pendukung_Packing * $pendukungpacking->Lebar_Pendukung_Packing / 1000000),2,',','.'
@@ -135,7 +135,7 @@
                                                             -
                                                         @endif
                                                     </td>
-                                                    <td>
+                                                    <td class="border">
                                                         <div class="d-flex">
                                                             <a href="/Pendukung_Packing/{{ $pendukungpacking->id }}/edit " class="btn btn-warning ml-2">Edit</a>
                                                             <form action="/Pendukung_Packing/{{ $pendukungpacking->id }}"  method="POST">
@@ -155,7 +155,7 @@
                             </div>
                             <div class="card-footer text-right">
                                 <nav class="d-inline-block">
-                                  {{-- {{ $suplier->links() }} --}}
+                                  {{ $Pendukung_Packing->links() }}
                                   </ul>
                                 </nav>
                               </div>

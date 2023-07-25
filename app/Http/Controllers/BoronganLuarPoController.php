@@ -115,6 +115,22 @@ class BoronganLuarPoController extends Controller
                 'Sterofoam'=>'required',
             ]
         );
+        // log activity
+
+        $originalData = $Borongan_Luar_Po->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Borongan_Luar_Po)
+            ->inLog('Borongan Luar PO')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validatedData
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity
         // dd($validatedData);
         BoronganLuarPo::where('id',$Borongan_Luar_Po->id)->update($validatedData);
         return redirect()->route('purchase_order.detailkebutuhan', ['Purchase_Order' => $Borongan_Luar_Po->Job_Order])->with('success_borongan_luar', 'Data Berhasil diubah');

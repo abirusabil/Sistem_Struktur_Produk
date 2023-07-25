@@ -148,7 +148,22 @@ class KayuController extends Controller
 
         // return $validatedData;
         // dd();
+        // log activity
 
+        $originalData = $Kayu->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Kayu)
+            ->inLog('Master Kayu')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validatedData
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity
         MasterKayu::where('id',$Kayu->id)
         ->update($validatedData);
 

@@ -47,7 +47,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Purchase Order </h1>
+                <h1>Detail Purchase Order </h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="/Purchase_Order">Purchase Order</a></div>
                     <div class="breadcrumb-item">Detail Purchase Order </div>
@@ -61,38 +61,86 @@
                                 <div class="row">
                                     <div class="col-sm">
                                         <div class="row">
-                                            <div class="col-5"><p> Job_Order</p></div>
+                                            <div class="col"><p> Job_Order</p></div>
                                             <div class="col px-0"><h6 class="pt-1">: {{ $Purchase_Order->id }}</h6></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-5"><p>Dasar_Po</p></div>
+                                            <div class="col"><p>Dasar_Po</p></div>
                                             <div class="col px-0"><h6 class="pt-1">: {{ $Purchase_Order->Dasar_Po }}</h6></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-5"><p>Buyer</p></div>
+                                            <div class="col"><p>Buyer</p></div>
                                             <div class="col px-0"><h6 class="pt-1">: {{ $Purchase_Order->Buyer->Nama_Buyer }}</h6></div>
                                         </div>
                                     </div>
                                     <div class="col-sm">
                                         <div class="row">
-                                            <div class="col-5"><p>Tanggal_Masuk</p></div>
+                                            <div class="col"><p>Tanggal_Masuk</p></div>
                                             <div class="col px-0"><h6 class="pt-1"> : {{ $Purchase_Order->Tanggal_Masuk }}</h6></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-5"><p>Schedule_Kirim</p></div>
+                                            <div class="col"><p>Schedule_Kirim</p></div>
                                             <div class="col px-0"><h6 class="pt-1">: {{ $Purchase_Order->Schedule_Kirim }}</h6></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><p>Status</p></div>
+                                            <div class="col px-0 d-blok">
+                                                <h6 class="pt-1">:
+                                                    @if ($Purchase_Order->Status == 0)
+                                                        <div class="badge badge-warning p-2 px-4">Belum Disetujui</div>
+                                                    @else
+                                                        <div class="badge badge-success p-2 px-3">Telah Disetujui</div>
+                                                        
+                                                    @endif
+                                                </h6>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                    <div class="row">
-                                        @if(in_array(auth()->user()->akses , [1]))
-                                            <div class="col-4 ">
-                                                <a href="/Purchase_Order/{{ $Purchase_Order->id }}/edit" class="btn mt-2 rounded px-5 btn-warning ">Edit</a>
-                                            </div> 
-                                        @endif
-                                        <div class="col-8 d-flex justify-content-end">
-                                            <a class="btn mt-2 rounded btn-info px-4" href="{{ route('purchase_order.detailkebutuhan', ['Purchase_Order' => $Purchase_Order->id]) }}">Detail Kebutuhan</a>
-                                        </div>   
+                                    <div class="row py-2">
+                                        <div class="col">
+                                            <div class="d-grid d-md-flex  ">
+                                                @if(in_array(auth()->user()->akses , [1]))
+                                                <form action="/Purchase_Order/{{ $Purchase_Order->id }}/edit" method="POST">
+                                                    @method('GET')
+                                                    @csrf
+                                                    <button class="btn mr-3 mt-2 rounded px-4 btn-warning "><i class="fa-regular fa-pen-to-square mr-2"></i>Edit Purchase Order</button>
+                                                </form>
+                                                {{-- <a href="/Purchase_Order/{{ $Purchase_Order->id }}/edit" class="btn mr-3 mt-2 rounded px-4 btn-warning ">Edit Purchase Order</a> --}}
+                                                @endif
+                                                @if(in_array(auth()->user()->akses , [1]))
+                                                    @if ($Purchase_Order->Status == 0)
+                                                        <button data-target="#JumlahKolomForm" data-toggle="modal" class="btn mt-2 mr-3 rounded btn-primary px-4">
+                                                            <i class="fa-solid fa-plus"></i>
+                                                            Tambah Item Baru
+                                                        </button>
+                                                    @endif
+                                                @endif
+                                                <form action="/Purchase_Order/{{ $Purchase_Order->id }}/detailkebutuhan" method="POST">
+                                                    @method('GET')
+                                                    @csrf
+                                                    <button class="btn mt-2 rounded btn-info px-4 mr-3"><i class="fa-solid fa-circle-info mr-2"></i>Detail Kebutuhan</button>
+                                                </form>
+                                                @if(in_array(auth()->user()->akses , [1]))
+                                                    @if ($Purchase_Order->Status == 0)
+                                                            <form action="/Purchase_Order/{{ $Purchase_Order->id }}/Edit_Status" method="POST">
+                                                                @method('GET')
+                                                                @csrf
+                                                                <button class="btn mt-2 mr-3 rounded btn-success px-4" onclick="return confirm('Apakah Anda Yakin Untuk Menyetujui Po Ini ?')"><i class="fa-solid fa-file-contract mr-2"></i>Setujui PO ini</button>
+                                                            </form>
+                                                    @endif
+                                                @endif
+                                                @if(in_array(auth()->user()->akses , [1]))
+                                                    @if ($Purchase_Order->Status == 1)        
+                                                        <form action="/Purchase_Order/{{ $Purchase_Order->id }}/Edit_Status" method="POST">
+                                                            @method('GET')
+                                                            @csrf
+                                                            <button class="btn mt-2 mr-3 rounded btn-danger px-3" onclick="return confirm('Apakah Anda Yakin Untuk Mengubah Status Po Ini ?')"><i class="fa-regular fa-pen-to-square mr-2"></i>Ubah Status</button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
                                 <hr class="border border-black opacity-100 ">
                             </div>
@@ -102,6 +150,12 @@
                                         @if (session()->has('success'))
                                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                                 {{ session('success') }}
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            </div>
+                                        @endif
+                                        @if (session()->has('success_status'))
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                {{ session('success_status') }}
                                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                             </div>
                                         @endif
@@ -117,7 +171,9 @@
                                                             <th class="border text-center">Qty</th>
                                                             <th class="border text-center">Keterangan</th>
                                                             @if(in_array(auth()->user()->akses , [1]))
-                                                            <th class="border text-center">Action</th>
+                                                                @if ($Purchase_Order->Status == 0)
+                                                                    <th class="border text-center">Action</th>
+                                                                @endif
                                                             @endif
                                                         </tr>
                                                     </thead>
@@ -156,16 +212,18 @@
                                                                     </p>
                                                                 </td>
                                                                 @if(in_array(auth()->user()->akses , [1]))
-                                                                    <td class="border">
-                                                                        <div class="d-flex">
-                                                                            <a href="/Detail_Purchase_Order/{{ $item->id }}/edit" class="btn btn-warning ml-2">Edit</a>
-                                                                            <form action="/Detail_Purchase_Order/{{ $item->id }}" method="POST">
-                                                                                @method('delete')
-                                                                                @csrf
-                                                                                <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus?')">Hapus</button>
-                                                                            </form>
-                                                                        </div>
-                                                                    </td>  
+                                                                    @if ($Purchase_Order->Status == 0)
+                                                                        <td class="border">
+                                                                            <div class="d-flex">
+                                                                                <a href="/Detail_Purchase_Order/{{ $item->id }}/edit" class="btn btn-warning ml-2">Edit</a>
+                                                                                <form action="/Detail_Purchase_Order/{{ $item->id }}" method="POST">
+                                                                                    @method('delete')
+                                                                                    @csrf
+                                                                                    <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus?')">Hapus</button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </td>  
+                                                                    @endif
                                                                 @endif          
                                                             </tr>
                                                             @php
@@ -186,21 +244,12 @@
                                                 </table>
                                         </div>
                                         <div class="col d-flex justify-content-end p-0">
-                                            <a class="btn ml-3 mt-2 rounded px-5 btn-info ml-2" href="{{ route('purchase_order.exportToPDF', ['Purchase_Order' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Print</a>
+                                            <a class="btn ml-3 mt-2 rounded px-5 btn-info ml-2" href="{{ route('purchase_order.exportToPDF', ['Purchase_Order' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Cetak Detail PO</a>
                                         </div> 
                                     </div>
                                 </div>
                             </div>
-                            @if(in_array(auth()->user()->akses , [1]))
-                                <div class="card-footer text-right">
-                                    <div class="col d-flex flex-row-reverse p-0">
-                                        <button data-target="#JumlahKolomForm" data-toggle="modal" class=" btn rounded px-3 btn-primary ml-2">
-                                            <i class="fa-solid fa-plus"></i>
-                                            Tambah Item Baru
-                                        </button>
-                                    </div>
-                                </div>
-                            @endif
+                            
                         </div>
                     </div>
                 </div>

@@ -157,6 +157,23 @@ class BoronganLuarItemController extends Controller
             ]
             );
 
+            // log activity
+
+            $originalData = $Borongan_Luar_Item->getOriginal();
+
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($Borongan_Luar_Item)
+                ->inLog('Borongan Luar Item')
+                ->withProperties([
+                    'old' => $originalData,
+                    'new' => $validatedData
+                    ])
+                ->event('Update')
+                ->log('This Model has been Update');
+
+            //end log activity
+
             BoronganLuarItem::where('id',$Borongan_Luar_Item->id)->update($validatedData);
             return redirect("/Item/{$request->input('Item_Id')}")->with('success_Borongan_Luar', 'Data Berhasil Diubah');
     }

@@ -53,21 +53,21 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Tebal /MM</label>
-                                        <input type="number" step="0.01" name="Tebal_Pendukung_Packing" id="Tebal_Pendukung_Packing" class="form-control @error('Tebal_Pendukung_Packing') is-invalid @enderror" value="{{ old('Tebal_Pendukung_Packing') }}">
+                                        <input type="number" step="0.01" min="1" name="Tebal_Pendukung_Packing" id="Tebal_Pendukung_Packing" class="form-control @error('Tebal_Pendukung_Packing') is-invalid @enderror" value="{{ old('Tebal_Pendukung_Packing') }}">
                                         @error('Tebal_Pendukung_Packing')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Panjang /Mm</label>
-                                        <input type="number" step="0.01" name="Panjang_Pendukung_Packing" id="Panjang_Pendukung_Packing" class="form-control @error('Panjang_Pendukung_Packing') is-invalid @enderror" value="{{ old('Panjang_Pendukung_Packing') }}">
+                                        <input type="number" step="0.01" min="1" name="Panjang_Pendukung_Packing" id="Panjang_Pendukung_Packing" class="form-control @error('Panjang_Pendukung_Packing') is-invalid @enderror" value="{{ old('Panjang_Pendukung_Packing') }}">
                                         @error('Panjang_Pendukung_Packing')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Lebar /Mm</label>
-                                        <input type="number" step="0.01" name="Lebar_Pendukung_Packing" id="Lebar_Pendukung_Packing" class="form-control @error('Lebar_Pendukung_Packing') is-invalid @enderror" value="{{ old('Lebar_Pendukung_Packing') }}">
+                                        <input type="number" step="0.01" min="1" name="Lebar_Pendukung_Packing" id="Lebar_Pendukung_Packing" class="form-control @error('Lebar_Pendukung_Packing') is-invalid @enderror" value="{{ old('Lebar_Pendukung_Packing') }}">
                                         @error('Lebar_Pendukung_Packing')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror

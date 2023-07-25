@@ -179,6 +179,22 @@ class KebutuhanPendukungPackingItemController extends Controller
                 
             ]
             );
+            // log activity
+
+            $originalData = $Kebutuhan_Packing_Item->getOriginal();
+
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($Kebutuhan_Packing_Item)
+                ->inLog('Kebutuhan Pendukung Packing Item')
+                ->withProperties([
+                    'old' => $originalData,
+                    'new' => $validatedData
+                    ])
+                ->event('Update')
+                ->log('This Model has been Update');
+
+            //end log activity
             // return $validatedData;
             KebutuhanPendukungPackingItem::where('id',$Kebutuhan_Packing_Item->id)->update($validatedData);
             return redirect("/Item/$Kebutuhan_Packing_Item->Item_Id")->with('success_pendukung_packing', 'Data Berhasil Ditambahkan');

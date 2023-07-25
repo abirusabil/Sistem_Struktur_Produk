@@ -128,8 +128,8 @@
                                                         @endforeach
                                                         <tr> 
                                                             @if(auth()->user()->akses == 1)
-                                                                <td colspan="19" class="text-center border border-black">TOTAL BIAYA KAYU : </td>
-                                                                <td class="border border-black">Rp. {{ number_format($total_biaya_kayu,2,'.') }}</td>
+                                                                <td colspan="20" class="text-center border border-black">TOTAL BIAYA KAYU : </td>
+                                                                <td colspan="2" class="border border-black">Rp. {{ number_format($total_biaya_kayu,2,'.') }}</td>
                                                             @endif
                                                         </tr>
                                                     </tbody>
@@ -227,8 +227,8 @@
                                                                     @endforeach
                                                                 <tr> 
                                                                     @if(auth()->user()->akses == 1)
-                                                                        <td colspan="15" class="text-center border border-black">TOTAL BIAYA PLYWOOD MDF : </td>
-                                                                        <td class="border border-black">Rp. {{ number_format($total_biaya_mdf,2,'.') }}</td>
+                                                                        <td colspan="16" class="text-center border border-black">TOTAL BIAYA PLYWOOD MDF : </td>
+                                                                        <td colspan="2" class="border border-black">Rp. {{ number_format($total_biaya_mdf,2,'.') }}</td>
                                                                         
                                                                     @endif
                                                                 </tr>
@@ -314,8 +314,8 @@
                                                                     @endforeach
                                                                 <tr> 
                                                                     @if(auth()->user()->akses == 1)
-                                                                        <td colspan="11" class="text-center border border-black">TOTAL BIAYA ACCESSORIES HARDWARE : </td>
-                                                                        <td class="border border-black">Rp. {{ number_format($total_biaya_accessories,2,'.') }}</td>
+                                                                        <td colspan="12" class="text-center border border-black">TOTAL BIAYA ACCESSORIES HARDWARE : </td>
+                                                                        <td colspan="2" class="border border-black">Rp. {{ number_format($total_biaya_accessories,2,'.') }}</td>
                                                                         
                                                                     @endif
                                                                 </tr>
@@ -397,8 +397,8 @@
                                                                     @endforeach
                                                                 <tr> 
                                                                     @if(auth()->user()->akses == 1)
-                                                                        <td colspan="9" class="text-center border border-black">TOTAL BIAYA ACCESSORIES HARDWARE : </td>
-                                                                        <td class="border border-black">Rp. {{ number_format($total_biaya_komponen_finishing,2,'.') }}</td>
+                                                                        <td colspan="10" class="text-center border border-black">TOTAL BIAYA ACCESSORIES HARDWARE : </td>
+                                                                        <td colspan="2" class="border border-black">Rp. {{ number_format($total_biaya_komponen_finishing,2,'.') }}</td>
                                                                         
                                                                     @endif
                                                                 </tr>
@@ -505,8 +505,8 @@
                                                                     @endforeach
                                                                 <tr> 
                                                                     @if(auth()->user()->akses == 1)
-                                                                        <td colspan="14" class="text-center border border-black">TOTAL BIAYA PENDUKUNG PACKING : </td>
-                                                                        <td class="border border-black">Rp. {{ number_format($total_biaya_pendukung_packing,2,'.') }}</td>
+                                                                        <td colspan="15" class="text-center border border-black">TOTAL BIAYA PENDUKUNG PACKING : </td>
+                                                                        <td colspan="2" class="border border-black">Rp. {{ number_format($total_biaya_pendukung_packing,2,'.') }}</td>
                                                                         
                                                                     @endif
                                                                 </tr>
@@ -592,8 +592,8 @@
                                                                     @endforeach
                                                                 <tr> 
                                                                     @if(auth()->user()->akses == 1)
-                                                                        <td colspan="11" class="text-center border border-black">TOTAL BIAYA KARTON BOX : </td>
-                                                                        <td class="border border-black">Rp. {{ number_format($total_biaya_karton_box,2,'.') }}</td>
+                                                                        <td colspan="12" class="text-center border border-black">TOTAL BIAYA KARTON BOX : </td>
+                                                                        <td colspan="2" class="border border-black">Rp. {{ number_format($total_biaya_karton_box,2,'.') }}</td>
                                                                         
                                                                     @endif
                                                                 </tr>
@@ -609,7 +609,7 @@
                                 {{-- End Kebutuhan Karton Box --}}
 
                                 {{-- Biaya Borongan Dalam --}}
-                                <div class="KebutuhanKartonBox pt-5">
+                                <div class="BiayaBoronganDalam pt-5">
                                     <div class="row">
                                         <div class="col">
                                             @if (session()->has('success_borongan_dalam'))
@@ -762,7 +762,7 @@
                                                                     @endforeach
                                                                     <tr>
                                                                         <td class="text-center border" colspan="23"><h6>Total :</h6>  </td>
-                                                                        <td class="border">Rp.
+                                                                        <td colspan="2" class="border">Rp.
                                                                             {{ number_format($t_ongkos_borongan_dalam,2,'.')}}
                                                                         </td>
                                                                     </tr>
@@ -913,7 +913,7 @@
                                                                     @endforeach
                                                                     <tr>
                                                                         <td class="text-center border" colspan="20"><h6>Total :</h6>  </td>
-                                                                        <td class="border">Rp.
+                                                                        <td colspan="2" class="border">Rp.
                                                                             {{ number_format($t_ongkos_borongan_luar,2,'.')}}
                                                                         </td>
                                                                     </tr>

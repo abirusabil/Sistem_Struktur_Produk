@@ -128,6 +128,22 @@ class DetailPurchaseOrderController extends Controller
                 'unique'=>'Kode Telah Digunakan Silahkan Gunakan Kode Lain'
             ]
         );
+        // log activity
+
+        $originalData = $Detail_Purchase_Order->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Detail_Purchase_Order)
+            ->inLog('Detail Purchase Order')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validatedData
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity
         // return $validatedData;
         DetailPurchaseOrder::where('id', $Detail_Purchase_Order->id)->update($validatedData);
         KebutuhanKayuPo::where(

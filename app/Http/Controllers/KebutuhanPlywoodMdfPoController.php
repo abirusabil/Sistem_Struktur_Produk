@@ -144,6 +144,23 @@ class KebutuhanPlywoodMdfPoController extends Controller
             ]
         );
 
+         // log activity
+
+         $originalData = $Kebutuhan_Plywood_MDF->getOriginal();
+
+         activity()
+             ->causedBy(auth()->user())
+             ->performedOn($Kebutuhan_Plywood_MDF)
+             ->inLog('Kebutuhan Plywood MDF PO')
+             ->withProperties([
+                 'old' => $originalData,
+                 'new' => array_merge($validatedData, $validatedData2)
+                 ])
+             ->event('Update')
+             ->log('This Model has been Update');
+ 
+         //end log activity
+
         // return $validatedData2;
         KebutuhanPlywoodMdfPo::where(
             [

@@ -197,6 +197,22 @@ class KebutuhanKayuItemController extends Controller
             ]
         );
         // return $request->Item_Id;
+        // log activity
+
+        $originalData = $Kebutuhan_Kayu_Item->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Kebutuhan_Kayu_Item)
+            ->inLog('Kebutuhan_Kayu_Item')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validatedData
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity
 
         // return $validatedData;
         KebutuhanKayuItem::where('id', $Kebutuhan_Kayu_Item->id)->update($validatedData);

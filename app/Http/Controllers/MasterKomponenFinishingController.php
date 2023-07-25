@@ -147,6 +147,23 @@ class MasterKomponenFinishingController extends Controller
              
             ]
         ) ;
+
+        // log activity
+
+        $originalData = $Komponen_Finishing->getOriginal();
+
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Komponen_Finishing)
+            ->inLog('Master Komponen Finishing')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validatedData
+                ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity 
         // return $validatedData;
         MasterKomponenFinishing::where('id',$Komponen_Finishing->id)->update($validatedData);
         return redirect('/Komponen_Finishing')->with('success','Data Berhasil Diubah');
