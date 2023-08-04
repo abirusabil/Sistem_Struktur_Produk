@@ -32,7 +32,7 @@ class BoronganLuarItemController extends Controller
     public function create(Request $request, RateLimiter $limiter)
     {
         try {
-            if (!in_array(auth()->user()->akses, [1, 2])) {
+            if (!in_array(auth()->user()->akses, [1, 2,6,7])) {
                 throw new AuthorizationException();
             }
 
@@ -105,7 +105,7 @@ class BoronganLuarItemController extends Controller
     public function edit(BoronganLuarItem $Borongan_Luar_Item , RateLimiter $limiter)
     {
         try {
-            if (!in_array(auth()->user()->akses, [1, 2])) {
+            if (!in_array(auth()->user()->akses, [1, 2,6,7])) {
                 throw new AuthorizationException();
             }
 

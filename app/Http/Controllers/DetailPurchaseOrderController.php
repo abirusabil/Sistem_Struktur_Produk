@@ -13,6 +13,11 @@ use App\Models\KebutuhanKomponenFinishingPo;
 use App\Models\KebutuhanPendukungPackingPo;
 use App\Models\KebutuhanPlywoodMdfPo;
 use Illuminate\Http\Request;
+// untuk mengatasi bruteforce
+use Illuminate\Cache\RateLimiter;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class DetailPurchaseOrderController extends Controller
 {
@@ -31,24 +36,45 @@ class DetailPurchaseOrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request ,RateLimiter $limiter)
     {
         // return $request;
         // return Item::with('Collection')->get();
         // return ;
-        return view('pages.Purchase_order.Detail_Purchase_Order.Tambah_Detail_Purchase_Order',
-        [
-            'type_menu' => 'PurchaseOrder',
-            'Items'=>Item::whereHas('Collection', function ($query) use ($request) {
-                $query->where('Buyer_Id', $request->buyer_id);
-            })
-            ->with('Collection')
-            ->get(),
-            'loop_count' => $request->loop_count,
-            'job_order'=>$request->id,
-            ''
-        ]
-    );
+        
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 3])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            return view('pages.Purchase_order.Detail_Purchase_Order.Tambah_Detail_Purchase_Order',
+                [
+                    'type_menu' => 'PurchaseOrder',
+                    'Items'=>Item::whereHas('Collection', function ($query) use ($request) {
+                        $query->where('Buyer_Id', $request->buyer_id);
+                    })
+                    ->with('Collection')
+                    ->get(),
+                    'loop_count' => $request->loop_count,
+                    'job_order'=>$request->id
+                ]
+            );
+
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -99,15 +125,36 @@ class DetailPurchaseOrderController extends Controller
      * @param  \App\Models\DetailPurchaseOrder  $detailPurchaseOrder
      * @return \Illuminate\Http\Response
      */
-    public function edit(DetailPurchaseOrder $Detail_Purchase_Order)
+    public function edit(DetailPurchaseOrder $Detail_Purchase_Order ,RateLimiter $limiter)
     {
         // return $Detail_Purchase_Order;
-        return view('pages.Purchase_order.Detail_Purchase_Order.Edit_Detail_Purchase_Order',
-        [
-            'type_menu' => 'PurchaseOrder',
-                'Detail_Purchase_Order' => $Detail_Purchase_Order,
-                'Items' => Item::all(),
-        ]);
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 3])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            return view('pages.Purchase_order.Detail_Purchase_Order.Edit_Detail_Purchase_Order',
+            [
+                'type_menu' => 'PurchaseOrder',
+                    'Detail_Purchase_Order' => $Detail_Purchase_Order,
+                    'Items' => Item::all(),
+            ]);
+
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -203,58 +250,79 @@ class DetailPurchaseOrderController extends Controller
      * @param  \App\Models\DetailPurchaseOrder  $detailPurchaseOrder
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DetailPurchaseOrder $Detail_Purchase_Order)
+    public function destroy(DetailPurchaseOrder $Detail_Purchase_Order ,RateLimiter $limiter)
     {
         // return $Detail_Purchase_Order;
-        DetailPurchaseOrder::destroy($Detail_Purchase_Order->id);
-        KebutuhanKayuPo::where(
-            [
-                ['Item_Id', $Detail_Purchase_Order->Item_Id],
-                ['Job_Order',$Detail_Purchase_Order->Job_Order]
-            ]
-        )->delete();
-        KebutuhanPlywoodMdfPo::where(
-            [
-                ['Item_Id', $Detail_Purchase_Order->Item_Id],
-                ['Job_Order',$Detail_Purchase_Order->Job_Order]
-            ]
-        )->delete();
-        KebutuhanAccessoriesHardwarePo::where(
-            [
-                ['Item_Id', $Detail_Purchase_Order->Item_Id],
-                ['Job_Order',$Detail_Purchase_Order->Job_Order]
-            ]
-        )->delete();
-        KebutuhanKomponenFinishingPo::where(
-            [
-                ['Item_Id', $Detail_Purchase_Order->Item_Id],
-                ['Job_Order',$Detail_Purchase_Order->Job_Order]
-            ]
-        )->delete();
-        KebutuhanPendukungPackingPo::where(
-            [
-                ['Item_Id', $Detail_Purchase_Order->Item_Id],
-                ['Job_Order',$Detail_Purchase_Order->Job_Order]
-            ]
-        )->delete();
-        KebutuhanKartonBoxPo::where(
-            [
-                ['Item_Id', $Detail_Purchase_Order->Item_Id],
-                ['Job_Order',$Detail_Purchase_Order->Job_Order]
-            ]
-        )->delete();
-        BoronganDalamPo::where(
-            [
-                ['Item_Id', $Detail_Purchase_Order->Item_Id],
-                ['Job_Order',$Detail_Purchase_Order->Job_Order]
-            ]
-        )->delete();
-        BoronganLuarPo::where(
-            [
-                ['Item_Id', $Detail_Purchase_Order->Item_Id],
-                ['Job_Order',$Detail_Purchase_Order->Job_Order]
-            ]
-        )->delete();
-        return redirect("/Purchase_Order/$Detail_Purchase_Order->Job_Order")->with('success', 'Data Berhasil Dihapus');
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 3])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            DetailPurchaseOrder::destroy($Detail_Purchase_Order->id);
+            KebutuhanKayuPo::where(
+                [
+                    ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                    ['Job_Order',$Detail_Purchase_Order->Job_Order]
+                ]
+            )->delete();
+            KebutuhanPlywoodMdfPo::where(
+                [
+                    ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                    ['Job_Order',$Detail_Purchase_Order->Job_Order]
+                ]
+            )->delete();
+            KebutuhanAccessoriesHardwarePo::where(
+                [
+                    ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                    ['Job_Order',$Detail_Purchase_Order->Job_Order]
+                ]
+            )->delete();
+            KebutuhanKomponenFinishingPo::where(
+                [
+                    ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                    ['Job_Order',$Detail_Purchase_Order->Job_Order]
+                ]
+            )->delete();
+            KebutuhanPendukungPackingPo::where(
+                [
+                    ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                    ['Job_Order',$Detail_Purchase_Order->Job_Order]
+                ]
+            )->delete();
+            KebutuhanKartonBoxPo::where(
+                [
+                    ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                    ['Job_Order',$Detail_Purchase_Order->Job_Order]
+                ]
+            )->delete();
+            BoronganDalamPo::where(
+                [
+                    ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                    ['Job_Order',$Detail_Purchase_Order->Job_Order]
+                ]
+            )->delete();
+            BoronganLuarPo::where(
+                [
+                    ['Item_Id', $Detail_Purchase_Order->Item_Id],
+                    ['Job_Order',$Detail_Purchase_Order->Job_Order]
+                ]
+            )->delete();
+            return redirect("/Purchase_Order/$Detail_Purchase_Order->Job_Order")->with('success', 'Data Berhasil Dihapus');
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
+
 }

@@ -96,7 +96,7 @@
                                                 <td class="border px-3">
                                                     <div class="d-flex">
                                                         <a href="/Purchase_Order/{{ $Purchase_Order->id }} " class="btn btn-info ml-2">Detail</a>
-                                                        @if(in_array(auth()->user()->akses , [1]))
+                                                        @if(in_array(auth()->user()->akses , [1,2,3]))
                                                             <a href="/Purchase_Order/{{ $Purchase_Order->id }}/edit " class="btn btn-warning ml-2">Edit</a>
                                                             <form action="Purchase_Order/{{ $Purchase_Order->id }}"  method="POST">
                                                                 @method('delete')

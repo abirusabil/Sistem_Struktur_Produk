@@ -98,7 +98,7 @@
                                                 <th>Nama</th>
                                                 <th>Alamat</th>
                                                 <th>Kontak</th>
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,4]))
                                                     <th>Action</th>
                                                 @endif
                                             </tr>
@@ -110,7 +110,7 @@
                                                 <td>{{ $Supliers->nama_suplier }}</td>
                                                 <td>{{ $Supliers->alamat_suplier }}</td>
                                                 <td>{{ $Supliers->kontak_suplier }}</td>
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,4]))
                                                     <td>
                                                         <div class="d-flex">
                                                             <a href="/Suplier/{{ $Supliers->id }}/edit " class="btn btn-warning ml-2">Edit</a>

@@ -14,6 +14,20 @@
             body {
                 font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
             }
+            a.btn-error {
+                color: white;
+                border: white 1px solid;
+                padding: 5px 30px;
+                border-radius: 5px;
+                margin-top: 20px;
+            }
+            .flex.items-center.pt-8.sm\:pt-0.btn-error {
+                justify-content: center;
+            }
+            a.btn-error:hover {
+                background-color: white;
+                color: #1a202c;
+            }
         </style>
     </head>
     <body class="antialiased">
@@ -27,7 +41,13 @@
                     <div class="ml-4 text-lg text-gray-500 uppercase tracking-wider">
                         @yield('message')
                     </div>
+                    
+                    
                 </div>
+                <div class="flex items-center pt-8 sm:pt-0 btn-error">
+                    <a class="btn-error" href="{{ URL::previous() }}">Kembali</a>
+                </div>
+                
             </div>
         </div>
     </body>

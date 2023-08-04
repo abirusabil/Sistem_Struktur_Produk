@@ -73,18 +73,20 @@
                                                     @if ($user->akses == '1')
                                                     ALL Akses
                                                     @elseif ($user->akses == '2')
-                                                    Purchasing
+                                                    General Manager
                                                     @elseif ($user->akses == '3')
-                                                    Accounting
+                                                    Marketing
                                                     @elseif ($user->akses == '4')
-                                                    R&D
+                                                    Purchasing
                                                     @elseif ($user->akses == '5')
-                                                    PPIC
+                                                    Accounting
                                                     @elseif ($user->akses == '6')
+                                                    R&D
+                                                    @elseif ($user->akses == '7')
+                                                    PPIC
+                                                    @elseif ($user->akses == '8')
                                                     Guest
-                                                    @else
-                                                    @endif
-                                                    
+                                                    @endif  
                                                 <td>
                                                     <div class="d-flex">
                                                         <a href="/User/{{ $user->id }}/edit " class="btn btn-warning ml-2">Edit</a>

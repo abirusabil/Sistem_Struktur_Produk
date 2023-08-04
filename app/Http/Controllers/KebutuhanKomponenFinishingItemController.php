@@ -34,7 +34,7 @@ class KebutuhanKomponenFinishingItemController extends Controller
     public function create(Request $request, RateLimiter $limiter)
     {
         try {
-            if (!in_array(auth()->user()->akses, [1, 2])) {
+            if (!in_array(auth()->user()->akses, [1, 2, 6, 7])) {
                 throw new AuthorizationException();
             }
 
@@ -50,20 +50,20 @@ class KebutuhanKomponenFinishingItemController extends Controller
             $limiter->hit($key, $decayMinutes * 60);
 
             // Jika memiliki akses
-            return view('pages.Data_Barang.Item.Kebutuhan_Komponen_Finishing.Tambah_Kebutuhan_Komponen_Finishing',
+            return view(
+                'pages.Data_Barang.Item.Kebutuhan_Komponen_Finishing.Tambah_Kebutuhan_Komponen_Finishing',
                 [
-                    'type_menu'=>'Item',
-                    'Item'=>$request,
-                    'KomponenFinishing'=>MasterKomponenFinishing::all(),
+                    'type_menu' => 'Item',
+                    'Item' => $request,
+                    'KomponenFinishing' => MasterKomponenFinishing::all(),
                     // 'loopCount' => $loopCount
                 ]
             );
-            
         } catch (AuthorizationException $exception) {
             throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
         }
     }
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -75,29 +75,30 @@ class KebutuhanKomponenFinishingItemController extends Controller
     {
         $validatedData = $request->validate(
             [
-                'id'=>'required|unique:kebutuhan_accessories_hardware_items',
-                'Item_Id.*'=>'required',
-                'Komponen_Finishing_Id.*'=>'required',
-                'Quantity_Kebutuhan_Komponen_Finishing_Item.*'=>'required',
-                
-    
-            ],[
-                'required'=>'Kolom Tidak Boleh Kosong',
-                'unique'=>'Kode Telah Digunakan Silahkan Gunakan Kode Lain'
+                'id' => 'required|unique:kebutuhan_accessories_hardware_items',
+                'Item_Id.*' => 'required',
+                'Komponen_Finishing_Id.*' => 'required',
+                'Quantity_Kebutuhan_Komponen_Finishing_Item.*' => 'required',
+
+
+            ],
+            [
+                'required' => 'Kolom Tidak Boleh Kosong',
+                'unique' => 'Kode Telah Digunakan Silahkan Gunakan Kode Lain'
             ]
         );
-        
+
         // return $validatedData;
-            for ($i = 0; $i < count($request->Komponen_Finishing_Id); $i++) {
-                KebutuhanKomponenFinishingItem::create([
-                    'id' => $validatedData['id'][$i],
-                    'Item_Id' => $validatedData['Item_Id'][$i],
-                    'Komponen_Finishing_Id' => $validatedData['Komponen_Finishing_Id'][$i],
-                    'Quantity_Kebutuhan_Komponen_Finishing_Item' => $validatedData['Quantity_Kebutuhan_Komponen_Finishing_Item'][$i],
-                ]);
-            }
-        
-            return redirect("/Item/{$request->input('Item_Id.0')}")->with('success_komponen_finishing', 'Data Berhasil Ditambahkan');
+        for ($i = 0; $i < count($request->Komponen_Finishing_Id); $i++) {
+            KebutuhanKomponenFinishingItem::create([
+                'id' => $validatedData['id'][$i],
+                'Item_Id' => $validatedData['Item_Id'][$i],
+                'Komponen_Finishing_Id' => $validatedData['Komponen_Finishing_Id'][$i],
+                'Quantity_Kebutuhan_Komponen_Finishing_Item' => $validatedData['Quantity_Kebutuhan_Komponen_Finishing_Item'][$i],
+            ]);
+        }
+
+        return redirect("/Item/{$request->input('Item_Id.0')}")->with('success_komponen_finishing', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -117,10 +118,10 @@ class KebutuhanKomponenFinishingItemController extends Controller
      * @param  \App\Models\KebutuhanKomponenFinishingItem  $kebutuhanKomponenFinishingItem
      * @return \Illuminate\Http\Response
      */
-    public function edit(KebutuhanKomponenFinishingItem $Kebutuhan_Finishing_Item , RateLimiter $limiter)
+    public function edit(KebutuhanKomponenFinishingItem $Kebutuhan_Finishing_Item, RateLimiter $limiter)
     {
         try {
-            if (!in_array(auth()->user()->akses, [1, 2])) {
+            if (!in_array(auth()->user()->akses, [1, 2, 6, 7])) {
                 throw new AuthorizationException();
             }
 
@@ -136,20 +137,20 @@ class KebutuhanKomponenFinishingItemController extends Controller
             $limiter->hit($key, $decayMinutes * 60);
 
             // Jika memiliki akses
-            
-            return view('pages.Data_Barang.Item.Kebutuhan_Komponen_Finishing.Edit_Kebutuhan_Komponen_Finishing',
+
+            return view(
+                'pages.Data_Barang.Item.Kebutuhan_Komponen_Finishing.Edit_Kebutuhan_Komponen_Finishing',
                 [
-                    'type_menu'=>'Item',
-                    'Kebutuhan_Komponen_Finishing_Item'=>$Kebutuhan_Finishing_Item,
-                    'Komponen_Finishings'=>MasterKomponenFinishing::all(),
+                    'type_menu' => 'Item',
+                    'Kebutuhan_Komponen_Finishing_Item' => $Kebutuhan_Finishing_Item,
+                    'Komponen_Finishings' => MasterKomponenFinishing::all(),
                 ]
             );
-            
         } catch (AuthorizationException $exception) {
             throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
         }
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -162,14 +163,15 @@ class KebutuhanKomponenFinishingItemController extends Controller
     {
         $validatedData = $request->validate(
             [
-                'id'=>'required',
-                'Item_Id'=>'required',
-                'Komponen_Finishing_Id'=>'required',
-                'Quantity_Kebutuhan_Komponen_Finishing_Item'=>'required',
-                
-    
-            ],[
-                'required'=>'Kolom Tidak Boleh Kosong',
+                'id' => 'required',
+                'Item_Id' => 'required',
+                'Komponen_Finishing_Id' => 'required',
+                'Quantity_Kebutuhan_Komponen_Finishing_Item' => 'required',
+
+
+            ],
+            [
+                'required' => 'Kolom Tidak Boleh Kosong',
             ]
         );
         // log activity
@@ -183,14 +185,14 @@ class KebutuhanKomponenFinishingItemController extends Controller
             ->withProperties([
                 'old' => $originalData,
                 'new' => $validatedData
-                ])
+            ])
             ->event('Update')
             ->log('This Model has been Update');
 
         //end log activity
         // return $validatedData;
-        KebutuhanKomponenFinishingItem::where('id',$Kebutuhan_Finishing_Item->id)->update($validatedData);
-        return redirect("/Item/$Kebutuhan_Finishing_Item->Item_Id")->with('success_komponen_finishing','Data Berhasil diubah');
+        KebutuhanKomponenFinishingItem::where('id', $Kebutuhan_Finishing_Item->id)->update($validatedData);
+        return redirect("/Item/$Kebutuhan_Finishing_Item->Item_Id")->with('success_komponen_finishing', 'Data Berhasil diubah');
     }
 
     /**
@@ -199,10 +201,33 @@ class KebutuhanKomponenFinishingItemController extends Controller
      * @param  \App\Models\KebutuhanKomponenFinishingItem  $kebutuhanKomponenFinishingItem
      * @return \Illuminate\Http\Response
      */
-    public function destroy(KebutuhanKomponenFinishingItem $Kebutuhan_Finishing_Item)
+    public function destroy(KebutuhanKomponenFinishingItem $Kebutuhan_Finishing_Item, RateLimiter $limiter)
     {
-        KebutuhanKomponenFinishingItem::destroy($Kebutuhan_Finishing_Item->id);
-        return redirect("/Item/$Kebutuhan_Finishing_Item->Item_Id")->with('success_komponen_finishing','Data Berhasil Dihapus');
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 6, 7])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+
+            KebutuhanKomponenFinishingItem::destroy($Kebutuhan_Finishing_Item->id);
+            return redirect("/Item/$Kebutuhan_Finishing_Item->Item_Id")->with('success_komponen_finishing', 'Data Berhasil Dihapus');
+                
+            // Jika tidak memiliki akses 
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
     public function export($itemId)
     {

@@ -118,7 +118,7 @@
                                                 <td>
                                                     <div class="d-flex">
                                                         <a href="/Buyer/{{ $Buyers->id }} " class="btn btn-info ml-2">Detail</a>
-                                                        @if(in_array(auth()->user()->akses , [1]))
+                                                        @if(in_array(auth()->user()->akses , [1,2,3]))
                                                             <a href="/Buyer/{{ $Buyers->id }}/edit " class="btn btn-warning ml-2">Edit</a>
                                                             <form action="/Buyer/{{ $Buyers->id }}"  method="POST">
                                                                 @method('delete')

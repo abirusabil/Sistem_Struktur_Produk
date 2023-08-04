@@ -25,11 +25,12 @@ class MasterKomponenFinishingController extends Controller
      */
     public function index()
     {
-        
-        return view('pages.Data-Materials.Komponen_Finishing.Master_Komponen_Finishing',
+
+        return view(
+            'pages.Data-Materials.Komponen_Finishing.Master_Komponen_Finishing',
             [
-                'type_menu'=>'Komponen_Finishing',
-                'Komponen_Finishing'=>MasterKomponenFinishing::with('Suplier')->filter(request(['search']))->paginate(50)
+                'type_menu' => 'Komponen_Finishing',
+                'Komponen_Finishing' => MasterKomponenFinishing::with('Suplier')->filter(request(['search']))->paginate(50)
             ]
         );
     }
@@ -43,7 +44,7 @@ class MasterKomponenFinishingController extends Controller
     public function create(RateLimiter $limiter)
     {
         try {
-            if (!in_array(auth()->user()->akses, [1, 2])) {
+            if (!in_array(auth()->user()->akses, [1, 2, 4, 6])) {
                 throw new AuthorizationException();
             }
 
@@ -58,13 +59,17 @@ class MasterKomponenFinishingController extends Controller
 
             $limiter->hit($key, $decayMinutes * 60);
 
-            return view('pages.Data-Materials.Komponen_Finishing.Tambah_Komponen_Finishing',
+            // Jika memiliki akses
+
+            return view(
+                'pages.Data-Materials.Komponen_Finishing.Tambah_Komponen_Finishing',
                 [
-                    'type_menu'=>'Komponen_Finishing',
-                    'supliers'=>Suplier::all()
+                    'type_menu' => 'Komponen_Finishing',
+                    'supliers' => Suplier::all()
                 ]
             );
 
+            // Jika tidak memiliki akses
         } catch (AuthorizationException $exception) {
             throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
         }
@@ -81,20 +86,21 @@ class MasterKomponenFinishingController extends Controller
         // 
         $validatedData = $request->validate(
             [
-                'id'=>'required|unique:master_komponen_finishings',
-                'Nama_Komponen_Finishing'=>'required',
-                'Quantity_Komponen_Finishing'=>'required',
-                'Satuan_Komponen_Finishing'=>'required',
-                'Harga_Komponen_Finishing'=>'required',
-                'Suplier_Id'=>'required'
-            ],[
+                'id' => 'required|unique:master_komponen_finishings',
+                'Nama_Komponen_Finishing' => 'required',
+                'Quantity_Komponen_Finishing' => 'required',
+                'Satuan_Komponen_Finishing' => 'required',
+                'Harga_Komponen_Finishing' => 'required',
+                'Suplier_Id' => 'required'
+            ],
+            [
                 'required' => 'Kolom tidak boleh kosong',
                 'unique' => 'Kode sudah digunakan , Silahkan Gunakan Kode Lain'
             ]
-        ) ;
+        );
         // return $validatedData;
         MasterKomponenFinishing::create($validatedData);
-        return redirect('/Komponen_Finishing')->with('success','Data Berhasil Ditambahkan');
+        return redirect('/Komponen_Finishing')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -105,7 +111,6 @@ class MasterKomponenFinishingController extends Controller
      */
     public function show(MasterKomponenFinishing $Komponen_Finishing)
     {
-        
     }
 
     /**
@@ -114,15 +119,38 @@ class MasterKomponenFinishingController extends Controller
      * @param  \App\Models\MasterKomponenFinishing  $masterKomponenFinishing
      * @return \Illuminate\Http\Response
      */
-    public function edit(MasterKomponenFinishing $Komponen_Finishing)
+    public function edit(MasterKomponenFinishing $Komponen_Finishing, RateLimiter $limiter)
     {
-        return view('pages.Data-Materials.Komponen_Finishing.Edit_Komponen_Finishing',
-        [
-            'type_menu'=>'Komponen_Finishing',
-            'Komponen_Finishing'=>$Komponen_Finishing,
-            'supliers'=>Suplier::all()
-        ]
-    );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 4, 6])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            return view(
+                'pages.Data-Materials.Komponen_Finishing.Edit_Komponen_Finishing',
+                [
+                    'type_menu' => 'Komponen_Finishing',
+                    'Komponen_Finishing' => $Komponen_Finishing,
+                    'supliers' => Suplier::all()
+                ]
+            );
+
+            // Jika tidak memiliki akses
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -136,17 +164,18 @@ class MasterKomponenFinishingController extends Controller
     {
         $validatedData = $request->validate(
             [
-                'id'=>'required',
-                'Nama_Komponen_Finishing'=>'required',
-                'Quantity_Komponen_Finishing'=>'required',
-                'Satuan_Komponen_Finishing'=>'required',
-                'Harga_Komponen_Finishing'=>'required',
-                'Suplier_Id'=>'required'
-            ],[
+                'id' => 'required',
+                'Nama_Komponen_Finishing' => 'required',
+                'Quantity_Komponen_Finishing' => 'required',
+                'Satuan_Komponen_Finishing' => 'required',
+                'Harga_Komponen_Finishing' => 'required',
+                'Suplier_Id' => 'required'
+            ],
+            [
                 'required' => 'Kolom tidak boleh kosong',
-             
+
             ]
-        ) ;
+        );
 
         // log activity
 
@@ -159,15 +188,14 @@ class MasterKomponenFinishingController extends Controller
             ->withProperties([
                 'old' => $originalData,
                 'new' => $validatedData
-                ])
+            ])
             ->event('Update')
             ->log('This Model has been Update');
 
         //end log activity 
         // return $validatedData;
-        MasterKomponenFinishing::where('id',$Komponen_Finishing->id)->update($validatedData);
-        return redirect('/Komponen_Finishing')->with('success','Data Berhasil Diubah');
-        
+        MasterKomponenFinishing::where('id', $Komponen_Finishing->id)->update($validatedData);
+        return redirect('/Komponen_Finishing')->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -176,22 +204,44 @@ class MasterKomponenFinishingController extends Controller
      * @param  \App\Models\MasterKomponenFinishing  $masterKomponenFinishing
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MasterKomponenFinishing $Komponen_Finishing)
+    public function destroy(MasterKomponenFinishing $Komponen_Finishing, RateLimiter $limiter)
     {
         // return $Komponen_Finishing;
-        MasterKomponenFinishing::destroy($Komponen_Finishing->id);
-        return redirect('/Komponen_Finishing')->with('success','Data Berhasil Dihapus');
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 4, 6])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            MasterKomponenFinishing::destroy($Komponen_Finishing->id);
+            return redirect('/Komponen_Finishing')->with('success', 'Data Berhasil Dihapus');
+            
+            // Jika tidak memiliki akses
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     public function export()
     {
-        return Excel::download(new MasterKomponenFinishingExport ,'Master_Komponen_Finishing.xlsx');
+        return Excel::download(new MasterKomponenFinishingExport, 'Master_Komponen_Finishing.xlsx');
     }
 
     public function import(Request $request)
     {
-         // Validasi file Excel
-         $request->validate([
+        // Validasi file Excel
+        $request->validate([
             'excel_file' => 'required|mimes:xls,xlsx'
         ]);
 

@@ -49,32 +49,27 @@
                     <div class="breadcrumb-item">List Kayu</div>
                 </div>
             </div>
-
-           
-
             <div class="section-body">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header d-block">
                                 <div class="row">
-                                    
-                                        <div class="col-lg-7">
-                                            <div class="d-grid d-md-flex  ">
-                                                <a href="{{ route('kayu.export') }}" target="_blank" class="btn rounded btn-info me-md-2 mr-2 mb-2" type="button">
-                                                    <i class="fas fa-regular fa-file-export mr-2"></i>Export Kayu
+                                    <div class="col-lg-7">
+                                        <div class="d-grid d-md-flex  ">
+                                            <a href="{{ route('kayu.export') }}" target="_blank" class="btn rounded btn-info me-md-2 mr-2 mb-2" type="button">
+                                                <i class="fas fa-regular fa-file-export mr-2"></i>Export Kayu
+                                            </a>
+                                            @if(in_array(auth()->user()->akses , [1]))
+                                                <button type="button" class="btn rounded btn-success mr-2 mb-2" data-toggle="modal" data-target="#importModal">
+                                                    <i class="fas fa-regular fa-file-import mr-2"></i>Import Kayu
+                                                </button>
+                                                <a href="{{ url('/Kayu/create') }}" class="btn rounded btn-primary me-md-2 mb-2" type="button">
+                                                    <i class="fa-solid fa-plus mr-2"></i>Tambah Kayu Baru
                                                 </a>
-                                                @if(in_array(auth()->user()->akses , [1]))
-                                                    <button type="button" class="btn rounded btn-success mr-2 mb-2" data-toggle="modal" data-target="#importModal">
-                                                        <i class="fas fa-regular fa-file-import mr-2"></i>Import Kayu
-                                                    </button>
-                                                    <a href="{{ url('/Kayu/create') }}" class="btn rounded btn-primary me-md-2 mb-2" type="button">
-                                                        <i class="fa-solid fa-plus mr-2"></i>Tambah Kayu Baru
-                                                    </a>
-                                                @endif
-                                            </div>
+                                            @endif
                                         </div>
-                                        
+                                    </div>
                                     <div class="col">
                                         <form action="/Kayu">
                                             <div class="input-group">
@@ -104,36 +99,39 @@
                                                 <th>Kayu</th>
                                                 <th>Satuan </th>
                                                 <th>Suplier</th>
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,3,4,5,6]))
                                                     <th>Harga</th>
+                                                @endif
+                                                @if(in_array(auth()->user()->akses , [1,2,4,6]))
                                                     <th>Action</th>
                                                 @endif
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($MasterKayu as $masterkayu)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $masterkayu->id }}</td>
-                                                <td>{{ $masterkayu->Nama_Kayu }}</td>
-                                                <td>{{ $masterkayu->Satuan }}</td>
-                                                <td>{{ $masterkayu->Suplier->nama_suplier }}</td>
-                                                @if(in_array(auth()->user()->akses , [1]))
-                                                    <td>Rp. {{ number_format($masterkayu->Harga_Kayu,2,',','.')  }}</td>
-                                                    <td>
-                                                        <div class="d-flex">
-                                                            <a href="/Kayu/{{ $masterkayu->id }}/edit " class="btn btn-warning ml-2">Edit</a>
-                                                            <form action="/Kayu/{{ $masterkayu->id }}"  method="POST">
-                                                                @method('delete')
-                                                                @csrf
-                                                                <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
-                                                            </form>
-                                                        </div>
-                                                    </td>
-                                                @endif
-                                            </tr>
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $masterkayu->id }}</td>
+                                                    <td>{{ $masterkayu->Nama_Kayu }}</td>
+                                                    <td>{{ $masterkayu->Satuan }}</td>
+                                                    <td>{{ $masterkayu->Suplier->nama_suplier }}</td>
+                                                    @if(in_array(auth()->user()->akses , [1,2,3,4,5,6]))
+                                                        <td>Rp. {{ number_format($masterkayu->Harga_Kayu,2,',','.')  }}</td>
+                                                    @endif
+                                                    @if(in_array(auth()->user()->akses , [1,2,4,6]))
+                                                        <td>
+                                                            <div class="d-flex">
+                                                                <a href="/Kayu/{{ $masterkayu->id }}/edit " class="btn btn-warning ml-2">Edit</a>
+                                                                <form action="/Kayu/{{ $masterkayu->id }}"  method="POST">
+                                                                    @method('delete')
+                                                                    @csrf
+                                                                    <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    @endif
+                                                </tr>
                                             @endforeach
-                                            
                                         </tbody>
                                     </table>
                                 </div>

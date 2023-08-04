@@ -45,25 +45,25 @@
                                         <input type="Email" name="email" class="form-control @error('email') is-invalid @enderror">
                                         @error('email')
                                         <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Password</label>
                                         <input type="password" name="password"class="form-control @error('password') is-invalid @enderror">
                                         @error('password')
                                         <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Akses</label>
                                         <select class="form-control @error('akses') is-invalid @enderror" name="akses">
                                             <option value="">--Pilih Hak Akses--</option>
                                             <option value="1">All Akses</option>
-                                            <option value="2">Manager</option>
+                                            <option value="2">General Manager</option>
                                             <option value="3">Marketing</option>
-                                            <option value="4">R&D</option>
+                                            <option value="4">Purchasing</option>
                                             <option value="5">Accounting</option>
-                                            <option value="6">Purchasing</option>
+                                            <option value="6">R&D</option>
                                             <option value="7">PPIC</option>
                                             <option value="8">Guest</option>
                                         </select>

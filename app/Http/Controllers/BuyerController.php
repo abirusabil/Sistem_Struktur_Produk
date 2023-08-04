@@ -25,11 +25,12 @@ class BuyerController extends Controller
      */
     public function index()
     {
-    // return Buyer::all();
-        return view('pages/Data_Barang/Buyer/List_Buyer',
+        // return Buyer::all();
+        return view(
+            'pages/Data_Barang/Buyer/List_Buyer',
             [
-             'type_menu'=>'Buyer',
-             "Buyer" => Buyer::filter(request(['search']))->paginate(10)
+                'type_menu' => 'Buyer',
+                "Buyer" => Buyer::filter(request(['search']))->paginate(10)
             ]
         );
     }
@@ -42,7 +43,7 @@ class BuyerController extends Controller
     public function create(RateLimiter $limiter)
     {
         try {
-            if (!in_array(auth()->user()->akses, [1, 2])) {
+            if (!in_array(auth()->user()->akses, [1, 2, 3])) {
                 throw new AuthorizationException();
             }
 
@@ -57,10 +58,13 @@ class BuyerController extends Controller
 
             $limiter->hit($key, $decayMinutes * 60);
 
-            return view('pages/Data_Barang/Buyer/Tambah_Buyer',
-                [ 'type_menu'=>'Buyer']
+            // Jika memiliki akses
+            return view(
+                'pages/Data_Barang/Buyer/Tambah_Buyer',
+                ['type_menu' => 'Buyer']
             );
 
+            // Jika tidak memiliki akses
         } catch (AuthorizationException $exception) {
             throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
         }
@@ -75,14 +79,16 @@ class BuyerController extends Controller
     public function store(Request $request)
     {
         // return $request->all()
-        $validatedData = $request->validate([
-            'id'=>'required',
-            'Nama_Buyer'=> 'required',
-            'Alamat_Buyer'=> 'required',
-            'Kontak_Buyer'=> 'required'
-           ],[
-                'required'=>'Kolom Tidak Boleh Kosong'
-           ]
+        $validatedData = $request->validate(
+            [
+                'id' => 'required',
+                'Nama_Buyer' => 'required',
+                'Alamat_Buyer' => 'required',
+                'Kontak_Buyer' => 'required'
+            ],
+            [
+                'required' => 'Kolom Tidak Boleh Kosong'
+            ]
         );
         // return $validatedData;
         // dd();
@@ -98,13 +104,14 @@ class BuyerController extends Controller
      */
     public function show(Buyer $Buyer)
     {
-        
-        return view('pages.Data_Barang.Buyer.Detail_Buyer',
-                [
-                    'type_menu' => "Buyer",
-                    'Buyer' => $Buyer,
-                    'Collection'=> Collection::where('Buyer_Id',$Buyer->id)->get()
-                ]
+
+        return view(
+            'pages.Data_Barang.Buyer.Detail_Buyer',
+            [
+                'type_menu' => "Buyer",
+                'Buyer' => $Buyer,
+                'Collection' => Collection::where('Buyer_Id', $Buyer->id)->get()
+            ]
         );
     }
 
@@ -114,14 +121,37 @@ class BuyerController extends Controller
      * @param  \App\Models\Buyer  $buyer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Buyer $Buyer)
+    public function edit(Buyer $Buyer, RateLimiter $limiter)
     {
-        return view('pages.Data_Barang.Buyer.Edit_Buyer',
-            [
-                'type_menu'=>'Buyer',
-                'Buyer'=>$Buyer,
-            ]
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 3])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            return view(
+                'pages.Data_Barang.Buyer.Edit_Buyer',
+                [
+                    'type_menu' => 'Buyer',
+                    'Buyer' => $Buyer,
+                ]
+            );
+
+            // Jika tidak memiliki akses
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -133,35 +163,36 @@ class BuyerController extends Controller
      */
     public function update(Request $request, Buyer $Buyer)
     {
-        $validatedData = $request->validate([
-            'id'=>'required',
-            'Nama_Buyer'=> 'required',
-            'Alamat_Buyer'=> 'required',
-            'Kontak_Buyer'=> 'required'
-           ],[
-                'required'=>'Kolom Tidak Boleh Kosong'
-           ]
+        $validatedData = $request->validate(
+            [
+                'id' => 'required',
+                'Nama_Buyer' => 'required',
+                'Alamat_Buyer' => 'required',
+                'Kontak_Buyer' => 'required'
+            ],
+            [
+                'required' => 'Kolom Tidak Boleh Kosong'
+            ]
         );
-         // log activity
+        // log activity
 
-         $originalData = $Buyer->getOriginal();
+        $originalData = $Buyer->getOriginal();
 
-         activity()
-             ->causedBy(auth()->user())
-             ->performedOn($Buyer)
-             ->inLog('Buyer')
-             ->withProperties([
-                 'old' => $originalData,
-                 'new' => $validatedData
-                 ])
-             ->event('Update')
-             ->log('This Model has been Update');
- 
-         //end log activity
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Buyer)
+            ->inLog('Buyer')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validatedData
+            ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity
         // return $validatedData;
-        Buyer::where('id',$Buyer->id)->update($validatedData);
-        return redirect('/Buyer')->with('success','Data Buyer Telah Diubah');
-        
+        Buyer::where('id', $Buyer->id)->update($validatedData);
+        return redirect('/Buyer')->with('success', 'Data Buyer Telah Diubah');
     }
 
     /**
@@ -170,23 +201,47 @@ class BuyerController extends Controller
      * @param  \App\Models\Buyer  $buyer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Buyer $Buyer)
+    public function destroy(Buyer $Buyer, RateLimiter $limiter)
     {
         // return $Buyer;
         // dd();
-        Buyer::destroy($Buyer->id);
-        return redirect('/Buyer')->with('success','Data Telah Dihapus');
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 3])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            
+            Buyer::destroy($Buyer->id);
+            return redirect('/Buyer')->with('success', 'Data Telah Dihapus');
+
+            // Jika tidak memiliki akses
+
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     public function export()
     {
-        return Excel::download(new BuyerExport , 'Buyer.xlsx');
+        return Excel::download(new BuyerExport, 'Buyer.xlsx');
     }
 
     public function import(Request $request)
     {
-         // Validasi file Excel
-         $request->validate([
+        // Validasi file Excel
+        $request->validate([
             'excel_file' => 'required|mimes:xls,xlsx'
         ]);
 

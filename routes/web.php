@@ -54,9 +54,10 @@ use App\Models\MasterPendukungPacking;
 
 
 
-Route::get('/coba', function () {
-    return view('pages.coba', ['type_menu' => 'User']);
-});
+
+// Route::get('/coba', function () {
+//     return view('pages.coba', ['type_menu' => 'User']);
+// });
 
 // Kayu
 Route::resource('/Kayu',KayuController::class)->middleware('auth');

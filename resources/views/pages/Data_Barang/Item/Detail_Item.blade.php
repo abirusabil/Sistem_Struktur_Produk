@@ -369,10 +369,10 @@
                                             <div class="col px-0"><h6 class="pt-1">: {{ number_format($Item->Tinggi_Item) }} Mm</h6></div>
                                         </div>
                                     </div>
-                                    @if(in_array(auth()->user()->akses , [1]))
+                                    @if(in_array(auth()->user()->akses , [1,2,3,6]))
                                     <div class="row">
                                         <div class="col">
-                                            <a href="/Item/{{ $Item->id }}/edit" class="btn ml-3 mt-2 rounded px-5 btn-warning ml-2">Edit</a>
+                                            <a href="/Item/{{ $Item->id }}/edit" class="btn ml-3 mt-2 rounded px-5 btn-warning">Edit</a>
                                         </div>   
                                     </div>
                                     @endif
@@ -388,7 +388,7 @@
                                             <div class="col">
                                                 <h5>Kebutuhan Kayu</h5>
                                             </div>
-                                            @if(in_array(auth()->user()->akses , [1]))
+                                            @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                 <div class="col d-flex flex-row-reverse">
                                                     <button data-target="#JumlahKolomForm" data-toggle="modal" class=" btn rounded px-3 btn-primary ml-2">
                                                         <i class="fa-solid fa-plus"></i>
@@ -427,9 +427,11 @@
                                                                 <th class="text-center border">Panjang Bruto</th>
                                                                 <th class="text-center border">Jumlah</th>
                                                                 <th class="text-center border">Total M3</th>
-                                                                @if(in_array(auth()->user()->akses , [1]))
+                                                                @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                     <th class="text-center border">Biaya /M3</th>
                                                                     <th class="text-center border">Total Biaya</th>
+                                                                @endif
+                                                                @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                                     <th class="text-center border">Action</th>
                                                                 @endif
                                                             </tr>
@@ -459,7 +461,7 @@
                                                                         ,4,'.') 
                                                                     }}
                                                                 </td>
-                                                                @if(in_array(auth()->user()->akses , [1]))
+                                                                @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                     <td class="border">
                                                                     Rp. {{ number_format(
                                                                             $kebutuhan_kayu->MasterKayu->Harga_Kayu,2,'.'
@@ -476,6 +478,8 @@
                                                                             ),2,'.'
                                                                         ) }}
                                                                     </td>
+                                                                @endif
+                                                                @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                                     <td class="border">
                                                                         <div class="d-flex">
                                                                             <a href="/Kebutuhan_Kayu_Item/{{ $kebutuhan_kayu->id }}/edit " class="btn btn-warning ml-2">Edit</a>
@@ -508,7 +512,7 @@
                                         <div class="col">
                                             <h5>Kebutuhan Plywood MDF</h5>
                                         </div>
-                                        @if(in_array(auth()->user()->akses , [1]))
+                                        @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                             <div class="col d-flex flex-row-reverse">
                                                 <button data-target="#JumlahKolomFormPlywoodMDF" data-toggle="modal" class=" btn rounded px-3 btn-primary ml-2">
                                                     <i class="fa-solid fa-plus"></i>
@@ -547,9 +551,11 @@
                                                             <th class="text-center border">Panjang Netto</th>
                                                             <th class="text-center border">Jumlah</th>
                                                             <th class="text-center border">Total M2</th>
-                                                            @if(in_array(auth()->user()->akses , [1]))
+                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                 <th class="text-center border">Biaya /M2</th>
                                                                 <th class="text-center border">Total Biaya</th>
+                                                            @endif
+                                                            @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                                 <th class="text-center border">Action</th>
                                                             @endif
                                                         </tr>
@@ -577,7 +583,7 @@
                                                                     ,4,'.') 
                                                                 }}
                                                             </td>
-                                                            @if(in_array(auth()->user()->akses , [1]))
+                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                 <td class="border">
                                                                 Rp. {{ number_format(
                                                                         $kebutuhan_plywood_mdf->MasterPlywoodMDF->Harga_Plywood_MDF/
@@ -604,6 +610,8 @@
                                                                         ),2,'.'
                                                                     ) }}
                                                                 </td>
+                                                            @endif
+                                                            @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                                 <td class="border">
                                                                     <div class="d-flex">
                                                                         <a href="/Kebutuhan_Plywood_MDF_Item/{{ $kebutuhan_plywood_mdf->id }}/edit " class="btn btn-warning ml-2">Edit</a>
@@ -636,7 +644,7 @@
                                         <div class="col">
                                             <h5>Kebutuhan Accessories Hardware</h5>
                                         </div>
-                                        @if(in_array(auth()->user()->akses , [1]))
+                                        @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                             <div class="col d-flex flex-row-reverse">
                                                 <button data-target="#JumlahKolomFormAccessoriesHardware" data-toggle="modal" class=" btn rounded px-3 btn-primary ml-2">
                                                     <i class="fa-solid fa-plus"></i>
@@ -670,9 +678,11 @@
                                                             <th class="text-center border">Ukuran</th>
                                                             <th class="text-center border">Keterangan</th>
                                                             <th class="text-center border">Jumlah</th>
-                                                            @if(in_array(auth()->user()->akses , [1]))
+                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                 <th class="text-center border">Biaya </th>
                                                                 <th class="text-center border">Total Biaya</th>
+                                                            @endif
+                                                            @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                                 <th class="text-center border">Action</th>
                                                             @endif
                                                         </tr>
@@ -687,7 +697,7 @@
                                                             <td class="border">{{ $kebutuhan_accessories_hardware->MasterAccessoriesHardware->Ukuran_Accessories_Hardware}}</td>
                                                             <td class="border">{{ $kebutuhan_accessories_hardware->Keterangan_Kebutuhan_Accessories_Hardware_Item }}</td>
                                                             <td class="border">{{ $kebutuhan_accessories_hardware->Quantity_Kebutuhan_Accessories_Hardware_Item }}</td>
-                                                            @if(in_array(auth()->user()->akses , [1])) 
+                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5])) 
                                                                 <td class="border">Rp. 
                                                                     {{ number_format(
                                                                                         $kebutuhan_accessories_hardware->MasterAccessoriesHardware->Harga_Accessories_Hardware,2,'.'
@@ -704,6 +714,8 @@
                                                                         
                                                                     }}
                                                                 </td>
+                                                            @endif
+                                                            @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                                 <td class="border">
                                                                     <div class="d-flex">
                                                                         <a href="/Kebutuhan_Accessories_Item/{{ $kebutuhan_accessories_hardware->id }}/edit " class="btn btn-warning ml-2">Edit</a>
@@ -736,7 +748,7 @@
                                         <div class="col">
                                             <h5>Kebutuhan Komponen Finishing</h5>
                                         </div>
-                                        @if(in_array(auth()->user()->akses , [1]))
+                                        @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                             <div class="col d-flex flex-row-reverse">
                                                 <button data-target="#JumlahKolomFormKomponenFinishing" data-toggle="modal" class=" btn rounded px-3 btn-primary ml-2">
                                                     <i class="fa-solid fa-plus"></i>
@@ -768,9 +780,11 @@
                                                             <th class="text-center border">Kode Material</th>
                                                             <th class="text-center border">Material</th>
                                                             <th class="text-center border">Jumlah</th>
-                                                            @if(in_array(auth()->user()->akses , [1]))
+                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                 <th class="text-center border">Biaya </th>
                                                                 <th class="text-center border">Total Biaya</th>
+                                                            @endif
+                                                            @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                                 <th class="text-center border">Action</th>
                                                             @endif
                                                         </tr>
@@ -783,7 +797,7 @@
                                                             <td class="border">{{ $kebutuhan_komponen_finishing->Komponen_Finishing_Id }}</td>
                                                             <td class="border">{{ $kebutuhan_komponen_finishing->MasterKomponenFinishing->Nama_Komponen_Finishing}}</td>
                                                             <td class="border">{{ $kebutuhan_komponen_finishing->Quantity_Kebutuhan_Komponen_Finishing_Item }}</td>
-                                                            @if(in_array(auth()->user()->akses , [1]))
+                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                 <td class="border">Rp. 
                                                                     {{ number_format(
                                                                                         $kebutuhan_komponen_finishing->MasterKomponenFinishing->Harga_Komponen_Finishing
@@ -802,6 +816,8 @@
                                                                         
                                                                     }}
                                                                 </td>
+                                                            @endif
+                                                            @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                                 <td class="border">
                                                                     <div class="d-flex">
                                                                         <a href="/Kebutuhan_Finishing_Item/{{ $kebutuhan_komponen_finishing->id }}/edit " class="btn btn-warning ml-2">Edit</a>
@@ -834,7 +850,7 @@
                                         <div class="col">
                                             <h5>Kebutuhan Pendukung Packing</h5>
                                         </div>
-                                        @if(in_array(auth()->user()->akses , [1]))
+                                        @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                             <div class="col d-flex flex-row-reverse">
                                                 <button data-target="#JumlahKolomFormPendukungPacking" data-toggle="modal" class=" btn rounded px-3 btn-primary ml-2">
                                                     <i class="fa-solid fa-plus"></i>
@@ -872,9 +888,11 @@
                                                             <th class="text-center border">Panjang MM</th>
                                                             <th class="text-center border">Jumlah</th>
                                                             <th class="text-center border">Total M2</th>
-                                                            @if(in_array(auth()->user()->akses , [1]))
+                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                 <th class="text-center border">Biaya Satuan</th>
                                                                 <th class="text-center border">Total Biaya</th>
+                                                            @endif
+                                                            @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                                 <th class="text-center border">Action</th>
                                                             @endif
                                                         </tr>
@@ -893,53 +911,50 @@
                                                             <td class="text-center border">{{ $Kebutuhan_Pendukung_Packing->Lebar_Kebutuhan_Pendukung_Packing_Item }}</td>
                                                             <td class="text-center border">{{ $Kebutuhan_Pendukung_Packing->Panjang_Kebutuhan_Pendukung_Packing_Item }}</td>
                                                             <td class="text-center border">{{ $Kebutuhan_Pendukung_Packing->Quantity_Kebutuhan_Pendukung_Packing_Item }}</td>
-                                                            
-                                                            @if ($Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Satuan_Pendukung_Packing == "Meter")
-                                                                <td class="text-center border">
-                                                                    {{ number_format(
-                                                                        $Kebutuhan_Pendukung_Packing->Panjang_Kebutuhan_Pendukung_Packing_Item*
-                                                                        $Kebutuhan_Pendukung_Packing->Lebar_Kebutuhan_Pendukung_Packing_Item/1000000*
-                                                                        $Kebutuhan_Pendukung_Packing->Quantity_Kebutuhan_Pendukung_Packing_Item
-                                                                        ,4,'.') 
-                                                                    }}
-                                                                </td>
-                                                                @if(in_array(auth()->user()->akses , [1]))
-                                                                    <td class="border">
-                                                                        Rp. {{ number_format(
-                                                                            $Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Harga_Pendukung_Packing/
-                                                                            (
-                                                                                $Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Panjang_Pendukung_Packing
-                                                                                *$Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Lebar_Pendukung_Packing/1000000
-                                                                            ),2,'.'
-                                                                        ) }} 
+                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
+                                                                @if ($Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Satuan_Pendukung_Packing == "Meter")
+                                                                    <td class="text-center border">
+                                                                        {{ number_format(
+                                                                            $Kebutuhan_Pendukung_Packing->Panjang_Kebutuhan_Pendukung_Packing_Item*
+                                                                            $Kebutuhan_Pendukung_Packing->Lebar_Kebutuhan_Pendukung_Packing_Item/1000000*
+                                                                            $Kebutuhan_Pendukung_Packing->Quantity_Kebutuhan_Pendukung_Packing_Item
+                                                                            ,4,'.') 
+                                                                        }}
                                                                     </td>
-                                                                    <td class="border">
-                                                                        Rp. {{ number_format(
-                                                                            (
+                                                                    
+                                                                        <td class="border">
+                                                                            Rp. {{ number_format(
                                                                                 $Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Harga_Pendukung_Packing/
-                                                                            (
-                                                                                $Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Panjang_Pendukung_Packing
-                                                                                *$Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Lebar_Pendukung_Packing/1000000
-                                                                            )
-                                                                            )
-                                                                                *
-                                                                            (
-                                                                                $Kebutuhan_Pendukung_Packing->Panjang_Kebutuhan_Pendukung_Packing_Item*
-                                                                                $Kebutuhan_Pendukung_Packing->Lebar_Kebutuhan_Pendukung_Packing_Item/1000000*
-                                                                                $Kebutuhan_Pendukung_Packing->Quantity_Kebutuhan_Pendukung_Packing_Item        
-                                                                            ),2,'.'
-                                                                        ) }}
-                                                                    </td>
-                                                                @endif
-                                                            @else
-                                                               <td class="border">--</td> 
-                                                                @if(in_array(auth()->user()->akses , [1]))
+                                                                                (
+                                                                                    $Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Panjang_Pendukung_Packing
+                                                                                    *$Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Lebar_Pendukung_Packing/1000000
+                                                                                ),2,'.'
+                                                                            ) }} 
+                                                                        </td>
+                                                                        <td class="border">
+                                                                            Rp. {{ number_format(
+                                                                                (
+                                                                                    $Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Harga_Pendukung_Packing/
+                                                                                (
+                                                                                    $Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Panjang_Pendukung_Packing
+                                                                                    *$Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Lebar_Pendukung_Packing/1000000
+                                                                                )
+                                                                                )
+                                                                                    *
+                                                                                (
+                                                                                    $Kebutuhan_Pendukung_Packing->Panjang_Kebutuhan_Pendukung_Packing_Item*
+                                                                                    $Kebutuhan_Pendukung_Packing->Lebar_Kebutuhan_Pendukung_Packing_Item/1000000*
+                                                                                    $Kebutuhan_Pendukung_Packing->Quantity_Kebutuhan_Pendukung_Packing_Item        
+                                                                                ),2,'.'
+                                                                            ) }}
+                                                                        </td>
+                                                                @else
+                                                                    <td class="border">--</td> 
                                                                     <td class="border">Rp.{{ number_format($Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Harga_Pendukung_Packing,2,'.') }}</td>
                                                                     <td class="border">Rp.{{ number_format($Kebutuhan_Pendukung_Packing->MasterPendukungPacking->Harga_Pendukung_Packing * $Kebutuhan_Pendukung_Packing->Quantity_Kebutuhan_Pendukung_Packing_Item,2,'.') }}</td>
                                                                 @endif
                                                             @endif
-                                                            
-                                                            @if(in_array(auth()->user()->akses , [1]))
+                                                            @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                                 <td class="border">
                                                                     <div class="d-flex">
                                                                         <a href="/Kebutuhan_Packing_Item/{{ $Kebutuhan_Pendukung_Packing->id }}/edit " class="btn btn-warning ml-2">Edit</a>
@@ -972,7 +987,7 @@
                                         <div class="col">
                                             <h5>Kebutuhan Karton Box</h5>
                                         </div>
-                                        @if(in_array(auth()->user()->akses , [1]))
+                                        @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                             <div class="col d-flex flex-row-reverse">
                                                 <button data-target="#JumlahKolomFormKartonBox" data-toggle="modal" class=" btn rounded px-3 btn-primary ml-2">
                                                     <i class="fa-solid fa-plus"></i>
@@ -1007,10 +1022,12 @@
                                                             <th class="text-center border">Lebar Mm</th>
                                                             <th class="text-center border">Panjang MM</th>
                                                             <th class="text-center border">Jumlah</th>
-                                                            @if(in_array(auth()->user()->akses , [1]))
-                                                            <th class="text-center border">Biaya Satuan</th>
-                                                            <th class="text-center border">Total Biaya</th>
-                                                            <th class="text-center border">Action</th>
+                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
+                                                                <th class="text-center border">Biaya Satuan</th>
+                                                                <th class="text-center border">Total Biaya</th>
+                                                            @endif
+                                                            @if(in_array(auth()->user()->akses , [1,2,6,7]))
+                                                                <th class="text-center border">Action</th>
                                                             @endif
                                                         </tr>
                                                     </thead>
@@ -1026,7 +1043,7 @@
                                                             <td class="border">{{ $Kebutuhan_Karton_Box->Lebar_Kebutuhan_Karton_Box_Item }}</td>
                                                             <td class="text-center border">{{ $Kebutuhan_Karton_Box->Panjang_Kebutuhan_Karton_Box_Item }}</td>
                                                             <td class="text-center border">{{ $Kebutuhan_Karton_Box->Quantity_Kebutuhan_Karton_Box_Item }}</td>
-                                                            @if(in_array(auth()->user()->akses , [1]))
+                                                            @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                                 <td class="text-center border">Rp. {{ number_format($Kebutuhan_Karton_Box->Harga_Kebutuhan_Karton_Box_Item ,2,'.'
                                                                     )}}</td>
                                                                 <td class="text-center border">Rp. {{ number_format(
@@ -1127,7 +1144,7 @@
                                                 <a href="{{ route('Borongan_Dalam_Item.export', ['itemId' => $Item->id]) }}" target="_blank" class="btn rounded btn-info me-md-2 ml-2 px-5" type="button">
                                                     <i class="fa-solid fa-print mr-2"></i>Print
                                                 </a>
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                 <a href="{{ count($borongan_dalams) < 1 ? route('Borongan_Dalam_Item.create', ['itemId' => $Item]) : route('Borongan_Dalam_Item.edit', $borongan_dalams[0]->id) }}" class="btn rounded btn-success me-md-2 ml-2 px-5" type="button">
                                                     <i class="fas fa-edit mr-2"></i>Edit
                                                 </a>
@@ -1203,7 +1220,7 @@
                                                 <a href="{{ route('Borongan_Luar_Item.export', ['itemId' => $Item->id]) }}" target="_blank" class="btn rounded btn-info me-md-2 ml-2 px-5" type="button">
                                                     <i class="fa-solid fa-print mr-2"></i>Print
                                                 </a>
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                 <a href="{{ count($Borongan_Luars) < 1 ? route('Borongan_Luar_Item.create', ['itemId' => $Item]) : route('Borongan_Luar_Item.edit', $Borongan_Luars[0]->id) }}" class="btn rounded btn-success me-md-2 ml-2 px-5" type="button">
                                                     <i class="fas fa-edit mr-2"></i>Edit
                                                 </a>
@@ -1216,7 +1233,7 @@
                                 {{-- End Ongkos Kerja Borongan Luar --}}
 
                                 {{-- Total Biaya --}}
-                                @if(in_array(auth()->user()->akses , [1]))
+                                @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                 <div class="Total_Biaya ">
                                     <div class="row py-4">
                                         <div class="col">
@@ -1417,7 +1434,7 @@
                                         <div class="col-lg">
                                             <h5>Gambar Item</h5>
                                         </div>
-                                        @if(in_array(auth()->user()->akses , [1]))
+                                        @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                             <div class="col-lg d-flex flex-row-reverse">
                                                 <a href="{{ route('Gambar_Item.create', ['itemId' => $Item]) }}" class="btn rounded btn-primary me-md-2 ml-2 px-5" type="button">
                                                     <i class="fas fa-plus mr-2"></i>Tambah Gambar Item Baru
@@ -1441,7 +1458,7 @@
                                                         
                                                     </div>
                                                     <div class="d-flex text-center align-center justify-content-center">
-                                                        @if(in_array(auth()->user()->akses , [1]))
+                                                        @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                                         <form action="/Gambar_Item/{{ $gambarItem->id }}"  method="POST">
                                                             @method('delete')
                                                             @csrf
@@ -1465,7 +1482,7 @@
                                         <div class="col-lg">
                                             <h5>Gambar Kerja</h5>
                                         </div>
-                                        @if(in_array(auth()->user()->akses , [1]))
+                                        @if(in_array(auth()->user()->akses , [1,2,6,7]))
                                             <div class="col-lg d-flex flex-row-reverse">
                                                 <a href="{{ route('Gambar_Kerja.create', ['itemId' => $Item]) }}" class="btn rounded btn-primary me-md-2 ml-2 px-5" type="button">
                                                     <i class="fas fa-plus mr-2"></i>Tambah Gambar Kerja Baru

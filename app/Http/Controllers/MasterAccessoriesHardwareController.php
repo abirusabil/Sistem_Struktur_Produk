@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MasterAccessoriesHardware;   
+use App\Models\MasterAccessoriesHardware;
 use App\Models\Suplier;
 use App\Exports\MasterAccessoriesHardwareExport;
 use App\Imports\MasterAccessoriesHardwareImport;
@@ -24,11 +24,13 @@ class MasterAccessoriesHardwareController extends Controller
      */
     public function index()
     {
-        return view('pages.Data-Materials.Accessories_Hardware.Master_Accessories_Hardware' , 
-        [
-            'type_menu'=>'Accessories_Hardware',
-            'AccessoriesHardware'=>MasterAccessoriesHardware::with('Suplier')->filter(request(['search']))->paginate(50),
-        ]);
+        return view(
+            'pages.Data-Materials.Accessories_Hardware.Master_Accessories_Hardware',
+            [
+                'type_menu' => 'Accessories_Hardware',
+                'AccessoriesHardware' => MasterAccessoriesHardware::with('Suplier')->filter(request(['search']))->paginate(50),
+            ]
+        );
     }
 
     /**
@@ -40,7 +42,7 @@ class MasterAccessoriesHardwareController extends Controller
     public function create(RateLimiter $limiter)
     {
         try {
-            if (!in_array(auth()->user()->akses, [1, 2])) {
+            if (!in_array(auth()->user()->akses, [1, 2, 4, 6])) {
                 throw new AuthorizationException();
             }
 
@@ -55,13 +57,17 @@ class MasterAccessoriesHardwareController extends Controller
 
             $limiter->hit($key, $decayMinutes * 60);
 
-            return view('pages.Data-Materials.Accessories_Hardware.Tambah_Accessories_Hardware' , 
+            // Jika memiliki akses
+
+            return view(
+                'pages.Data-Materials.Accessories_Hardware.Tambah_Accessories_Hardware',
                 [
-                    'type_menu'=>'Accessories_Hardware',
-                    'supliers'=>Suplier::all()
+                    'type_menu' => 'Accessories_Hardware',
+                    'supliers' => Suplier::all()
                 ]
             );
 
+            // Jika tidak memiliki akses 
         } catch (AuthorizationException $exception) {
             throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
         }
@@ -75,22 +81,23 @@ class MasterAccessoriesHardwareController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate( 
+        $validatedData = $request->validate(
             [
-                'id'=>'required|unique:master_accessories_hardware',
+                'id' => 'required|unique:master_accessories_hardware',
                 'Nama_Accessories_Hardware' => 'required',
                 'Ukuran_Accessories_Hardware' => 'required',
                 'Satuan_Accessories_Hardware' => 'required',
                 'Harga_Accessories_Hardware' => 'required',
                 'Suplier_Id' => 'required',
-            ],[
+            ],
+            [
                 'required' => 'Kolom tidak boleh kosong',
                 'unique' => 'Kode sudah digunakan , Silahkan Gunakan Kode Lain'
             ]
         );
         // return $validatedData;
         MasterAccessoriesHardware::create($validatedData);
-        return redirect('/Accessories_Hardware')->with('success' , 'Data Berhasil Ditambahkan');
+        return redirect('/Accessories_Hardware')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -110,14 +117,36 @@ class MasterAccessoriesHardwareController extends Controller
      * @param  \App\Models\MasterAccessoriesHardware  $masterAccessoriesHardware
      * @return \Illuminate\Http\Response
      */
-    public function edit(MasterAccessoriesHardware $Accessories_Hardware)
+    public function edit(MasterAccessoriesHardware $Accessories_Hardware, RateLimiter $limiter)
     {
         // return $Accessories_Hardware;
-        return view('pages.Data-Materials.Accessories_Hardware.Edit_Accessories_Hardware',[
-           'type_menu'=>'Accessories_Hardware',
-           'Accessories_Hardware'=>$Accessories_Hardware ,
-           'supliers'=>Suplier::all()
-        ]);
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 4, 6])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            return view('pages.Data-Materials.Accessories_Hardware.Edit_Accessories_Hardware', [
+                'type_menu' => 'Accessories_Hardware',
+                'Accessories_Hardware' => $Accessories_Hardware,
+                'supliers' => Suplier::all()
+            ]);
+
+            // Jika tidak memiliki akses 
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -129,39 +158,40 @@ class MasterAccessoriesHardwareController extends Controller
      */
     public function update(Request $request, MasterAccessoriesHardware $Accessories_Hardware)
     {
-        $validatedData = $request->validate( 
+        $validatedData = $request->validate(
             [
-                'id'=>'required',
+                'id' => 'required',
                 'Nama_Accessories_Hardware' => 'required',
                 'Ukuran_Accessories_Hardware' => 'required',
                 'Satuan_Accessories_Hardware' => 'required',
                 'Harga_Accessories_Hardware' => 'required',
                 'Suplier_Id' => 'required',
-            ],[
+            ],
+            [
                 'required' => 'Kolom tidak boleh kosong',
                 'unique' => 'Data sudah digunakan'
             ]
         );
-         // log activity
+        // log activity
 
-         $originalData = $Accessories_Hardware->getOriginal();
+        $originalData = $Accessories_Hardware->getOriginal();
 
-         activity()
-             ->causedBy(auth()->user())
-             ->performedOn($Accessories_Hardware)
-             ->inLog('Master Accessories Hardware')
-             ->withProperties([
-                 'old' => $originalData,
-                 'new' => $validatedData
-                 ])
-             ->event('Update')
-             ->log('This Model has been Update');
- 
-         //end log activity  
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Accessories_Hardware)
+            ->inLog('Master Accessories Hardware')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validatedData
+            ])
+            ->event('Update')
+            ->log('This Model has been Update');
+
+        //end log activity  
         // return $validatedData;
-        MasterAccessoriesHardware::where('id',$Accessories_Hardware->id)
-        ->update($validatedData);
-        return redirect('/Accessories_Hardware')->with('success' , 'Data Berhasil Ditambahkan');
+        MasterAccessoriesHardware::where('id', $Accessories_Hardware->id)
+            ->update($validatedData);
+        return redirect('/Accessories_Hardware')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -170,23 +200,45 @@ class MasterAccessoriesHardwareController extends Controller
      * @param  \App\Models\MasterAccessoriesHardware  $masterAccessoriesHardware
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MasterAccessoriesHardware $Accessories_Hardware)
+    public function destroy(MasterAccessoriesHardware $Accessories_Hardware, RateLimiter $limiter)
     {
         // return $Accessories_Hardware;
-        MasterAccessoriesHardware::destroy($Accessories_Hardware->id);
-        return redirect('Accessories_Hardware')->with('success','Data Berhasil Dihapus');
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 4, 6])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            MasterAccessoriesHardware::destroy($Accessories_Hardware->id);
+            return redirect('Accessories_Hardware')->with('success', 'Data Berhasil Dihapus');
+            
+            // Jika tidak memiliki akses 
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     public function export()
     {
-        
+
         return Excel::download(new MasterAccessoriesHardwareExport, 'Master_Accessories_Hardware.xlsx');
     }
-    
+
     public function import(Request $request)
     {
-         // Validasi file Excel
-         $request->validate([
+        // Validasi file Excel
+        $request->validate([
             'excel_file' => 'required|mimes:xls,xlsx'
         ]);
 
@@ -197,5 +249,4 @@ class MasterAccessoriesHardwareController extends Controller
         // Redirect kembali ke halaman awal
         return redirect('/Accessories_Hardware')->with('success', 'Data Suplier berhasil diimport!');
     }
-    
 }

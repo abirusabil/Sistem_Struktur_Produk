@@ -66,10 +66,12 @@
                                                             <th class="px-3">Qty Order</th>
                                                             <th class="px-3">Total Order</th>
                                                             <th class="px-3">Volume Bruto/M3</th>
-                                                            @if(auth()->user()->akses == 1)
-                                                            <th class="px-3">Biaya /M3</th>
-                                                            <th class="px-3">Total Biaya</th>
-                                                            <th class="px-3">Action</th>
+                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
+                                                                <th class="px-3">Biaya /M3</th>
+                                                                <th class="px-3">Total Biaya</th>
+                                                            @endif
+                                                            @if(in_array(auth()->user()->akses , [1,2]))
+                                                                <th class="px-3">Action</th>
                                                             @endif
                                                         </tr>
                                                     </thead>
@@ -115,19 +117,22 @@
                                                                     <td class="border border-black px-3 text-center">{{ number_format($qty_order,0) }}</td>
                                                                     <td class="border border-black px-3 text-center">{{ $total_order }}</td>
                                                                     <td class="border border-black px-3 text-center">{{ number_format($volume_bruto ,4,'.') }}</td>
-                                                                    @if(auth()->user()->akses == 1)
+                                                                    @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                         <td class="border border-black px-3">
                                                                             Rp. {{ number_format($biaya_m3, 2, '.') }}
                                                                         </td>
                                                                         <td class="border border-black px-3">Rp. {{  number_format($total_biaya,2,'.') }}</td>
+                                                                    @endif
+                                                                    @if(in_array(auth()->user()->akses , [1,2]))
                                                                         <td class="border border-black px-3">
                                                                             <a href="/Kebutuhan_Kayu/{{ $kebutuhanKayuItem->id }}/edit " class="btn btn-warning ml-2">Edit</a>
                                                                         </td>
                                                                     @endif
+                                                                    
                                                                 </tr>
                                                         @endforeach
                                                         <tr> 
-                                                            @if(auth()->user()->akses == 1)
+                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                 <td colspan="20" class="text-center border border-black">TOTAL BIAYA KAYU : </td>
                                                                 <td colspan="2" class="border border-black">Rp. {{ number_format($total_biaya_kayu,2,'.') }}</td>
                                                             @endif
@@ -136,7 +141,7 @@
                                                 </table>
                                             </div>
                                             <div class="col d-flex justify-content-end p-0 mt-3">
-                                                <a class="btn ml-3 mt-2 rounded px-5 btn-info ml-2" href="{{ route('Kebutuhan_Kayu_Po.export', ['JobOrder' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Print</a>
+                                                <a class="btn ml-3 mt-2 rounded px-5 btn-info" href="{{ route('Kebutuhan_Kayu_Po.export', ['JobOrder' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Print</a>
                                             </div> 
                                         </div>
                                     </div>
@@ -172,10 +177,12 @@
                                                                     <th class="px-3">Qty Order</th>
                                                                     <th class="px-3">Total Order</th>
                                                                     <th class="px-3">Luas M2</th>
-                                                                    @if(auth()->user()->akses == 1)
-                                                                    <th class="px-3">Biaya /M2</th>
-                                                                    <th class="px-3">Total Biaya</th>
-                                                                    <th class="px-3">Action</th>
+                                                                    @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
+                                                                        <th class="px-3">Biaya /M2</th>
+                                                                        <th class="px-3">Total Biaya</th>
+                                                                    @endif
+                                                                    @if(in_array(auth()->user()->akses , [1,2]))
+                                                                        <th class="px-3">Action</th>
                                                                     @endif
                                                                 </tr>
                                                             </thead>
@@ -214,11 +221,13 @@
                                                                             <td class="border border-black px-3 text-center">{{ number_format($qty_order,0) }}</td>
                                                                             <td class="border border-black px-3 text-center">{{ $total_order }}</td>
                                                                             <td class="border border-black px-3 text-center">{{ number_format($luas ,4,'.') }}</td>
-                                                                            @if(auth()->user()->akses == 1)
+                                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                                 <td class="border border-black px-3">
                                                                                     Rp. {{ number_format($biaya_m2, 2, '.') }}
                                                                                 </td>
                                                                                 <td class="border border-black px-3">Rp. {{  number_format($total_biaya,2,'.') }}</td>
+                                                                            @endif
+                                                                            @if(in_array(auth()->user()->akses , [1,2]))
                                                                                 <td class="border border-black px-3">
                                                                                     <a href="/Kebutuhan_Plywood_MDF/{{ $kebutuhanplywoodmdfitem->id }}/edit " class="btn btn-warning ml-2">Edit</a>
                                                                                 </td>
@@ -226,17 +235,16 @@
                                                                         </tr>
                                                                     @endforeach
                                                                 <tr> 
-                                                                    @if(auth()->user()->akses == 1)
+                                                                    @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                         <td colspan="16" class="text-center border border-black">TOTAL BIAYA PLYWOOD MDF : </td>
                                                                         <td colspan="2" class="border border-black">Rp. {{ number_format($total_biaya_mdf,2,'.') }}</td>
-                                                                        
                                                                     @endif
                                                                 </tr>
                                                             </tbody>
                                                         </table>
                                             </div>
                                             <div class="col d-flex justify-content-end p-0 mt-3">
-                                                <a class="btn ml-3 mt-2 rounded px-5 btn-info ml-2" href="{{ route('Kebutuhan_Plywood_MDF_Po.export', ['JobOrder' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Print</a>
+                                                <a class="btn ml-3 mt-2 rounded px-5 btn-info" href="{{ route('Kebutuhan_Plywood_MDF_Po.export', ['JobOrder' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Print</a>
                                             </div>
                                         </div>
                                     </div>
@@ -269,10 +277,12 @@
                                                                     <th class="px-3">Jumlah</th>
                                                                     <th class="px-3">Qty Order</th>
                                                                     <th class="px-3">Total Order</th>
-                                                                    @if(auth()->user()->akses == 1)
-                                                                    <th class="px-3">Biaya Satuan</th>
-                                                                    <th class="px-3">Total Biaya</th>
-                                                                    <th class="px-3">Action</th>
+                                                                    @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
+                                                                        <th class="px-3">Biaya Satuan</th>
+                                                                        <th class="px-3">Total Biaya</th>
+                                                                    @endif
+                                                                    @if(in_array(auth()->user()->akses , [1,2]))
+                                                                        <th class="px-3">Action</th>
                                                                     @endif
                                                                 </tr>
                                                             </thead>
@@ -301,11 +311,13 @@
                                                                             <td class="border border-black px-3 text-center">{{ number_format($jumlah,0) }}</td>
                                                                             <td class="border border-black px-3 text-center">{{ number_format($qty_order,0) }}</td>
                                                                             <td class="border border-black px-3 text-center">{{ $total_order }}</td>
-                                                                            @if(auth()->user()->akses == 1)
+                                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                                 <td class="border border-black px-3">
                                                                                     Rp. {{ number_format($harga_satuan, 2, '.') }}
                                                                                 </td>
                                                                                 <td class="border border-black px-3">Rp. {{  number_format($total_biaya,2,'.') }}</td>
+                                                                            @endif
+                                                                            @if(in_array(auth()->user()->akses , [1,2]))
                                                                                 <td class="border border-black px-3">
                                                                                     <a href="/Kebutuhan_Accessories_Hardware/{{ $KebutuhanAccessoriesHardwarePo->id }}/edit " class="btn btn-warning ml-2">Edit</a>
                                                                                 </td>
@@ -313,17 +325,16 @@
                                                                         </tr>
                                                                     @endforeach
                                                                 <tr> 
-                                                                    @if(auth()->user()->akses == 1)
+                                                                    @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                         <td colspan="12" class="text-center border border-black">TOTAL BIAYA ACCESSORIES HARDWARE : </td>
                                                                         <td colspan="2" class="border border-black">Rp. {{ number_format($total_biaya_accessories,2,'.') }}</td>
-                                                                        
                                                                     @endif
                                                                 </tr>
                                                             </tbody>
                                                         </table>
                                             </div>
                                             <div class="col d-flex justify-content-end p-0 mt-3">
-                                                <a class="btn ml-3 mt-2 rounded px-5 btn-info ml-2" href="{{ route('Kebutuhan_Accessories_Hardware_Po.export', ['JobOrder' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Print</a>
+                                                <a class="btn ml-3 mt-2 rounded px-5 btn-info" href="{{ route('Kebutuhan_Accessories_Hardware_Po.export', ['JobOrder' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Print</a>
                                             </div>
                                         </div>
                                     </div>
@@ -354,10 +365,12 @@
                                                                     <th class="px-3">Jumlah</th>
                                                                     <th class="px-3">Qty Order</th>
                                                                     <th class="px-3">Total Order</th>
-                                                                    @if(auth()->user()->akses == 1)
-                                                                    <th class="px-3">Biaya Satuan</th>
-                                                                    <th class="px-3">Total Biaya</th>
-                                                                    <th class="px-3">Action</th>
+                                                                    @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
+                                                                        <th class="px-3">Biaya Satuan</th>
+                                                                        <th class="px-3">Total Biaya</th>
+                                                                    @endif
+                                                                    @if(in_array(auth()->user()->akses , [1,2]))
+                                                                        <th class="px-3">Action</th>
                                                                     @endif
                                                                 </tr>
                                                             </thead>
@@ -384,11 +397,13 @@
                                                                             <td class="border border-black px-3 text-center">{{ number_format($jumlah,4) }}</td>
                                                                             <td class="border border-black px-3 text-center">{{ number_format($qty_order,0) }}</td>
                                                                             <td class="border border-black px-3 text-center">{{ number_format($total_order,4) }}</td>
-                                                                            @if(auth()->user()->akses == 1)
+                                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                                 <td class="border border-black px-3">
                                                                                     Rp. {{ number_format($harga_satuan, 2, '.') }}
                                                                                 </td>
                                                                                 <td class="border border-black px-3">Rp. {{  number_format($total_biaya,2,'.') }}</td>
+                                                                            @endif
+                                                                            @if(in_array(auth()->user()->akses , [1,2]))
                                                                                 <td class="border border-black px-3">
                                                                                     <a href="/Kebutuhan_Komponen_Finishing/{{ $KebutuhanKomponenFinishingPo->id }}/edit " class="btn btn-warning ml-2">Edit</a>
                                                                                 </td>
@@ -396,7 +411,7 @@
                                                                         </tr>
                                                                     @endforeach
                                                                 <tr> 
-                                                                    @if(auth()->user()->akses == 1)
+                                                                    @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                         <td colspan="10" class="text-center border border-black">TOTAL BIAYA ACCESSORIES HARDWARE : </td>
                                                                         <td colspan="2" class="border border-black">Rp. {{ number_format($total_biaya_komponen_finishing,2,'.') }}</td>
                                                                         
@@ -406,7 +421,7 @@
                                                         </table>
                                             </div>
                                             <div class="col d-flex justify-content-end p-0 mt-3">
-                                                <a class="btn ml-3 mt-2 rounded px-5 btn-info ml-2" href="{{ route('Kebutuhan_Komponen_Finishing_Po.export', ['JobOrder' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Print</a>
+                                                <a class="btn ml-3 mt-2 rounded px-5 btn-info" href="{{ route('Kebutuhan_Komponen_Finishing_Po.export', ['JobOrder' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Print</a>
                                             </div>
                                         </div>
                                     </div>
@@ -443,10 +458,12 @@
                                                                     <th class="px-3">Qty Order</th>
                                                                     <th class="px-3">Total Order</th>
                                                                     <th class="px-3">Total Order M2</th>
-                                                                    @if(auth()->user()->akses == 1)
-                                                                    <th class="px-3">Biaya Satuan</th>
-                                                                    <th class="px-3">Total Biaya</th>
-                                                                    <th class="px-3">Action</th>
+                                                                    @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
+                                                                        <th class="px-3">Biaya Satuan</th>
+                                                                        <th class="px-3">Total Biaya</th>
+                                                                    @endif
+                                                                    @if(in_array(auth()->user()->akses , [1,2]))
+                                                                        <th class="px-3">Action</th>
                                                                     @endif
                                                                 </tr>
                                                             </thead>
@@ -492,11 +509,13 @@
                                                                             <td class="border border-black px-3 text-center">{{ number_format($qty_order,0) }}</td>
                                                                             <td class="border border-black px-3 text-center">{{ number_format($total_order,0) }}</td>
                                                                             <td class="border border-black px-3 text-center">{{ $Total_Order_M2 }}</td>
-                                                                            @if(auth()->user()->akses == 1)
+                                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                                 <td class="border border-black px-3">
                                                                                     Rp. {{ number_format($harga_satuan, 2, '.') }}
                                                                                 </td>
                                                                                 <td class="border border-black px-3">Rp. {{  number_format($total_biaya,2,'.') }}</td>
+                                                                            @endif
+                                                                            @if(in_array(auth()->user()->akses , [1,2]))
                                                                                 <td class="border border-black px-3">
                                                                                     <a href="/Kebutuhan_Pendukung_Packing/{{ $KebutuhanPendukungPackingPo->id }}/edit " class="btn btn-warning ml-2">Edit</a>
                                                                                 </td>
@@ -504,17 +523,16 @@
                                                                         </tr>
                                                                     @endforeach
                                                                 <tr> 
-                                                                    @if(auth()->user()->akses == 1)
+                                                                    @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                         <td colspan="15" class="text-center border border-black">TOTAL BIAYA PENDUKUNG PACKING : </td>
                                                                         <td colspan="2" class="border border-black">Rp. {{ number_format($total_biaya_pendukung_packing,2,'.') }}</td>
-                                                                        
                                                                     @endif
                                                                 </tr>
                                                             </tbody>
                                                         </table>
                                             </div>
                                             <div class="col d-flex justify-content-end p-0 mt-3">
-                                                <a class="btn ml-3 mt-2 rounded px-5 btn-info ml-2" href="{{ route('Kebutuhan_Pendukung_Packing_Po.export', ['JobOrder' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Print</a>
+                                                <a class="btn ml-3 mt-2 rounded px-5 btn-info" href="{{ route('Kebutuhan_Pendukung_Packing_Po.export', ['JobOrder' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Print</a>
                                             </div>
                                         </div>
                                     </div>
@@ -547,10 +565,12 @@
                                                                     <th class="px-3">Jumlah</th>
                                                                     <th class="px-3">Qty Order</th>
                                                                     <th class="px-3">Total Order</th>
-                                                                    @if(auth()->user()->akses == 1)
-                                                                    <th class="px-3">Biaya Satuan</th>
-                                                                    <th class="px-3">Total Biaya</th>
-                                                                    <th class="px-3">Action</th>
+                                                                    @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
+                                                                        <th class="px-3">Biaya Satuan</th>
+                                                                        <th class="px-3">Total Biaya</th>
+                                                                    @endif
+                                                                    @if(in_array(auth()->user()->akses , [1,2]))
+                                                                        <th class="px-3">Action</th>
                                                                     @endif
                                                                 </tr>
                                                             </thead>
@@ -579,11 +599,13 @@
                                                                             <td class="border border-black px-3 text-center">{{ number_format($jumlah,0) }}</td>
                                                                             <td class="border border-black px-3 text-center">{{ number_format($qty_order,0) }}</td>
                                                                             <td class="border border-black px-3 text-center">{{ number_format($total_order,0) }}</td>
-                                                                            @if(auth()->user()->akses == 1)
+                                                                            @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                                 <td class="border border-black px-3">
                                                                                     Rp. {{ number_format($harga_satuan, 2, '.') }}
                                                                                 </td>
                                                                                 <td class="border border-black px-3">Rp. {{  number_format($total_biaya,2,'.') }}</td>
+                                                                            @endif
+                                                                            @if(in_array(auth()->user()->akses , [1,2]))
                                                                                 <td class="border border-black px-3">
                                                                                     <a href="/Kebutuhan_Karton_Box/{{ $KebutuhanKartonBoxPo->id }}/edit " class="btn btn-warning ml-2">Edit</a>
                                                                                 </td>
@@ -591,17 +613,16 @@
                                                                         </tr>
                                                                     @endforeach
                                                                 <tr> 
-                                                                    @if(auth()->user()->akses == 1)
+                                                                    @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                                                         <td colspan="12" class="text-center border border-black">TOTAL BIAYA KARTON BOX : </td>
                                                                         <td colspan="2" class="border border-black">Rp. {{ number_format($total_biaya_karton_box,2,'.') }}</td>
-                                                                        
                                                                     @endif
                                                                 </tr>
                                                             </tbody>
                                                         </table>
                                             </div>
                                             <div class="col d-flex justify-content-end p-0 mt-3">
-                                                <a class="btn ml-3 mt-2 rounded px-5 btn-info ml-2" href="{{ route('Kebutuhan_Karton_Box_Po.export', ['JobOrder' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Print</a>
+                                                <a class="btn ml-3 mt-2 rounded px-5 btn-info" href="{{ route('Kebutuhan_Karton_Box_Po.export', ['JobOrder' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Print</a>
                                             </div>
                                         </div>
                                     </div>
@@ -609,6 +630,8 @@
                                 {{-- End Kebutuhan Karton Box --}}
 
                                 {{-- Biaya Borongan Dalam --}}
+
+
                                 <div class="BiayaBoronganDalam pt-5">
                                     <div class="row">
                                         <div class="col">
@@ -633,7 +656,9 @@
                                                                     <th class="border text-center" colspan="3">FINISHING</th>
                                                                     <th class="border text-center" colspan="3">PACKING</th>
                                                                     <th class="border text-center" rowspan="2">Total Ongkos / Item</th>
+                                                                    @if(in_array(auth()->user()->akses , [1,2]))
                                                                     <th class="border text-center" rowspan="2">Action</th>
+                                                                    @endif
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="border text-center">Biaya Satuan</th>
@@ -754,9 +779,11 @@
                                                                             <td class="border">Rp.
                                                                                 {{ number_format($t_ongkos_item,2,'.')}}
                                                                             </td>
-                                                                            <td class="border">
-                                                                                <a href="/Borongan_Dalam_Po/{{ $BoronganDalamPo->id }}/edit " class="btn btn-warning ml-2">Edit</a>
-                                                                            </td>
+                                                                            @if(in_array(auth()->user()->akses , [1,2]))
+                                                                                <td class="border">
+                                                                                    <a href="/Borongan_Dalam_Po/{{ $BoronganDalamPo->id }}/edit " class="btn btn-warning ml-2">Edit</a>
+                                                                                </td>
+                                                                            @endif
                                                                             
                                                                         </tr>
                                                                     @endforeach
@@ -799,7 +826,9 @@
                                                                     <th class="border text-center" colspan="3">Pirelly_Jok</th>
                                                                     <th class="border text-center" colspan="3">Sterofoam</th>
                                                                     <th class="border text-center" rowspan="2">Total Ongkos / Item</th>
+                                                                    @if(in_array(auth()->user()->akses , [1,2]))
                                                                     <th class="border text-center" rowspan="2">Action</th>
+                                                                    @endif
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="border text-center">Biaya Satuan</th>
@@ -906,9 +935,11 @@
                                                                             <td class="border">Rp.
                                                                                 {{ number_format($t_ongkos_item,2,'.')}}
                                                                             </td>
-                                                                            <td class="border">
-                                                                                <a href="/Borongan_Luar_Po/{{ $BoronganLuarPo->id }}/edit " class="btn btn-warning ml-2">Edit</a>
-                                                                            </td>
+                                                                            @if(in_array(auth()->user()->akses , [1,2]))
+                                                                                <td class="border">
+                                                                                    <a href="/Borongan_Luar_Po/{{ $BoronganLuarPo->id }}/edit " class="btn btn-warning ml-2">Edit</a>
+                                                                                </td>
+                                                                            @endif
                                                                         </tr>
                                                                     @endforeach
                                                                     <tr>
@@ -926,7 +957,7 @@
                                 {{-- End Biaya Borongan Luar --}}
 
                                 {{-- Total Biaya Keseluruhan--}}
-                                @if(auth()->user()->akses == 1)
+                                @if(in_array(auth()->user()->akses , [1,2,3,4,5]))
                                 <div class="TotalBiayaKeseluruhan pt-5">
                                     <div class="row">
                                         <div class="col">
@@ -944,42 +975,42 @@
                                                         <tr>
                                                             <td class="border">1</td>
                                                             <td class="border">Biaya Kayu</td>
-                                                            <td class="border text-center border">Rp. {{ number_format($total_biaya_kayu,2,'.') }}</td>
+                                                            <td class="border text-center">Rp. {{ number_format($total_biaya_kayu,2,'.') }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="border">2</td>
                                                             <td class="border">Biaya Plywood MDF</td>
-                                                            <td class="border text-center border">Rp. {{ number_format($total_biaya_mdf,2,'.') }}</td>
+                                                            <td class="border text-center">Rp. {{ number_format($total_biaya_mdf,2,'.') }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="border">3</td>
                                                             <td class="border">Biaya Accessories Hardware</td>
-                                                            <td class="border text-center border">Rp. {{ number_format($total_biaya_accessories,2,'.') }}</td>
+                                                            <td class="border text-center">Rp. {{ number_format($total_biaya_accessories,2,'.') }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="border">4</td>
                                                             <td class="border">Biaya Komponen Finishing</td>
-                                                            <td class="border text-center border">Rp. {{ number_format($total_biaya_komponen_finishing,2,'.') }}</td>
+                                                            <td class="border text-center">Rp. {{ number_format($total_biaya_komponen_finishing,2,'.') }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="border">5</td>
                                                             <td class="border">Biaya Pendukung Packing</td>
-                                                            <td class="border text-center border">Rp. {{ number_format($total_biaya_pendukung_packing,2,'.') }}</td>
+                                                            <td class="border text-center">Rp. {{ number_format($total_biaya_pendukung_packing,2,'.') }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="border">6</td>
                                                             <td class="border">Biaya Karton Box</td>
-                                                            <td class="border text-center border">Rp. {{ number_format($total_biaya_karton_box,2,'.') }}</td>
+                                                            <td class="border text-center">Rp. {{ number_format($total_biaya_karton_box,2,'.') }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="border">7</td>
                                                             <td class="border">Biaya Borongan Dalam</td>
-                                                            <td class="border text-center border">Rp. {{ number_format($t_ongkos_borongan_dalam,2,'.') }}</td>
+                                                            <td class="border text-center">Rp. {{ number_format($t_ongkos_borongan_dalam,2,'.') }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="border">8</td>
                                                             <td class="border">Biaya Borongan Luar</td>
-                                                            <td class="border text-center border">Rp. {{ number_format($t_ongkos_borongan_luar,2,'.') }}</td>
+                                                            <td class="border text-center">Rp. {{ number_format($t_ongkos_borongan_luar,2,'.') }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="text-center border fw-bold" colspan="2"><h6>Total Biaya</h6></td>

@@ -104,10 +104,12 @@
                                                 <th>Luas /M</th>
                                                 <th>Satuan</th>
                                                 <th>Suplier</th>
-                                                @if(in_array(auth()->user()->akses , [1]))
-                                                <th>Harga /Lembar</th>
-                                                <th>Harga /M2</th>
-                                                <th>Action</th>
+                                                @if(in_array(auth()->user()->akses , [1,2,3,4,5,6]))
+                                                    <th>Harga /Lembar</th>
+                                                    <th>Harga /M2</th>
+                                                @endif
+                                                @if(in_array(auth()->user()->akses , [1,2,4,6]))
+                                                    <th>Action</th>
                                                 @endif
                                             </tr>
                                         </thead>
@@ -123,7 +125,7 @@
                                                 <td>{{ number_format($plywoodmdf->Panjang_Plywood_MDF * $plywoodmdf->Lebar_Plywood_MDF / 1000000,4) }}</td>
                                                 <td>{{ $plywoodmdf->Satuan_Plywood_MDF }}</td>
                                                 <td>{{ $plywoodmdf->Suplier->nama_suplier }}</td>
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,3,4,5,6]))
                                                     <td>Rp. {{ number_format($plywoodmdf->Harga_Plywood_MDF,2,',','.')  }}</td>
                                                     <td>Rp. 
                                                         {{ number_format(
@@ -131,6 +133,8 @@
                                                             )  
                                                         }}
                                                     </td>
+                                                @endif
+                                                @if(in_array(auth()->user()->akses , [1,2,4,6]))
                                                     <td>
                                                         <div class="d-flex">
                                                             <a href="/Plywood_MDF/{{ $plywoodmdf->id }}/edit " class="btn btn-warning ml-2">Edit</a>

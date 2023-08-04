@@ -74,7 +74,7 @@
                                                                     <th class="px-3">Qty Order</th>
                                                                     <th class="px-3">Total Order</th>
                                                                     <th class="px-3">Luas M2</th>
-                                                                    @if(auth()->user()->akses == 1)
+                                                                    @if(in_array(auth()->user()->akses , [1,2,4,5]))
                                                                     <th class="px-3">Biaya /M3</th>
                                                                     <th class="px-3">Total Biaya</th>
                                                                     @endif
@@ -116,7 +116,7 @@
                                                                             <td class="border border-black px-3 text-center">{{ number_format($qty_order,0) }}</td>
                                                                             <td class="border border-black px-3 text-center">{{ $total_order }}</td>
                                                                             <td class="border border-black px-3 text-center">{{ number_format($luas ,4,'.') }}</td>
-                                                                            @if(auth()->user()->akses == 1)
+                                                                            @if(in_array(auth()->user()->akses , [1,2,4,5]))
                                                                                 <td class="border border-black px-3">
                                                                                     Rp. {{ number_format($biaya_m2, 2, '.') }}
                                                                                 </td>

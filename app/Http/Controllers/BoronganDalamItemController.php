@@ -12,6 +12,7 @@ use Illuminate\Cache\RateLimiter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Auth\Access\AuthorizationException;
+
 class BoronganDalamItemController extends Controller
 {
     /**
@@ -32,7 +33,7 @@ class BoronganDalamItemController extends Controller
     public function create(Request $request, RateLimiter $limiter)
     {
         try {
-            if (!in_array(auth()->user()->akses, [1, 2])) {
+            if (!in_array(auth()->user()->akses, [1, 2, 6, 7])) {
                 throw new AuthorizationException();
             }
 
@@ -49,18 +50,18 @@ class BoronganDalamItemController extends Controller
 
             // Jika memiliki akses
             // return $request;
-            return view('pages.Data_Barang.Item.Borongan_Dalam.Tambah_Borongan_Dalam', 
+            return view(
+                'pages.Data_Barang.Item.Borongan_Dalam.Tambah_Borongan_Dalam',
                 [
                     'type_menu' => 'Item',
                     'itemId' => $request->itemId,
                 ]
             );
-            
         } catch (AuthorizationException $exception) {
             throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
         }
     }
-    
+
 
 
     /**
@@ -73,21 +74,22 @@ class BoronganDalamItemController extends Controller
     {
         $validatedData = $request->validate(
             [
-                'Item_Id'=>'required',
-                'Bahan_1'=>'required',
-                'Bahan_2'=>'required',
-                'Sanding_1'=>'required',
-                'Sanding_2'=>'required',
-                'Proses_Assembling'=>'required',
-                'Finishing'=>'required',
-                'Packing'=>'required',
-            ],[
-                'required'=>'Kolom Tidak Boleh Kosong',
+                'Item_Id' => 'required',
+                'Bahan_1' => 'required',
+                'Bahan_2' => 'required',
+                'Sanding_1' => 'required',
+                'Sanding_2' => 'required',
+                'Proses_Assembling' => 'required',
+                'Finishing' => 'required',
+                'Packing' => 'required',
+            ],
+            [
+                'required' => 'Kolom Tidak Boleh Kosong',
             ]
-            );
-            // return $validatedData;
-            BoronganDalamItem::Create($validatedData);
-            return redirect("/Item/{$request->input('Item_Id')}")->with('success_Borongan_Dalam', 'Data Berhasil Ditambahkan');
+        );
+        // return $validatedData;
+        BoronganDalamItem::Create($validatedData);
+        return redirect("/Item/{$request->input('Item_Id')}")->with('success_Borongan_Dalam', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -98,7 +100,6 @@ class BoronganDalamItemController extends Controller
      */
     public function show(BoronganDalamItem $Borongan_Dalam_Item)
     {
-       
     }
 
     /**
@@ -107,10 +108,10 @@ class BoronganDalamItemController extends Controller
      * @param  \App\Models\BoronganDalamItem  $boronganDalamItem
      * @return \Illuminate\Http\Response
      */
-    public function edit(BoronganDalamItem $Borongan_Dalam_Item , RateLimiter $limiter)
+    public function edit(BoronganDalamItem $Borongan_Dalam_Item, RateLimiter $limiter)
     {
         try {
-            if (!in_array(auth()->user()->akses, [1, 2])) {
+            if (!in_array(auth()->user()->akses, [1, 2, 6, 7])) {
                 throw new AuthorizationException();
             }
 
@@ -126,14 +127,14 @@ class BoronganDalamItemController extends Controller
             $limiter->hit($key, $decayMinutes * 60);
 
             // Jika memiliki akses
-            
-            return view('pages.Data_Barang.Item.Borongan_Dalam.Edit_Borongan_Dalam',
+
+            return view(
+                'pages.Data_Barang.Item.Borongan_Dalam.Edit_Borongan_Dalam',
                 [
-                    'type_menu'=>'Item',
-                    'Borongan_Dalam_Item'=>$Borongan_Dalam_Item,
+                    'type_menu' => 'Item',
+                    'Borongan_Dalam_Item' => $Borongan_Dalam_Item,
                 ]
             );
-            
         } catch (AuthorizationException $exception) {
             throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
         }
@@ -150,39 +151,40 @@ class BoronganDalamItemController extends Controller
     {
         $validatedData = $request->validate(
             [
-                'Item_Id'=>'required',
-                'Bahan_1'=>'required',
-                'Bahan_2'=>'required',
-                'Sanding_1'=>'required',
-                'Sanding_2'=>'required',
-                'Proses_Assembling'=>'required',
-                'Finishing'=>'required',
-                'Packing'=>'required',
-            ],[
-                'required'=>'Kolom Tidak Boleh Kosong',
+                'Item_Id' => 'required',
+                'Bahan_1' => 'required',
+                'Bahan_2' => 'required',
+                'Sanding_1' => 'required',
+                'Sanding_2' => 'required',
+                'Proses_Assembling' => 'required',
+                'Finishing' => 'required',
+                'Packing' => 'required',
+            ],
+            [
+                'required' => 'Kolom Tidak Boleh Kosong',
             ]
-            );
-            // log activity
+        );
+        // log activity
 
-            $originalData = $Borongan_Dalam_Item->getOriginal();
+        $originalData = $Borongan_Dalam_Item->getOriginal();
 
-            activity()
-                ->causedBy(auth()->user())
-                ->performedOn($Borongan_Dalam_Item)
-                ->inLog('Borongan Dalam Item')
-                ->withProperties([
-                    'old' => $originalData,
-                    'new' => $validatedData
-                    ])
-                ->event('Update')
-                ->log('This Model has been Update');
-                
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($Borongan_Dalam_Item)
+            ->inLog('Borongan Dalam Item')
+            ->withProperties([
+                'old' => $originalData,
+                'new' => $validatedData
+            ])
+            ->event('Update')
+            ->log('This Model has been Update');
 
-             //end log activity
 
-            // return $validatedData;
-            BoronganDalamItem::where('id',$Borongan_Dalam_Item->id)->update($validatedData);
-            return redirect("/Item/{$request->input('Item_Id')}")->with('success_Borongan_Dalam', 'Data Berhasil Diubah');
+        //end log activity
+
+        // return $validatedData;
+        BoronganDalamItem::where('id', $Borongan_Dalam_Item->id)->update($validatedData);
+        return redirect("/Item/{$request->input('Item_Id')}")->with('success_Borongan_Dalam', 'Data Berhasil Diubah');
     }
 
     /**

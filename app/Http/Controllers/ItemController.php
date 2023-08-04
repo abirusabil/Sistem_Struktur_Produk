@@ -36,12 +36,14 @@ class ItemController extends Controller
      */
     public function index()
     {
-        
-        return view('pages.Data_Barang.Item.Master_Item',
-        [
-            'type_menu'=>'Item',
-            'items'=>Item::with('Collection.Buyer')->filter(request(['search']))->paginate(50)
-        ]);
+
+        return view(
+            'pages.Data_Barang.Item.Master_Item',
+            [
+                'type_menu' => 'Item',
+                'items' => Item::with('Collection.Buyer')->filter(request(['search']))->paginate(50)
+            ]
+        );
     }
 
     /**
@@ -52,7 +54,7 @@ class ItemController extends Controller
     public function create(RateLimiter $limiter)
     {
         try {
-            if (!in_array(auth()->user()->akses, [1, 2])) {
+            if (!in_array(auth()->user()->akses, [1, 2, 3, 6])) {
                 throw new AuthorizationException();
             }
 
@@ -67,12 +69,13 @@ class ItemController extends Controller
 
             $limiter->hit($key, $decayMinutes * 60);
 
-            return view('pages.Data_Barang.Item.Tambah_Item',
-            [
-                'type_menu'=>'Item',
-                'collections'=> Collection::with('Buyer')->get()
-            ]);
-
+            return view(
+                'pages.Data_Barang.Item.Tambah_Item',
+                [
+                    'type_menu' => 'Item',
+                    'collections' => Collection::with('Buyer')->get()
+                ]
+            );
         } catch (AuthorizationException $exception) {
             throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
         }
@@ -89,21 +92,22 @@ class ItemController extends Controller
         // return $request;
         $validatedData = $request->validate(
             [
-                'id'=>'required|unique:items',
-                'Collection_Id'=>'required',
-                'Nama_Item'=>'required',
-                'Tinggi_Item'=>'required',
-                'Lebar_Item'=>'required',
-                'Panjang_Item'=>'required',
-                'Berat_Item'=>'required',
-                'Warna_Item'=>'required'
-            ] ,[
-                'required'=>'Kolom Tidak Boleh Kosong',
-                'unique'=>'Kode Telah Digunakan , Silahkan Gunakan Kode Lain'
+                'id' => 'required|unique:items',
+                'Collection_Id' => 'required',
+                'Nama_Item' => 'required',
+                'Tinggi_Item' => 'required',
+                'Lebar_Item' => 'required',
+                'Panjang_Item' => 'required',
+                'Berat_Item' => 'required',
+                'Warna_Item' => 'required'
+            ],
+            [
+                'required' => 'Kolom Tidak Boleh Kosong',
+                'unique' => 'Kode Telah Digunakan , Silahkan Gunakan Kode Lain'
             ]
-            );
+        );
         Item::create($validatedData);
-        return redirect('/Item')->with('success','Item Berhasil Ditambahkan ');
+        return redirect('/Item')->with('success', 'Item Berhasil Ditambahkan ');
     }
 
     /**
@@ -116,21 +120,22 @@ class ItemController extends Controller
     {
         // return GambarKerja::where('Item_id',$Item->id)->get();
         // return GambarItem::where('Item_id',$Item->id)->get();
-        return view('pages.Data_Barang.Item.Detail_Item',
+        return view(
+            'pages.Data_Barang.Item.Detail_Item',
             [
-                'type_menu'=>'Item',
-                'Item'=>$Item,
-                'kebutuhan_kayus'=> KebutuhanKayuItem::with('MasterKayu')->where('Item_id',$Item->id)->get(),
-                'kebutuhan_plywood_mdfs' => KebutuhanPlywoodMdfItem::with('MasterPlywoodMDF')->where('Item_id',$Item->id)->get(),
-                'kebutuhan_accessories_hardwares' => KebutuhanAccessoriesHardwareItem::with('MasterAccessoriesHardware')->where('Item_id',$Item->id)->get(),
-                'kebutuhan_komponen_finishings' => KebutuhanKomponenFinishingItem::with('MasterKomponenFinishing')->where('Item_id',$Item->id)->get(),
-                'kebutuhan_pendukung_packings' => KebutuhanPendukungPackingItem::with('MasterPendukungPacking')->where('Item_id',$Item->id)->get(),
-                'kebutuhan_karton_boxs' => KebutuhanKartonBoxItem::where('Item_id',$Item->id)->get(),
-                'borongan_dalams' => BoronganDalamItem::where('Item_id',$Item->id)->get(),
-                'Borongan_Luars' => BoronganLuarItem::where('Item_id',$Item->id)->get(),
-                'gambarItems' => GambarItem::where('Item_id',$Item->id)->get(),
-                'gambarKerjas' => GambarKerja::where('Item_id',$Item->id)->get(),
-                
+                'type_menu' => 'Item',
+                'Item' => $Item,
+                'kebutuhan_kayus' => KebutuhanKayuItem::with('MasterKayu')->where('Item_id', $Item->id)->get(),
+                'kebutuhan_plywood_mdfs' => KebutuhanPlywoodMdfItem::with('MasterPlywoodMDF')->where('Item_id', $Item->id)->get(),
+                'kebutuhan_accessories_hardwares' => KebutuhanAccessoriesHardwareItem::with('MasterAccessoriesHardware')->where('Item_id', $Item->id)->get(),
+                'kebutuhan_komponen_finishings' => KebutuhanKomponenFinishingItem::with('MasterKomponenFinishing')->where('Item_id', $Item->id)->get(),
+                'kebutuhan_pendukung_packings' => KebutuhanPendukungPackingItem::with('MasterPendukungPacking')->where('Item_id', $Item->id)->get(),
+                'kebutuhan_karton_boxs' => KebutuhanKartonBoxItem::where('Item_id', $Item->id)->get(),
+                'borongan_dalams' => BoronganDalamItem::where('Item_id', $Item->id)->get(),
+                'Borongan_Luars' => BoronganLuarItem::where('Item_id', $Item->id)->get(),
+                'gambarItems' => GambarItem::where('Item_id', $Item->id)->get(),
+                'gambarKerjas' => GambarKerja::where('Item_id', $Item->id)->get(),
+
             ]
         );
     }
@@ -141,15 +146,37 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function edit(Item $Item)
+    public function edit(Item $Item, RateLimiter $limiter)
     {
         // return Collection::all();
-        return view('pages.Data_Barang.Item.Edit_Item',
-        [
-            'type_menu'=>'Item',
-            'Item'=>$Item,
-            'collections'=>Collection::all()
-        ]);
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 3, 6])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+            // jika memiliki akses
+            return view(
+                'pages.Data_Barang.Item.Edit_Item',
+                [
+                    'type_menu' => 'Item',
+                    'Item' => $Item,
+                    'collections' => Collection::all()
+                ]
+            );
+            // Jika tidak memiliki akses
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -163,19 +190,20 @@ class ItemController extends Controller
     {
         $validatedData = $request->validate(
             [
-                'id'=>'required',
-                'Collection_Id'=>'required',
-                'Nama_Item'=>'required',
-                'Tinggi_Item'=>'required',
-                'Lebar_Item'=>'required',
-                'Panjang_Item'=>'required',
-                'Berat_Item'=>'required',
-                'Warna_Item'=>'required'
-            ] ,[
-                'required'=>'Kolom Tidak Boleh Kosong',
-                'unique'=>'Kode Telah Digunakan , Silahkan Gunakan Kode Lain'
+                'id' => 'required',
+                'Collection_Id' => 'required',
+                'Nama_Item' => 'required',
+                'Tinggi_Item' => 'required',
+                'Lebar_Item' => 'required',
+                'Panjang_Item' => 'required',
+                'Berat_Item' => 'required',
+                'Warna_Item' => 'required'
+            ],
+            [
+                'required' => 'Kolom Tidak Boleh Kosong',
+                'unique' => 'Kode Telah Digunakan , Silahkan Gunakan Kode Lain'
             ]
-            );
+        );
         // log activity
 
         $originalData = $Item->getOriginal();
@@ -187,13 +215,13 @@ class ItemController extends Controller
             ->withProperties([
                 'old' => $originalData,
                 'new' => $validatedData
-                ])
+            ])
             ->event('Update')
             ->log('This Model has been Update');
 
         //end log activity
-        Item::where('id',$Item->id)->update($validatedData);
-        return redirect("/Item/$Item->id")->with('success','Item Berhasil Diubah ');
+        Item::where('id', $Item->id)->update($validatedData);
+        return redirect("/Item/$Item->id")->with('success', 'Item Berhasil Diubah ');
     }
 
     /**
@@ -202,21 +230,43 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Item $Item)
+    public function destroy(Item $Item, RateLimiter $limiter)
     {
-        Item::destroy($Item->id);
-        return redirect('/Item')->with('success','Data Berhasil Dihapus');
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 3, 6])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // jika memiliki akses
+            Item::destroy($Item->id);
+            return redirect('/Item')->with('success', 'Data Berhasil Dihapus');
+            
+            // Jika tidak memiliki akses
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     public function export()
     {
-        return Excel::download(new ItemExport,('Item.xlsx'));
+        return Excel::download(new ItemExport, ('Item.xlsx'));
     }
 
     public function import(Request $request)
     {
-         // Validasi file Excel
-         $request->validate([
+        // Validasi file Excel
+        $request->validate([
             'excel_file' => 'required|mimes:xls,xlsx'
         ]);
 
@@ -227,7 +277,4 @@ class ItemController extends Controller
         // Redirect kembali ke halaman awal
         return redirect('/Item')->with('success', 'Item berhasil diimport!');
     }
-    
-
-    
 }

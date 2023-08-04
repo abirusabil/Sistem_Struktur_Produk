@@ -18,7 +18,7 @@
                         <a class="nav-link"
                             href="{{ url('/Purchase_Order') }}"># List Purchase Order</a>
                     </li>
-                    @if(in_array(auth()->user()->akses , [1,2]))
+                    @if(in_array(auth()->user()->akses , [1,2,3]))
                     <li class="{{ Request::is('Purchase_Order/create') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('Purchase_Order/create') }}"># Tambah Purchase Order</a>
@@ -39,7 +39,7 @@
                         <a class="nav-link"
                             href="{{ url('/Item') }}"># List item</a>
                     </li>
-                    @if(in_array(auth()->user()->akses , [1,2]))
+                    @if(in_array(auth()->user()->akses , [1,2,3,6]))
                     <li class="{{ Request::is('Item/create') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('/Item/create') }}"># Tambah Item</a>
@@ -56,7 +56,7 @@
                         <a class="nav-link"
                             href="{{ url('/Collection') }}"># List Collection</a>
                     </li>
-                    @if(in_array(auth()->user()->akses , [1,2]))
+                    @if(in_array(auth()->user()->akses , [1,2,3,6]))
                     <li class="{{ Request::is('Collection/create') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('Collection/create') }}"># Tambah Collection</a>
@@ -73,7 +73,7 @@
                         <a class="nav-link"
                             href="{{ url('/Buyer') }}"># List Buyer</a>
                     </li>
-                    @if(in_array(auth()->user()->akses , [1,2]))
+                    @if(in_array(auth()->user()->akses , [1,2,3,6]))
                     <li class="{{ Request::is('transparent-sidebar') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('/Buyer/create') }}"># Tambah Buyer</a>
@@ -97,7 +97,7 @@
                             <a class="nav-link"
                                 href="{{ url('/Kayu') }}"># List Kayu</a>
                         </li>
-                        @if(in_array(auth()->user()->akses , [1,2]))
+                        @if(in_array(auth()->user()->akses , [1,2,4,6]))
                         <li class="{{ Request::is('Kayu/create') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Kayu/create') }}"># Tambah Kayu</a>
@@ -121,7 +121,7 @@
                             <a class="nav-link"
                                 href="{{ url('/Plywood_MDF') }}"># List Plywood Dan Mdf</a>
                         </li>
-                        @if(in_array(auth()->user()->akses , [1,2]))
+                        @if(in_array(auth()->user()->akses , [1,2,4,6]))
                         <li class="{{ Request::is('Plywood_MDF/create') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Plywood_MDF/create') }}"># Tambah Plywood Dan Mdf </a>
@@ -145,7 +145,7 @@
                             <a class="nav-link"
                                 href="{{ url('/Accessories_Hardware') }}"># List Accessories & Hardware</a>
                         </li>
-                        @if(in_array(auth()->user()->akses , [1,2]))
+                        @if(in_array(auth()->user()->akses , [1,2,4,6]))
                         <li class="{{ Request::is('Accessories_Hardware/create') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Accessories_Hardware/create') }}"># Tambah Accessories & Hardware</a>
@@ -169,7 +169,7 @@
                             <a class="nav-link"
                                 href="{{ url('/Komponen_Finishing') }}"># List Komponen Finishing</a>
                         </li>
-                        @if(in_array(auth()->user()->akses , [1,2]))
+                        @if(in_array(auth()->user()->akses , [1,2,4,6]))
                         <li class="{{ Request::is('Komponen_Finishing/create') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Komponen_Finishing/create') }}"># Tambah Komponen Finishing</a>
@@ -195,7 +195,7 @@
                             <a class="nav-link"
                                 href="{{ url('/Pendukung_Packing') }}"># List Pendukung Packing</a>
                         </li>
-                        @if(in_array(auth()->user()->akses , [1,2]))
+                        @if(in_array(auth()->user()->akses , [1,2,4,6]))
                         <li class="{{ Request::is('Pendukung_Packing/create') ? 'active' : '' }}">
                             <a class="nav-link"
                                 href="{{ url('/Pendukung_Packing/create') }}"># Tambah Pendukung Packing</a>
@@ -238,7 +238,7 @@
                         <a class="nav-link"
                             href="{{ url('/Suplier') }}"># List Suplier</a>
                     </li>
-                    @if(in_array(auth()->user()->akses , [1,2]))
+                    @if(in_array(auth()->user()->akses , [1,2,4]))
                     <li class="{{ Request::is('Suplier/create') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('/Suplier/create') }}"># Tambah Suplier</a>

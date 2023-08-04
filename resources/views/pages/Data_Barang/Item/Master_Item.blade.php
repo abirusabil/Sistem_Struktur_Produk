@@ -60,7 +60,7 @@
                                                 <a href="{{ route('Item.export') }}" target="_blank" class="btn rounded btn-info me-md-2 mr-2 mb-2" type="button">
                                                     <i class="fas fa-regular fa-file-export mr-2"></i>Export Item
                                                 </a>
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,3,6]))
                                                 <button type="button" class="btn rounded btn-success mr-2 mb-2" data-toggle="modal" data-target="#importModal">
                                                     <i class="fas fa-regular fa-file-import mr-2"></i>Import Item
                                                 </button>
@@ -92,30 +92,30 @@
                                         id="table-1">
                                         <thead>
                                             <tr>
-                                                <th class="text-center">
+                                                <th class="text-center border">
                                                     #
                                                 </th>
-                                                <th>Kode</th>
-                                                <th>Item</th>
-                                                <th>Warna</th>
-                                                <th>Collection</th>
-                                                <th>Buyer</th>
-                                                <th>Action</th>
+                                                <th class="border">Kode</th>
+                                                <th class="border">Item</th>
+                                                <th class="border">Warna</th>
+                                                <th class="border">Collection</th>
+                                                <th class="border">Buyer</th>
+                                                <th class="border">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($items as $item)
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td class="px-2">{{ $item->id}}</td>
-                                                <td class="px-2">{{ $item->Nama_Item }}</td>
-                                                <td class="px-2">{{ $item->Warna_Item }}</td>
-                                                <td class="px-2">{{ $item->Collection->Nama_Collection }}</td>
-                                                <td class="px-2">{{ $item->Collection->Buyer->Nama_Buyer }}</td>
-                                                <td class="px-2">
+                                                <td class="border text-center">{{ $loop->iteration }}</td>
+                                                <td class=" border px-2">{{ $item->id}}</td>
+                                                <td class=" border px-2">{{ $item->Nama_Item }}</td>
+                                                <td class=" border px-2">{{ $item->Warna_Item }}</td>
+                                                <td class=" border px-2">{{ $item->Collection->Nama_Collection }}</td>
+                                                <td class=" border px-2">{{ $item->Collection->Buyer->Nama_Buyer }}</td>
+                                                <td class=" border px-2">
                                                     <div class="d-flex">
                                                         <a href="/Item/{{ $item->id }} " class="btn btn-info ml-2">Detail</a>
-                                                        @if(in_array(auth()->user()->akses , [1]))
+                                                        @if(in_array(auth()->user()->akses , [1,2,3,6]))
                                                         <a href="/Item/{{ $item->id }}/edit " class="btn btn-warning ml-2">Edit</a>
                                                         <form action="/Item/{{ $item->id }}"  method="POST">
                                                             @method('delete')

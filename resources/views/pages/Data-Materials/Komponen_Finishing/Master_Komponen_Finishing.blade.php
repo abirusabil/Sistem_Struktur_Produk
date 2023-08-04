@@ -49,9 +49,6 @@
                     <div class="breadcrumb-item">List Komponen Finishing</div>
                 </div>
             </div>
-
-           
-
             <div class="section-body">
                 <div class="row">
                     <div class="col-12">
@@ -105,8 +102,10 @@
                                                 <th>Quantity</th>
                                                 <th>Satuan </th>
                                                 <th>Suplier</th>
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,3,4,5,6]))
                                                     <th>Harga</th>
+                                                @endif
+                                                @if(in_array(auth()->user()->akses , [1,2,4,6]))
                                                     <th>Action</th>
                                                 @endif
                                             </tr>
@@ -120,8 +119,10 @@
                                                 <td>{{ $komponen_finishing->Quantity_Komponen_Finishing }}</td>
                                                 <td>{{ $komponen_finishing->Satuan_Komponen_Finishing }}</td>
                                                 <td>{{ $komponen_finishing->Suplier->nama_suplier }}</td>
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,3,4,5,6]))
                                                     <td>Rp. {{ number_format($komponen_finishing->Harga_Komponen_Finishing,2,',','.')  }}</td>
+                                                @endif
+                                                @if(in_array(auth()->user()->akses , [1,2,4,6]))
                                                     <td>
                                                         <div class="d-flex">
                                                             <a href="/Komponen_Finishing/{{ $komponen_finishing->id }}/edit " class="btn btn-warning ml-2">Edit</a>
@@ -142,7 +143,7 @@
                             </div>
                             <div class="card-footer text-right">
                                 <nav class="d-inline-block">
-                                  {{-- {{ $suplier->links() }} --}}
+                                  {{ $Komponen_Finishing->links() }}
                                   </ul>
                                 </nav>
                               </div>

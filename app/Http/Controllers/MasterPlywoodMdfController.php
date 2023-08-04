@@ -24,13 +24,14 @@ class MasterPlywoodMdfController extends Controller
      */
     public function index()
     {
-        
-        return view('pages.Data-Materials.Plywood_MDF.Master-Plywood-Mdf' , 
-        [
-            'type_menu'=>'Plywood_MDF',
-            'PlywoodMDF' => MasterPlywoodMdf::with('Suplier')->filter(request(['search']))->paginate(10),
-        ]
-    );
+
+        return view(
+            'pages.Data-Materials.Plywood_MDF.Master-Plywood-Mdf',
+            [
+                'type_menu' => 'Plywood_MDF',
+                'PlywoodMDF' => MasterPlywoodMdf::with('Suplier')->filter(request(['search']))->paginate(10),
+            ]
+        );
     }
 
     /**
@@ -41,7 +42,7 @@ class MasterPlywoodMdfController extends Controller
     public function create(RateLimiter $limiter)
     {
         try {
-            if (!in_array(auth()->user()->akses, [1, 2])) {
+            if (!in_array(auth()->user()->akses, [1, 2, 4, 6])) {
                 throw new AuthorizationException();
             }
 
@@ -56,13 +57,16 @@ class MasterPlywoodMdfController extends Controller
 
             $limiter->hit($key, $decayMinutes * 60);
 
-            return view('pages.Data-Materials.Plywood_MDF.Tambah_Plywood_MDF' , 
+            // Jika memiliki akses
+            return view(
+                'pages.Data-Materials.Plywood_MDF.Tambah_Plywood_MDF',
                 [
-                    'type_menu'=>'Plywood_MDF',
-                    'supliers'=>Suplier::all()
+                    'type_menu' => 'Plywood_MDF',
+                    'supliers' => Suplier::all()
                 ]
             );
 
+            // Jika tidak memiliki akses
         } catch (AuthorizationException $exception) {
             throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
         }
@@ -77,23 +81,24 @@ class MasterPlywoodMdfController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate(
-        [
-            'id'=>'required|unique:master_plywood_mdfs',
-            'Nama_Plywood_MDF'=>'required',
-            'Tebal_Plywood_MDF'=>'required',
-            'Panjang_Plywood_MDF'=>'required',
-            'Lebar_Plywood_MDF'=>'required',
-            'Harga_Plywood_MDF'=>'required',
-            'Satuan_Plywood_MDF'=>'required',
-            'Suplier_Id'=>'required',
-        ],[
-            'required' => 'Kolom tidak boleh kosong',
-            'unique' => 'Kode Sudah Digunakan , Silahkan Gunakan Kode Lain'
+            [
+                'id' => 'required|unique:master_plywood_mdfs',
+                'Nama_Plywood_MDF' => 'required',
+                'Tebal_Plywood_MDF' => 'required',
+                'Panjang_Plywood_MDF' => 'required',
+                'Lebar_Plywood_MDF' => 'required',
+                'Harga_Plywood_MDF' => 'required',
+                'Satuan_Plywood_MDF' => 'required',
+                'Suplier_Id' => 'required',
+            ],
+            [
+                'required' => 'Kolom tidak boleh kosong',
+                'unique' => 'Kode Sudah Digunakan , Silahkan Gunakan Kode Lain'
             ]
         );
         // return $validatedData;
         MasterPlywoodMdf::Create($validatedData);
-        return redirect('/Plywood_MDF')->with('success','Data Berhasil Ditambahkan');
+        return redirect('/Plywood_MDF')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -113,17 +118,40 @@ class MasterPlywoodMdfController extends Controller
      * @param  \App\Models\MasterPlywoodMdf  $masterPlywoodMdf
      * @return \Illuminate\Http\Response
      */
-    public function edit(MasterPlywoodMdf $Plywood_MDF)
+    public function edit(MasterPlywoodMdf $Plywood_MDF, RateLimiter $limiter)
     {
         // return $Plywood_MDF;
         // dd();
-        return view('pages/Data-Materials/Plywood_MDF/Edit_Plywood_MDF' ,
-            [
-                "type_menu" => "Kayu" ,
-                'Plywood_MDF'=> $Plywood_MDF,
-                'supliers'=>Suplier::all()
-            ]
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 4, 6])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            return view(
+                'pages/Data-Materials/Plywood_MDF/Edit_Plywood_MDF',
+                [
+                    "type_menu" => "Kayu",
+                    'Plywood_MDF' => $Plywood_MDF,
+                    'supliers' => Suplier::all()
+                ]
+            );
+
+            // Jika tidak memiliki akses
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -135,17 +163,19 @@ class MasterPlywoodMdfController extends Controller
      */
     public function update(Request $request, MasterPlywoodMdf $Plywood_MDF)
     {
-        $validatedData = $request->validate([
-            'id'=>'required',
-            'Nama_Plywood_MDF'=>'required',
-            'Tebal_Plywood_MDF'=>'required',
-            'Panjang_Plywood_MDF'=>'required',
-            'Lebar_Plywood_MDF'=>'required',
-            'Harga_Plywood_MDF'=>'required',
-            'Satuan_Plywood_MDF'=>'required',
-            'Suplier_Id'=>'required',
-        ],[
-            'required' => 'Kolom tidak boleh kosong',
+        $validatedData = $request->validate(
+            [
+                'id' => 'required',
+                'Nama_Plywood_MDF' => 'required',
+                'Tebal_Plywood_MDF' => 'required',
+                'Panjang_Plywood_MDF' => 'required',
+                'Lebar_Plywood_MDF' => 'required',
+                'Harga_Plywood_MDF' => 'required',
+                'Satuan_Plywood_MDF' => 'required',
+                'Suplier_Id' => 'required',
+            ],
+            [
+                'required' => 'Kolom tidak boleh kosong',
             ]
         );
         // log activity
@@ -159,15 +189,15 @@ class MasterPlywoodMdfController extends Controller
             ->withProperties([
                 'old' => $originalData,
                 'new' => $validatedData
-                ])
+            ])
             ->event('Update')
             ->log('This Model has been Update');
 
         //end log activity   
         // return $validatedData;
-        MasterPlywoodMdf::where('id',$Plywood_MDF->id)
-        ->update($validatedData);
-        return redirect('/Plywood_MDF')->with('success','Data Berhasil Dirubah');
+        MasterPlywoodMdf::where('id', $Plywood_MDF->id)
+            ->update($validatedData);
+        return redirect('/Plywood_MDF')->with('success', 'Data Berhasil Dirubah');
     }
 
     /**
@@ -176,10 +206,32 @@ class MasterPlywoodMdfController extends Controller
      * @param  \App\Models\MasterPlywoodMdf  $masterPlywoodMdf
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MasterPlywoodMdf $Plywood_MDF)
+    public function destroy(MasterPlywoodMdf $Plywood_MDF, RateLimiter $limiter)
     {
-        MasterPlywoodMdf::destroy($Plywood_MDF->id);
-        return redirect('/Plywood_MDF')->with('success','Data Berhasil Dihapus');
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 4, 6])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            MasterPlywoodMdf::destroy($Plywood_MDF->id);
+            return redirect('/Plywood_MDF')->with('success', 'Data Berhasil Dihapus');
+
+            // Jika tidak memiliki akses
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     public function export()
@@ -189,8 +241,8 @@ class MasterPlywoodMdfController extends Controller
 
     public function import(Request $request)
     {
-         // Validasi file Excel
-         $request->validate([
+        // Validasi file Excel
+        $request->validate([
             'excel_file' => 'required|mimes:xls,xlsx'
         ]);
 
@@ -201,6 +253,4 @@ class MasterPlywoodMdfController extends Controller
         // Redirect kembali ke halaman awal
         return redirect('/Plywood_MDF')->with('success', 'Data Plywood MDF berhasil diimport!');
     }
-
-    
 }

@@ -63,7 +63,7 @@
                                                 <a href="{{ route('Collection.export') }}" target="_blank" class="btn rounded btn-info me-md-2 mr-2 mb-2" type="button">
                                                     <i class="fas fa-regular fa-file-export mr-2"></i>Export Collection
                                                 </a>
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,3,6]))
                                                     <button type="button" class="btn rounded btn-success mr-2 mb-2" data-toggle="modal" data-target="#importModal">
                                                         <i class="fas fa-regular fa-file-import mr-2"></i>Import Collection
                                                     </button>
@@ -115,7 +115,7 @@
                                                 <td>
                                                     <div class="d-flex">
                                                         <a href="/Collection/{{ $collection->id }} " class="btn btn-info ml-2">Detail</a>
-                                                        @if(in_array(auth()->user()->akses , [1]))
+                                                        @if(in_array(auth()->user()->akses , [1,2,3,6]))
                                                             <a href="/Collection/{{ $collection->id }}/edit " class="btn btn-warning ml-2">Edit</a>
                                                             <form action="/Collection/{{ $collection->id }}"  method="POST">
                                                                 @method('delete')

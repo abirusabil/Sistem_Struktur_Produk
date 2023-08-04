@@ -86,10 +86,11 @@
                                             <div class="col"><p>Status</p></div>
                                             <div class="col px-0 d-blok">
                                                 <h6 class="pt-1">:
-                                                    @if ($Purchase_Order->Status == 0)
-                                                        <div class="badge badge-warning p-2 px-4">Belum Disetujui</div>
-                                                    @else
-                                                        <div class="badge badge-success p-2 px-3">Telah Disetujui</div>
+                                                    @if(in_array(auth()->user()->akses , [1,2]))
+                                                       
+                                                            <div class="badge badge-warning p-2 px-4">Belum Disetujui</div>
+                                                        @else
+                                                            <div class="badge badge-success p-2 px-3">Telah Disetujui</div>  
                                                         
                                                     @endif
                                                 </h6>
@@ -100,7 +101,7 @@
                                     <div class="row py-2">
                                         <div class="col">
                                             <div class="d-grid d-md-flex  ">
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,3]))
                                                 <form action="/Purchase_Order/{{ $Purchase_Order->id }}/edit" method="POST">
                                                     @method('GET')
                                                     @csrf
@@ -108,7 +109,7 @@
                                                 </form>
                                                 {{-- <a href="/Purchase_Order/{{ $Purchase_Order->id }}/edit" class="btn mr-3 mt-2 rounded px-4 btn-warning ">Edit Purchase Order</a> --}}
                                                 @endif
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,3]))
                                                     @if ($Purchase_Order->Status == 0)
                                                         <button data-target="#JumlahKolomForm" data-toggle="modal" class="btn mt-2 mr-3 rounded btn-primary px-4">
                                                             <i class="fa-solid fa-plus"></i>
@@ -121,7 +122,7 @@
                                                     @csrf
                                                     <button class="btn mt-2 rounded btn-info px-4 mr-3"><i class="fa-solid fa-circle-info mr-2"></i>Detail Kebutuhan</button>
                                                 </form>
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2]))
                                                     @if ($Purchase_Order->Status == 0)
                                                             <form action="/Purchase_Order/{{ $Purchase_Order->id }}/Edit_Status" method="POST">
                                                                 @method('GET')
@@ -130,7 +131,7 @@
                                                             </form>
                                                     @endif
                                                 @endif
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2]))
                                                     @if ($Purchase_Order->Status == 1)        
                                                         <form action="/Purchase_Order/{{ $Purchase_Order->id }}/Edit_Status" method="POST">
                                                             @method('GET')
@@ -211,7 +212,7 @@
                                                                         {{ $item->Item->Warna_Item  }}
                                                                     </p>
                                                                 </td>
-                                                                @if(in_array(auth()->user()->akses , [1]))
+                                                                @if(in_array(auth()->user()->akses , [1,2,3]))
                                                                     @if ($Purchase_Order->Status == 0)
                                                                         <td class="border">
                                                                             <div class="d-flex">
@@ -244,7 +245,7 @@
                                                 </table>
                                         </div>
                                         <div class="col d-flex justify-content-end p-0">
-                                            <a class="btn ml-3 mt-2 rounded px-5 btn-info ml-2" href="{{ route('purchase_order.exportToPDF', ['Purchase_Order' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Cetak Detail PO</a>
+                                            <a class="btn  mt-2 rounded px-5 btn-info ml-2" href="{{ route('purchase_order.exportToPDF', ['Purchase_Order' => $Purchase_Order->id]) }}"><i class="fa-solid fa-print mr-2"></i>Cetak Detail PO</a>
                                         </div> 
                                     </div>
                                 </div>

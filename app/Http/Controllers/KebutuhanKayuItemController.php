@@ -32,11 +32,11 @@ class KebutuhanKayuItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, KebutuhanKayuItem $Kebutuhan_Kayu_Item ,RateLimiter $limiter)
+    public function create(Request $request, KebutuhanKayuItem $Kebutuhan_Kayu_Item, RateLimiter $limiter)
     {
-        
+
         try {
-            if (!in_array(auth()->user()->akses, [1, 2])) {
+            if (!in_array(auth()->user()->akses, [1, 2, 6, 7])) {
                 throw new AuthorizationException();
             }
 
@@ -61,7 +61,6 @@ class KebutuhanKayuItemController extends Controller
                     // 'loopCount' => $loopCount
                 ]
             );
-            
         } catch (AuthorizationException $exception) {
             throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
         }
@@ -132,10 +131,10 @@ class KebutuhanKayuItemController extends Controller
      * @param  \App\Models\KebutuhanKayuItem  $kebutuhanKayuItem
      * @return \Illuminate\Http\Response
      */
-    public function edit(KebutuhanKayuItem $Kebutuhan_Kayu_Item , RateLimiter $limiter)
+    public function edit(KebutuhanKayuItem $Kebutuhan_Kayu_Item, RateLimiter $limiter)
     {
         try {
-            if (!in_array(auth()->user()->akses, [1, 2])) {
+            if (!in_array(auth()->user()->akses, [1, 2, 6, 7])) {
                 throw new AuthorizationException();
             }
 
@@ -160,12 +159,11 @@ class KebutuhanKayuItemController extends Controller
                     'kayus' => MasterKayu::all(),
                 ]
             );
-            
         } catch (AuthorizationException $exception) {
             throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
         }
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -208,7 +206,7 @@ class KebutuhanKayuItemController extends Controller
             ->withProperties([
                 'old' => $originalData,
                 'new' => $validatedData
-                ])
+            ])
             ->event('Update')
             ->log('This Model has been Update');
 
@@ -225,11 +223,34 @@ class KebutuhanKayuItemController extends Controller
      * @param  \App\Models\KebutuhanKayuItem  $kebutuhanKayuItem
      * @return \Illuminate\Http\Response
      */
-    public function destroy(KebutuhanKayuItem $Kebutuhan_Kayu_Item)
+    public function destroy(KebutuhanKayuItem $Kebutuhan_Kayu_Item,RateLimiter $limiter)
     {
         // return $Kebutuhan_Kayu_Item;
-        KebutuhanKayuItem::destroy($Kebutuhan_Kayu_Item->id);
-        return redirect("/Item/$Kebutuhan_Kayu_Item->Item_Id");
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 6, 7])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            KebutuhanKayuItem::destroy($Kebutuhan_Kayu_Item->id);
+            return redirect("/Item/$Kebutuhan_Kayu_Item->Item_Id");
+            
+            // Jika tidak memiliki akses 
+
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     public function export($itemId)

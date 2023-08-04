@@ -105,8 +105,10 @@
                                                 <th>Ukuran</th>
                                                 <th>Satuan </th>
                                                 <th>Suplier</th>
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,3,4,5,6]))
                                                     <th>Harga</th>
+                                                @endif
+                                                @if(in_array(auth()->user()->akses , [1,2,4,6]))
                                                     <th>Action</th>
                                                 @endif
                                             </tr>
@@ -120,18 +122,20 @@
                                                 <td>{{ $accessorieshardware->Ukuran_Accessories_Hardware }}</td>
                                                 <td>{{ $accessorieshardware->Satuan_Accessories_Hardware }}</td>
                                                 <td>{{ $accessorieshardware->Suplier->nama_suplier }}</td>
-                                                @if(in_array(auth()->user()->akses , [1]))
-                                                <td>Rp. {{ number_format($accessorieshardware->Harga_Accessories_Hardware,2,',','.')  }}</td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <a href="/Accessories_Hardware/{{ $accessorieshardware->id }}/edit " class="btn btn-warning ml-2">Edit</a>
-                                                        <form action="/Accessories_Hardware/{{ $accessorieshardware->id }}"  method="POST">
-                                                            @method('delete')
-                                                            @csrf
-                                                            <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
-                                                        </form>
-                                                    </div>
-                                                </td>
+                                                @if(in_array(auth()->user()->akses , [1,2,3,4,5,6]))
+                                                    <td>Rp. {{ number_format($accessorieshardware->Harga_Accessories_Hardware,2,',','.')  }}</td>
+                                                @endif
+                                                @if(in_array(auth()->user()->akses , [1,2,4,6]))
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <a href="/Accessories_Hardware/{{ $accessorieshardware->id }}/edit " class="btn btn-warning ml-2">Edit</a>
+                                                            <form action="/Accessories_Hardware/{{ $accessorieshardware->id }}"  method="POST">
+                                                                @method('delete')
+                                                                @csrf
+                                                                <button class="btn btn-danger ml-2" onclick="return confirm('Apakah Anda Yakin Untuk Menghapus ?')">Hapus</button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
                                                 @endif
                                             </tr>
                                             @endforeach

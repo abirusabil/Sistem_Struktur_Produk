@@ -13,6 +13,11 @@ use App\Models\MasterKayu;
 use App\Models\MasterKomponenFinishing;
 use App\Models\MasterPendukungPacking;
 use App\Models\MasterPlywoodMdf;
+use Illuminate\Auth\Access\AuthorizationException;
+// untuk mengatasi bruteforce
+use Illuminate\Cache\RateLimiter;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SuplierController extends Controller
 {
@@ -23,9 +28,9 @@ class SuplierController extends Controller
      */
     public function index()
     {
-        return view('pages/Pembelian/Suplier/List_Suplier',[
-            "type_menu"=>"Suplier",
-            "suplier"=> Suplier::filter(request(['search']))->paginate(10)
+        return view('pages/Pembelian/Suplier/List_Suplier', [
+            "type_menu" => "Suplier",
+            "suplier" => Suplier::filter(request(['search']))->paginate(10)
         ]);
     }
 
@@ -34,12 +39,34 @@ class SuplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(RateLimiter $limiter)
     {
-        return view('pages/Pembelian/Suplier/Tambah_Suplier',[
-            "type_menu"=>"Suplier",
-            "Suplier"=> Suplier::all()
-        ]);
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 4])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            return view('pages/Pembelian/Suplier/Tambah_Suplier', [
+                "type_menu" => "Suplier",
+                "Suplier" => Suplier::all()
+            ]);
+
+            // Jika tidak memiliki akses
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -51,13 +78,13 @@ class SuplierController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nama_suplier'=>'required',
-            'alamat_suplier'=>'required',
-            'kontak_suplier'=>'required'
+            'nama_suplier' => 'required',
+            'alamat_suplier' => 'required',
+            'kontak_suplier' => 'required'
         ]);
         // return ($validatedData);
         Suplier::Create($validatedData);
-        return redirect('/Suplier')->with('success','Data Berhasil Ditambahkan');
+        return redirect('/Suplier')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -70,24 +97,24 @@ class SuplierController extends Controller
     {
         // return  count(MasterAccessoriesHardware::where('Suplier_Id',$Suplier->id)->get());
         // dd();
-        $Kayu =  MasterKayu::where('Suplier_Id',$Suplier->id)->get();
-        $Plywood_MDF = MasterPlywoodMdf::where('Suplier_Id',$Suplier->id)->get();
-        $AccessoriesHardware =  MasterAccessoriesHardware::where('Suplier_Id',$Suplier->id)->get();
-        $Komponen_Finishing = MasterKomponenFinishing::where('Suplier_Id',$Suplier->id)->get();
-        $Pendukung_Packing =  MasterPendukungPacking::where('Suplier_Id',$Suplier->id)->get();
+        $Kayu =  MasterKayu::where('Suplier_Id', $Suplier->id)->get();
+        $Plywood_MDF = MasterPlywoodMdf::where('Suplier_Id', $Suplier->id)->get();
+        $AccessoriesHardware =  MasterAccessoriesHardware::where('Suplier_Id', $Suplier->id)->get();
+        $Komponen_Finishing = MasterKomponenFinishing::where('Suplier_Id', $Suplier->id)->get();
+        $Pendukung_Packing =  MasterPendukungPacking::where('Suplier_Id', $Suplier->id)->get();
 
-        return view ('pages.Pembelian.Suplier.Detail_Suplier',
+        return view(
+            'pages.Pembelian.Suplier.Detail_Suplier',
             [
-                "type_menu"=>"Suplier",
+                "type_menu" => "Suplier",
                 "Suplier" => $Suplier,
-                "Kayu"=>$Kayu,
-                "Plywood_MDF"=>$Plywood_MDF,
-                "Accessories_Hardware"=>$AccessoriesHardware,
-                "Komponen_Finishing"=>$Komponen_Finishing,
-                "Pendukung_Packing"=>$Pendukung_Packing
+                "Kayu" => $Kayu,
+                "Plywood_MDF" => $Plywood_MDF,
+                "Accessories_Hardware" => $AccessoriesHardware,
+                "Komponen_Finishing" => $Komponen_Finishing,
+                "Pendukung_Packing" => $Pendukung_Packing
             ]
         );
-           
     }
 
     /**
@@ -96,15 +123,35 @@ class SuplierController extends Controller
      * @param  \App\Models\Suplier  $suplier
      * @return \Illuminate\Http\Response
      */
-    public function edit(Suplier  $Suplier)
+    public function edit(Suplier  $Suplier, RateLimiter $limiter)
     {
-       
         // dd($Suplier);
-        return view('pages/Pembelian/Suplier/Ubah_Suplier',[
-            "type_menu"=>"Suplier",
-            'suplier' => $Suplier
-        ]);
-        
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 4])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            return view('pages/Pembelian/Suplier/Ubah_Suplier', [
+                "type_menu" => "Suplier",
+                'suplier' => $Suplier
+            ]);
+
+            // Jika tidak memiliki akses
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -117,10 +164,10 @@ class SuplierController extends Controller
     public function update(Request $request, Suplier $Suplier)
     {
         $validatedData = $request->validate([
-            'nama_suplier'=>'required',
-            'alamat_suplier'=>'required',
-            'kontak_suplier'=>'required',
-            
+            'nama_suplier' => 'required',
+            'alamat_suplier' => 'required',
+            'kontak_suplier' => 'required',
+
 
         ]);
 
@@ -135,17 +182,17 @@ class SuplierController extends Controller
             ->withProperties([
                 'old' => $originalData,
                 'new' => $validatedData
-                ])
+            ])
             ->event('Update')
             ->log('This Model has been Update');
-            
 
-         //end log activity
 
-        Suplier::where('id',$Suplier->id)
-        ->update($validatedData);
+        //end log activity
 
-        return redirect('/Suplier')->with('success','Data Telah Diubah');
+        Suplier::where('id', $Suplier->id)
+            ->update($validatedData);
+
+        return redirect('/Suplier')->with('success', 'Data Telah Diubah');
     }
 
     /**
@@ -154,19 +201,40 @@ class SuplierController extends Controller
      * @param  \App\Models\Suplier  $suplier
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Suplier $Suplier )
+    public function destroy(Suplier $Suplier, RateLimiter $limiter)
     {
         // return ($supliers);
-        Suplier::destroy($Suplier->id);
-        return redirect('/Suplier')->with('success','Data Berhasil Dihapus');
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 4])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            Suplier::destroy($Suplier->id);
+            return redirect('/Suplier')->with('success', 'Data Berhasil Dihapus');
+            // Jika tidak memiliki akses
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     public function export()
-	{
-		return Excel::download(new SuplierExport, 'Suplier.xlsx');
-	}
+    {
+        return Excel::download(new SuplierExport, 'Suplier.xlsx');
+    }
 
-        public function import(Request $request)
+    public function import(Request $request)
     {
         // Validasi file Excel
         $request->validate([

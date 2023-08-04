@@ -27,15 +27,16 @@ class KayuController extends Controller
         // return  MasterKayu::with('Suplier')->get();
         // dd();
 
-        return view('pages/Data-Materials/Kayu/Master-Kayu',
+        return view(
+            'pages/Data-Materials/Kayu/Master-Kayu',
             [
-                "type_menu" => "Kayu" ,
+                "type_menu" => "Kayu",
                 'MasterKayu' => MasterKayu::with('Suplier')->filter(request(['search']))->paginate(50),
                 // 'Suplier'=>Suplier::all()
             ]
         );
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -45,7 +46,7 @@ class KayuController extends Controller
     public function create(RateLimiter $limiter)
     {
         try {
-            if (!in_array(auth()->user()->akses, [1, 2])) {
+            if (!in_array(auth()->user()->akses, [1, 2, 4, 6])) {
                 throw new AuthorizationException();
             }
 
@@ -60,12 +61,16 @@ class KayuController extends Controller
 
             $limiter->hit($key, $decayMinutes * 60);
 
-            return view ('pages/Data-Materials/Kayu/Tambah_Kayu',
+            // Jika memiliki akses
+            return view(
+                'pages/Data-Materials/Kayu/Tambah_Kayu',
                 [
-                    "type_menu" => "Kayu" ,
-                    'supliers'=>Suplier::all()
+                    "type_menu" => "Kayu",
+                    'supliers' => Suplier::all()
                 ]
             );
+
+            // Jika tidak memiliki akses
 
         } catch (AuthorizationException $exception) {
             throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
@@ -80,20 +85,22 @@ class KayuController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'id'=>'required|unique:master_kayus',
-            'Nama_Kayu'=>'required',
-            'Satuan'=>'required',
-            'Harga_Kayu'=>'required',
-            'Suplier_Id'=>'required'
-        ],[
-            'required' => 'Kolom tidak boleh kosong',
-            'unique' => 'Kode sudah digunakan ,Silahkan Gunakan Kode Lain'
-        ]
-        );  
+        $validatedData = $request->validate(
+            [
+                'id' => 'required|unique:master_kayus',
+                'Nama_Kayu' => 'required',
+                'Satuan' => 'required',
+                'Harga_Kayu' => 'required',
+                'Suplier_Id' => 'required'
+            ],
+            [
+                'required' => 'Kolom tidak boleh kosong',
+                'unique' => 'Kode sudah digunakan ,Silahkan Gunakan Kode Lain'
+            ]
+        );
         // return ($validatedData);
         MasterKayu::Create($validatedData);
-        return redirect('/Kayu')->with('success','Data Berhasil Ditambahkan');
+        return redirect('/Kayu')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -113,17 +120,40 @@ class KayuController extends Controller
      * @param  \App\Models\Kayu  $kayu
      * @return \Illuminate\Http\Response
      */
-    public function edit(MasterKayu $Kayu)
+    public function edit(MasterKayu $Kayu, RateLimiter $limiter)
     {
-        
+
         // return $Kayu;
-        return view('pages/Data-Materials/Kayu/Edit_Kayu' ,
-            [
-                "type_menu" => "Kayu" ,
-                'kayu'=> $Kayu,
-                'supliers'=>Suplier::all()
-            ]
-        );
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 4, 6])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            return view(
+                'pages/Data-Materials/Kayu/Edit_Kayu',
+                [
+                    "type_menu" => "Kayu",
+                    'kayu' => $Kayu,
+                    'supliers' => Suplier::all()
+                ]
+            );
+            // Jika tidak memiliki akses
+
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
     /**
@@ -135,16 +165,18 @@ class KayuController extends Controller
      */
     public function update(Request $request, MasterKayu $Kayu)
     {
-        $validatedData = $request->validate([
-            'id'=>'required',
-            'Nama_Kayu'=>'required',
-            'Harga_Kayu'=>'required',
-            'Satuan'=>'required',
-            'Suplier_Id'=>'required'
-        ],[
-            'required' => 'Kolom tidak boleh kosong',
-        ]
-    );
+        $validatedData = $request->validate(
+            [
+                'id' => 'required',
+                'Nama_Kayu' => 'required',
+                'Harga_Kayu' => 'required',
+                'Satuan' => 'required',
+                'Suplier_Id' => 'required'
+            ],
+            [
+                'required' => 'Kolom tidak boleh kosong',
+            ]
+        );
 
         // return $validatedData;
         // dd();
@@ -159,15 +191,15 @@ class KayuController extends Controller
             ->withProperties([
                 'old' => $originalData,
                 'new' => $validatedData
-                ])
+            ])
             ->event('Update')
             ->log('This Model has been Update');
 
         //end log activity
-        MasterKayu::where('id',$Kayu->id)
-        ->update($validatedData);
+        MasterKayu::where('id', $Kayu->id)
+            ->update($validatedData);
 
-        return redirect('/Kayu')->with('success','Data Telah Diubah');
+        return redirect('/Kayu')->with('success', 'Data Telah Diubah');
     }
 
     /**
@@ -176,25 +208,47 @@ class KayuController extends Controller
      * @param  \App\Models\Kayu  $kayu
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MasterKayu $Kayu)
+    public function destroy(MasterKayu $Kayu, RateLimiter $limiter)
     {
         // return $Kayu;
-        MasterKayu::destroy($Kayu->id);
-        return redirect('/Kayu')->with('success','Data Berhasil Dihapus');
+        try {
+            if (!in_array(auth()->user()->akses, [1, 2, 4, 6])) {
+                throw new AuthorizationException();
+            }
+
+            // Check for brute force attacks
+            $key = 'login.' . request()->ip();
+            $maxAttempts = 5;
+            $decayMinutes = 1;
+
+            if ($limiter->tooManyAttempts($key, $maxAttempts)) {
+                throw new HttpException(Response::HTTP_TOO_MANY_REQUESTS, 'Too many attempts. Please try again later.');
+            }
+
+            $limiter->hit($key, $decayMinutes * 60);
+
+            // Jika memiliki akses
+            MasterKayu::destroy($Kayu->id);
+            return redirect('/Kayu')->with('success', 'Data Berhasil Dihapus');
+            // Jika tidak memiliki akses
+
+        } catch (AuthorizationException $exception) {
+            throw new AuthorizationException('Halaman Ini Tidak Boleh Diakses', 403);
+        }
     }
 
 
     public function export()
     {
-        
+
         return Excel::download(new MasterKayuExport, 'master_kayu.xlsx');
     }
 
 
     public function import(Request $request)
     {
-         // Validasi file Excel
-         $request->validate([
+        // Validasi file Excel
+        $request->validate([
             'excel_file' => 'required|mimes:xls,xlsx'
         ]);
 

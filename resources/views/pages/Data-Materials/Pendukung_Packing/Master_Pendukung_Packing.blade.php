@@ -104,9 +104,11 @@
                                                 <th class="border">Luas /M</th>
                                                 <th class="border">Satuan</th>
                                                 <th class="border">Suplier</th>
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,3,4,5,6]))
                                                     <th class="border">Harga Satuan</th>
                                                     <th class="border">Harga /M2</th>
+                                                @endif
+                                                @if(in_array(auth()->user()->akses , [1,2,4,6]))
                                                     <th class="border">Action</th>
                                                 @endif
                                             </tr>
@@ -123,7 +125,7 @@
                                                 <td class="border">{{ number_format($pendukungpacking->Panjang_Pendukung_Packing * $pendukungpacking->Lebar_Pendukung_Packing /1000000,4,'.',',') }}</td>
                                                 <td class="border">{{ $pendukungpacking->Satuan_Pendukung_Packing }}</td>
                                                 <td class="border">{{ $pendukungpacking->Suplier->nama_suplier }}</td>
-                                                @if(in_array(auth()->user()->akses , [1]))
+                                                @if(in_array(auth()->user()->akses , [1,2,3,4,5,6]))
                                                     <td class="border">Rp. {{ number_format($pendukungpacking->Harga_Pendukung_Packing,2,',','.')  }}</td>
                                                     <td class="border">Rp. 
                                                         @if ($pendukungpacking->Satuan_Pendukung_Packing == "Meter")
@@ -135,6 +137,8 @@
                                                             -
                                                         @endif
                                                     </td>
+                                                @endif
+                                                @if(in_array(auth()->user()->akses , [1,2,4,6]))
                                                     <td class="border">
                                                         <div class="d-flex">
                                                             <a href="/Pendukung_Packing/{{ $pendukungpacking->id }}/edit " class="btn btn-warning ml-2">Edit</a>
